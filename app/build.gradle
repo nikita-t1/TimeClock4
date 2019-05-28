@@ -11,13 +11,28 @@ android {
         minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
+        versionName "0.1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        beta {
+            applicationIdSuffix = ".beta"
+            versionNameSuffix "-beta"
+            buildConfigField "String", "TYPE", '"I AM A NINJA"'
+            initWith release
+        }
+
+        debug {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix "-debug"
+            useProguard false
+            buildConfigField "String", "TYPE", '"I AM A SAMURAI"'
+            debuggable true
         }
     }
 }
