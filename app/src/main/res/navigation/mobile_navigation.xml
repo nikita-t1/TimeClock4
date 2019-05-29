@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/mobile_navigation"
+            app:startDestination="@id/destination_home">
+
+    <fragment
+        android:id="@+id/destination_home"
+        android:name="com.studio.timeclock4.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <argument
+            android:name="Number"
+            android:defaultValue="5"
+            app:argType="integer"/>
+    </fragment>
+    <fragment
+        android:id="@+id/destination_listing"
+        android:name="com.studio.timeclock4.fragments.ListingFragment"
+        android:label="fragment_listing"
+        tools:layout="@layout/fragment_listing"/>
+    <fragment
+        android:id="@+id/destination_options"
+        android:name="com.studio.timeclock4.fragments.OptionsFragment"
+        android:label="fragment_options"
+        tools:layout="@layout/fragment_options">
+        <action
+            android:id="@+id/to_MainSettingsFragment"
+            app:destination="@id/mainSettingsFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/mainSettingsFragment"
+        android:name="com.studio.timeclock4.fragments.MainSettingsFragment"
+        android:label="fragment_main_settings"
+        tools:layout="@layout/fragment_main_settings">
+        <argument
+            android:name="name"
+            app:argType="integer"
+            android:defaultValue="5"/>
+    </fragment>
+</navigation>
