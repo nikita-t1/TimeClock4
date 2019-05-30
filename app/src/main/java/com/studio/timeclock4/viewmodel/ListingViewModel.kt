@@ -2,7 +2,46 @@ package com.studio.timeclock4.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
+import com.studio.timeclock4.model.WorkDay
+import com.studio.timeclock4.model.WorkDayDatabase
+import com.studio.timeclock4.model.WorkDayRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ListingViewModel(application: Application) : AndroidViewModel(application) {
 
+    private val repository: WorkDayRepository
+    val allWorkDays: LiveData<List<WorkDay>>
+
+    init {
+        val workDayDao = WorkDayDatabase.getWorkDayDatabase(application).workDayDao()
+        repository = WorkDayRepository(workDayDao)
+        allWorkDays = repository.allWorkDays
+    }
+
+    fun insertWorkDay(workDay: WorkDay) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertWorkDay(workDay)
+        }
+    }
+
+    fun updateWorkDay(workDay: WorkDay) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateWorkDay(workDay)
+        }
+    }
+
+    fun deleteWorkDay(workDay: WorkDay) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteWorkDay(workDay)
+        }
+    }
+
+    fun deleteAllWorkDays() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteAllWorkDays()
+        }
+    }
 }
