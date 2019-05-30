@@ -1,7 +1,8 @@
 package com.studio.timeclock4.viewmodel
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 
-class ListingViewModel : ViewModel() {
+class ListingViewModel(application: Application) : AndroidViewModel(application) {
 
 }
