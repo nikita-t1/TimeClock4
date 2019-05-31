@@ -20,8 +20,9 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled true      //Shrinks App Size
+            shrinkResources true    //Deletes unused Resources
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro' //Obfuscates the App
             signingConfig debug.signingConfig   //TODO
         }
 
@@ -42,6 +43,27 @@ android {
             debuggable true
         }
     }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def appName
+            if (project.hasProperty("applicationName")) {
+                appName = applicationName
+            } else {
+                appName = parent.name
+            }
+            def SEP = "_"
+            def version = "v" + variant.versionName
+            def buildType = variant.variantData.variantConfiguration.buildType.name
+            def date = new Date()
+            def formattedDate = date.format('dd.MM')
+
+            def newApkName = "${appName}" + SEP + version + "-" + buildType + ".apk"
+
+            outputFileName = new File(newApkName)
+        }
+    }
+
     packagingOptions {
         exclude 'META-INF/atomicfu.kotlin_module'
     }
