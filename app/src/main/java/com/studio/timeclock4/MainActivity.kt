@@ -2,6 +2,7 @@ package com.studio.timeclock4
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
@@ -15,6 +16,12 @@ class MainActivity : AppCompatActivity() {
 
         val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         setupBottomNavMenu(navController)
+        build_type_icon.setImageDrawable(
+            ContextCompat.getDrawable(
+                this, // Context
+                R.drawable.ic_build_type
+            )
+        )
     }
 
     private fun setupBottomNavMenu(navController: NavController) {
