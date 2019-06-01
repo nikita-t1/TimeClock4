@@ -6,6 +6,10 @@ class WorkDayRepository(private val workDayDao: WorkDayDao) {
 
     val allWorkDays: LiveData<List<WorkDay>> = workDayDao.getAllWorkDays()
 
+    suspend fun selectedAll(): List<WorkDay> {
+        return workDayDao.selectAll()
+    }
+
     suspend fun insertWorkDay(workDay: WorkDay) {
         workDayDao.insertWorkDay(workDay)
     }

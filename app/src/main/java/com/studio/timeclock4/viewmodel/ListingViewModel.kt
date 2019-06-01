@@ -1,6 +1,7 @@
 package com.studio.timeclock4.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -16,9 +17,15 @@ class ListingViewModel(application: Application) : AndroidViewModel(application)
     val allWorkDays: LiveData<List<WorkDay>>
 
     init {
-        val workDayDao = WorkDayDatabase.getWorkDayDatabase(application).workDayDao()
+        val workDayDao = WorkDayDatabase.getWorkDayDatabase(application, viewModelScope).workDayDao()
         repository = WorkDayRepository(workDayDao)
         allWorkDays = repository.allWorkDays
+        Log.i("TAG", "*****************************************************")
+        Log.d("TAG", "INIT")
+        Log.d("TAG", repository.allWorkDays.toString())
+        viewModelScope.launch {
+            Log.d("tag", workDayDao.selectAll().size.toString())
+        }
     }
 
     fun insertWorkDay(workDay: WorkDay) {

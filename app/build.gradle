@@ -32,7 +32,7 @@ android {
             buildConfigField "String", "TYPE", '"I AM A NINJA"'
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
-            initWith debug
+            initWith release
         }
 
         debug {
@@ -111,4 +111,8 @@ dependencies {
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
+
+    //ViewPager 2
+    implementation "androidx.viewpager2:viewpager2:1.0.0-alpha04"
+
 }

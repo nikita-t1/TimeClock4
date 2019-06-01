@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class WorkDay(
 
     @PrimaryKey(autoGenerate = true)
-    var workDayId: Int,
+    var workDayId: Int = 0,
 
     var year: Int,
     var weekOfYear: Int,
@@ -24,7 +24,7 @@ data class WorkDay(
     var overtime: String,
 
     var wasPresent: Boolean,
-    var absenceType: String,
-    var userNote: String,
-    var furtherAddition: String
+    var absenceType: String?,
+    var userNote: String?,
+    var furtherAddition: String?
 )
