@@ -115,4 +115,6 @@ dependencies {
     //ViewPager 2
     implementation "androidx.viewpager2:viewpager2:1.0.0-alpha04"
 
+    //Circular Progressbar
+    implementation 'com.shunan.circularprogressview:circular-progress-view:1.1.0'
 }
