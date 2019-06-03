@@ -18,6 +18,11 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
 
+//        var i = LocalDateTime.now()
+//        Log.i(TAG, i.year.toString())
+//        i = i.withYear(3000)
+//        Log.i(TAG, i.year.toString())
+
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         NavigationUI.setupWithNavController(bottom_nav, navController)
     }

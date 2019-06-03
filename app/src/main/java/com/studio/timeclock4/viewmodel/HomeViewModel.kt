@@ -1,7 +1,10 @@
 package com.studio.timeclock4.viewmodel
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 
-class HomeViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+class HomeViewModel(application: Application) : AndroidViewModel(application) {
+
+    val TAG = this.javaClass.simpleName
+
 }

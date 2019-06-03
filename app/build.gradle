@@ -125,4 +125,7 @@ dependencies {
     //LeakCanary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary"
     betaImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary"
+
+    //ThreeTen ABP -> Backport of the java.time package, which would depend on minSDK 26
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
 }
