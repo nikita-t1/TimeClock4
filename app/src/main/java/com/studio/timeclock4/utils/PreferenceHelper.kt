@@ -17,15 +17,19 @@ object PreferenceHelper {
         return prefs.getString(key, value)
     }
 
-    fun read(key: String, value: Boolean): Boolean? {
+    fun read(key: String, value: Boolean): Boolean {
         return prefs.getBoolean(key, value)
     }
 
-    fun read(key: String, value: Int): Int? {
+    fun read(key: String, value: Int): Int {
         return prefs.getInt(key, value)
     }
 
-    fun read(key: String, value: Float): Float? {
+    fun read(key: String, value: Long): Long {
+        return prefs.getLong(key, value)
+    }
+
+    fun read(key: String, value: Float): Float {
         return prefs.getFloat(key, value)
     }
 
@@ -47,9 +51,21 @@ object PreferenceHelper {
         prefsEditor.apply()
     }
 
+    fun write(key: String, value: Long) {
+        val prefsEditor: SharedPreferences.Editor = prefs.edit()
+        prefsEditor.putLong(key, value)
+        prefsEditor.apply()
+    }
+
     fun write(key: String, value: Float) {
         val prefsEditor: SharedPreferences.Editor = prefs.edit()
         prefsEditor.putFloat(key, value)
+        prefsEditor.apply()
+    }
+
+    fun remove(key: String) {
+        val prefsEditor: SharedPreferences.Editor = prefs.edit()
+        prefsEditor.remove(key)
         prefsEditor.apply()
     }
 }

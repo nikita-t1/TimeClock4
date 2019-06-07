@@ -13,6 +13,9 @@ import kotlinx.coroutines.launch
 
 class ListingViewModel(application: Application) : AndroidViewModel(application) {
 
+
+    val TAG = this.javaClass.simpleName
+
     private val repository: WorkDayRepository
     val allWorkDays: LiveData<List<WorkDay>>
 
@@ -20,9 +23,9 @@ class ListingViewModel(application: Application) : AndroidViewModel(application)
         val workDayDao = WorkDayDatabase.getWorkDayDatabase(application, viewModelScope).workDayDao()
         repository = WorkDayRepository(workDayDao)
         allWorkDays = repository.allWorkDays
-        Log.i("TAG", "*****************************************************")
-        Log.d("TAG", "INIT")
-        Log.d("TAG", repository.allWorkDays.toString())
+        Log.i(TAG, "*****************************************************")
+        Log.d(TAG, "INIT")
+        Log.d(TAG, repository.allWorkDays.toString())
         viewModelScope.launch {
             Log.d("tag", workDayDao.selectAll().size.toString())
         }

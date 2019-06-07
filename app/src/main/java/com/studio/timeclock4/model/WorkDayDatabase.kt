@@ -96,6 +96,38 @@ abstract class WorkDayDatabase : RoomDatabase() {
                 true, null, null, null
             )
             workDayDao.insertWorkDay(workDay)
+
+
+
+
+            workDay = WorkDay(
+                0, 2019, 24, 1,
+                24, 3, "07:14", "16:34",
+                "0:45", "8:55", "8:34", "1:34",
+                true, null, null, null
+            )
+            workDayDao.insertWorkDay(workDay)
+            workDay = WorkDay(
+                0, 2019, 24, 2,
+                25, 3, "06:18", "15:42",
+                "0:45", "8:33", "7:10", "0:10",
+                true, null, null, null
+            )
+            workDayDao.insertWorkDay(workDay)
+            workDay = WorkDay(
+                0, 2019, 24, 3,
+                26, 3, "07:18", "17:42",
+                "0:45", "9:33", "07:00", "0",
+                true, null, null, null
+            )
+            workDayDao.insertWorkDay(workDay)
+            workDay = WorkDay(
+                0, 2019, 24, 4,
+                27, 3, "06:18", "15:42",
+                "0:45", "8:33", "7:46", "0.43",
+                true, null, null, null
+            )
+            workDayDao.insertWorkDay(workDay)
         }
     }
 }

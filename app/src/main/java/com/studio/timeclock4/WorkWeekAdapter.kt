@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.studio.timeclock4.model.WorkDay
+import org.threeten.bp.DayOfWeek
+import org.threeten.bp.LocalDate
+
 
 class WorkWeekAdapter internal constructor(
     context: Context
@@ -29,9 +32,10 @@ class WorkWeekAdapter internal constructor(
 
     override fun onBindViewHolder(holder: WorkDayViewHolder, position: Int) {
         val current = workDays[position]
-//        holder.dayString.text = DayOfWeek.of(current.dayOfWeek).toString()
-//        holder.timeElapsed.text = "12"
-//        holder.timeRemaining.text = current.month.toString()
+        holder.dayString.text = DayOfWeek.of(current.dayOfWeek).toString()
+        holder.timeElapsed.text = current.workTimeNet
+        holder.timeRemaining.text = current.overtime
+        holder.dateDate.text = LocalDate.of(current.year, current.month, current.dayOfMonth).toString()
     }
 
     internal fun setWorkDays(workdays: List<WorkDay>) {

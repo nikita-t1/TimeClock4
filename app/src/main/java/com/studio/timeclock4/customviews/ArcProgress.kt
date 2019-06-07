@@ -276,12 +276,12 @@ class ArcProgress @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         setMeasuredDimension(widthMeasureSpec, heightMeasureSpec)
-        val width = View.MeasureSpec.getSize(widthMeasureSpec)
+        val width = MeasureSpec.getSize(widthMeasureSpec)
         rectF.set(
             strokeWidth / 2f,
             strokeWidth / 2f,
             width - strokeWidth / 2f,
-            View.MeasureSpec.getSize(heightMeasureSpec) - strokeWidth / 2f
+            MeasureSpec.getSize(heightMeasureSpec) - strokeWidth / 2f
         )
         val radius = width / 2f
         val angle = (360 - arcAngle) / 2f
@@ -303,21 +303,21 @@ class ArcProgress @JvmOverloads constructor(context: Context, attrs: AttributeSe
             text = progress.toString()
         }
 
-        if (!TextUtils.isEmpty(text)) {
-            textPaint.color = textColor
-            textPaint.textSize = textSize
-            val textHeight = textPaint.descent() + textPaint.ascent()
-            val textBaseline = (height - textHeight) / 2.0f
-            canvas.drawText(text!!, (width - textPaint.measureText(text)) / 2.0f, textBaseline, textPaint)
-            textPaint.textSize = suffixTextSize
-            val suffixHeight = textPaint.descent() + textPaint.ascent()
-            canvas.drawText(
-                suffixText!!,
-                width / 2.0f + textPaint.measureText(text) + suffixTextPadding,
-                textBaseline + textHeight - suffixHeight,
-                textPaint
-            )
-        }
+//        if (!TextUtils.isEmpty(text)) {
+//            textPaint.color = textColor
+//            textPaint.textSize = textSize
+//            val textHeight = textPaint.descent() + textPaint.ascent()
+//            val textBaseline = (height - textHeight) / 2.0f
+//            canvas.drawText(text!!, (width - textPaint.measureText(text)) / 2.0f, textBaseline, textPaint)
+//            textPaint.textSize = suffixTextSize
+//            val suffixHeight = textPaint.descent() + textPaint.ascent()
+//            canvas.drawText(
+//                suffixText!!,
+//                width / 2.0f + textPaint.measureText(text) + suffixTextPadding,
+//                textBaseline + textHeight - suffixHeight,
+//                textPaint
+//            )
+//        }
 
         if (arcBottomHeight == 0f) {
             val radius = width / 2f
