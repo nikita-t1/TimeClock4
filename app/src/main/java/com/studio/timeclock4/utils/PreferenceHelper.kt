@@ -5,13 +5,14 @@ import android.content.SharedPreferences
 
 object PreferenceHelper {
 
-    private lateinit var prefs: SharedPreferences
+    lateinit var prefs: SharedPreferences
 
     private const val PREFS_NAME = "params"
 
     fun init(context: Context) {
         prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
+
 
     fun read(key: String, value: String): String? {
         return prefs.getString(key, value)

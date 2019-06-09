@@ -2,15 +2,24 @@ package com.studio.timeclock4.utils
 
 
 import android.os.SystemClock
+import android.util.Log
 import android.widget.Chronometer
 import com.studio.timeclock4.fragments.HomeFragment
 
 class ChronometerPersist private constructor() {
     private var isHourFormat = false
-
+    val TAG = this.javaClass.simpleName
     lateinit var mChronometer: Chronometer
     var mTimeWhenPaused: Long = 0
     var mTimeBase: Long = 0
+
+    fun changeChronometerState(state: Int) {
+        when (state) {
+            0 -> stopChronometer()
+            1 -> startChronometer()
+            2 -> pauseChronometer()
+        }
+    }
 
     val isRunning: Boolean
         get() = ChronometerState.values()[PreferenceHelper.read(
@@ -82,6 +91,8 @@ class ChronometerPersist private constructor() {
     }
 
     private fun startStateChronometer() {
+        Log.i(TAG, "${SystemClock.elapsedRealtime()}")
+        Log.i(TAG, "KEY_BASE + mChronometer.id Read: ${PreferenceHelper.read(KEY_BASE + mChronometer.id, 10L)}")
         mTimeBase = PreferenceHelper.read(
             KEY_BASE + mChronometer.id,
             SystemClock.elapsedRealtime()
@@ -110,7 +121,12 @@ class ChronometerPersist private constructor() {
     }
 
     private fun saveBase() {
+        Log.i(
+            TAG,
+            "KEY_BASE + mChronometer.id Write before: ${PreferenceHelper.read(KEY_BASE + mChronometer.id, 10L)}"
+        );
         PreferenceHelper.write(KEY_BASE + mChronometer.id, SystemClock.elapsedRealtime())
+        Log.i(TAG, "KEY_BASE + mChronometer.id Write after: ${PreferenceHelper.read(KEY_BASE + mChronometer.id, 10L)}");
     }
 
     private fun saveTimeWhenPaused() {
@@ -125,12 +141,10 @@ class ChronometerPersist private constructor() {
             KEY_STATE + mChronometer.id,
             ChronometerState.Stopped.ordinal
         )]
-        if (state.ordinal == ChronometerState.Stopped.ordinal) {
-            stopChronometer()
-        } else if (state.ordinal == ChronometerState.Paused.ordinal) {
-            pauseStateChronometer()
-        } else {
-            startStateChronometer()
+        when {
+            state.ordinal == ChronometerState.Stopped.ordinal -> stopChronometer()
+            state.ordinal == ChronometerState.Paused.ordinal -> pauseStateChronometer()
+            else -> startStateChronometer()
         }
     }
 
