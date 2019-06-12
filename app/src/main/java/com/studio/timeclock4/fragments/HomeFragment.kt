@@ -107,6 +107,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private fun updateLayoutState() {
         fragmentView.startButton.background.setTint(resources.getColor(viewModel.startButtonColor, null))
         fragmentView.startButton.text = viewModel.startButtonText
+        fragmentView.startTime.text = viewModel.startTimeString
+        fragmentView.endTime.text = viewModel.endTimeString
         Log.d(TAG, "viewModel.currentLayoutState.ordinal: ${viewModel.currentLayoutState.name}")
         if (viewModel.currentLayoutState.ordinal == 2) showSaveDialog()
     }

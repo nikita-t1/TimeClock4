@@ -5,16 +5,27 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import com.studio.timeclock4.R
 import com.studio.timeclock4.utils.PreferenceHelper
+import com.studio.timeclock4.utils.TimeCalculations
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
+    val TAG = this.javaClass.simpleName
+    var currentLayoutState: LayoutState
+    private val layoutStatePref = "layoutStatePref"
+
+    var startTimeString = ""
+    private var startTimeMin: Long
+    private val startTimePref = "startTime"
+
+    var endTimeString = ""
+    private var endTimeMin: Long
+    private val endTimeMinPref = "endTimeMin"
+
+    private val workingTimeMinPref = "workingTimeMin"
+    private var workingTimeMin: Long
+
     var startButtonText = ""
     var startButtonColor = R.color.amber
-    val TAG = this.javaClass.simpleName
-    //    private var chronometerBase: Long = 0L
-    var currentLayoutState: LayoutState
-    private val layoutState = "layoutState"
-    private val chronometerBasePref = "chronometerBase"
 
     enum class LayoutState() {
         Ready, Tracking, Saving;
@@ -37,20 +48,36 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     init {
         Log.d(TAG, "init")
         PreferenceHelper.init(application)
-//        chronometerBase = PreferenceHelper.read(chronometerBasePref, 0L)
-        currentLayoutState = LayoutState.values()[PreferenceHelper.read(layoutState, LayoutState.Ready.ordinal)]
+        currentLayoutState = LayoutState.values()[PreferenceHelper.read(layoutStatePref, LayoutState.Ready.ordinal)]
+        startTimeMin = PreferenceHelper.read(startTimePref, 0L)
+        startTimeString = TimeCalculations.convertMinutesToDateString(startTimeMin)
+        endTimeMin = PreferenceHelper.read(endTimeMinPref, 0L)
+        workingTimeMin = PreferenceHelper.read(workingTimeMinPref, 456L)
         updateLayoutState()
     }
 
     fun startPressed() {
         currentLayoutState = LayoutState.next(LayoutState.getState(currentLayoutState.ordinal))
+        if (currentLayoutState == LayoutState.Tracking) {
+
+            startTimeMin = TimeCalculations.loadStartTime()
+            PreferenceHelper.write(startTimePref, startTimeMin)
+            endTimeMin = TimeCalculations.loadEndTime(startTimeMin, workingTimeMin)
+            PreferenceHelper.write(endTimeMinPref, endTimeMin)
+
+            startTimeString = TimeCalculations.convertMinutesToDateString(startTimeMin)
+            endTimeString = TimeCalculations.convertMinutesToDateString(endTimeMin)
+        }
         updateLayoutState()
     }
 
 
     private fun updateLayoutState() {
-        PreferenceHelper.write(layoutState, currentLayoutState.ordinal)
+        PreferenceHelper.write(layoutStatePref, currentLayoutState.ordinal)
         Log.d(TAG, LayoutState.getState(currentLayoutState.ordinal).toString())
+
+        if (PreferenceHelper.read(startTimePref, 0L) == 0L) startTimeString = "00:00"
+        if (PreferenceHelper.read(endTimeMinPref, 0L) == 0L) endTimeString = "00:00"
 
         when (currentLayoutState) {
             LayoutState.Ready -> {
@@ -76,6 +103,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     fun dialogCancel() {
         currentLayoutState = LayoutState.Ready
+        PreferenceHelper.remove(startTimePref)
+        PreferenceHelper.remove(endTimeMinPref)
         updateLayoutState()
     }
 

@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 
 object PreferenceHelper {
 
-    lateinit var prefs: SharedPreferences
+    private lateinit var prefs: SharedPreferences
 
     private const val PREFS_NAME = "params"
 

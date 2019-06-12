@@ -2,6 +2,7 @@
   <dictionary name="Nikita">
     <words>
       <w>coroutines</w>
+      <w>leakcanary</w>
       <w>timeclock</w>
     </words>
   </dictionary>
