@@ -1,0 +1,63 @@
+sudo: required
+language: android
+dist: trusty
+android:
+  components:
+    # Uncomment the lines below if you want to
+    # use the latest revision of Android SDK Tools
+    # - tools
+    # - platform-tools
+
+    # The BuildTools version used by your project
+    - build-tools-$ANDROID_BUILD_TOOLS
+
+    # The SDK version used to compile your project
+    - android-$ANDROID_API_LEVEL
+
+    # Additional components
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
+
+    # Specify at least one system image,
+    # if you need to run emulator(s) during your tests
+    - sys-img-x86-android-26
+    - sys-img-armeabi-v7a-android-17
+    - android-$ANDROID_EMULATOR_LEVEL
+    - sys-img-armeabi-v7a-google_apis-$ANDROID_EMULATOR_LEVEL
+
+
+#before_cache:
+# -rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+# -rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+#cache:
+# directories:
+# -$HOME/.gradle/caches/
+# -$HOME/.gradle/wrapper/
+
+env:
+  global:
+    - ANDROID_BUILD_TOOLS=26.0.2
+    - ADB_INSTALL_TIMEOUT=5 # minutes
+    - EMULATOR_NAME=test 
+    - ANDROID_API_LEVEL=26
+    - ANDROID_EMULATOR_LEVEL=25
+    - ANDROID_ABI=armeabi-v7a
+    - ANDROID_TAG=google_apis
+    - ADB_INSTALL_TIMEOUT=20
+
+before_install:
+  - echo $ANDROID_HOME && ls
+  - echo $ANDROID_SDK_ROOT && ls
+  - echo $PATH && ls
+  - yes | $ANDROID_HOME/tools/bin/sdkmanager --update
+  - chmod +x gradlew
+  
+script:
+  - ./gradlew build check
+
+after_failure:
+  - echo "Build failure"
+
+after_success:
+  - echo "SUCCESS"
