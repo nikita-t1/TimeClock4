@@ -42,11 +42,11 @@ class ChronometerPersist private constructor() {
         if (isHourFormat) {
             mChronometer.onChronometerTickListener = Chronometer.OnChronometerTickListener { c ->
                 val elapsedMillis = SystemClock.elapsedRealtime() - c.base
-                if (elapsedMillis > 3600000L) {
-                    c.format = "0%s"
 
-                } else {
-                    c.format = "00:%s"
+                when {
+                    elapsedMillis < 3600000L -> c.format = "00:%s"
+                    elapsedMillis < 3.6e+7 -> c.format = "0%s"
+                    else -> c.format = "%s"
                 }
             }
         } else {
@@ -150,14 +150,11 @@ class ChronometerPersist private constructor() {
 
     companion object {
 
-        private val KEY_TIME_PAUSED = "TimePaused"
-        private val KEY_BASE = "TimeBase"
-        private val KEY_STATE = "ChronometerState"
+        private const val KEY_TIME_PAUSED = "TimePaused"
+        private const val KEY_BASE = "TimeBase"
+        private const val KEY_STATE = "ChronometerState"
 
-        fun getInstance(
-            chronometer: Chronometer,
-            homeFragment: HomeFragment
-        ): ChronometerPersist {
+        fun getInstance(chronometer: Chronometer, homeFragment: HomeFragment): ChronometerPersist {
             val chronometerPersist = ChronometerPersist()
             PreferenceHelper.init(homeFragment.requireContext())
             chronometerPersist.mChronometer = chronometer

@@ -14,12 +14,9 @@ import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
 import com.studio.timeclock4.R
-
 import java.text.DecimalFormat
+import kotlin.math.cos
 
-/**
- * Created by bruce on 11/6/14.
- */
 class ArcProgress @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     View(context, attrs, defStyleAttr) {
     private var paint: Paint? = null
@@ -285,7 +282,7 @@ class ArcProgress @JvmOverloads constructor(context: Context, attrs: AttributeSe
         )
         val radius = width / 2f
         val angle = (360 - arcAngle) / 2f
-        arcBottomHeight = radius * (1 - Math.cos(angle / 180 * Math.PI)).toFloat()
+        arcBottomHeight = radius * (1 - cos(angle / 180 * Math.PI)).toFloat()
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -322,7 +319,7 @@ class ArcProgress @JvmOverloads constructor(context: Context, attrs: AttributeSe
         if (arcBottomHeight == 0f) {
             val radius = width / 2f
             val angle = (360 - arcAngle) / 2f
-            arcBottomHeight = radius * (1 - Math.cos(angle / 180 * Math.PI)).toFloat()
+            arcBottomHeight = radius * (1 - cos(angle / 180 * Math.PI)).toFloat()
         }
 
         if (!TextUtils.isEmpty(getBottomText())) {
@@ -380,20 +377,20 @@ class ArcProgress @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     companion object {
 
-        private val INSTANCE_STATE = "saved_instance"
-        private val INSTANCE_STROKE_WIDTH = "stroke_width"
-        private val INSTANCE_SUFFIX_TEXT_SIZE = "suffix_text_size"
-        private val INSTANCE_SUFFIX_TEXT_PADDING = "suffix_text_padding"
-        private val INSTANCE_BOTTOM_TEXT_SIZE = "bottom_text_size"
-        private val INSTANCE_BOTTOM_TEXT = "bottom_text"
-        private val INSTANCE_TEXT_SIZE = "text_size"
-        private val INSTANCE_TEXT_COLOR = "text_color"
-        private val INSTANCE_PROGRESS = "progress"
-        private val INSTANCE_MAX = "max"
-        private val INSTANCE_FINISHED_STROKE_COLOR = "finished_stroke_color"
-        private val INSTANCE_UNFINISHED_STROKE_COLOR = "unfinished_stroke_color"
-        private val INSTANCE_ARC_ANGLE = "arc_angle"
-        private val INSTANCE_SUFFIX = "suffix"
+        private const val INSTANCE_STATE = "saved_instance"
+        private const val INSTANCE_STROKE_WIDTH = "stroke_width"
+        private const val INSTANCE_SUFFIX_TEXT_SIZE = "suffix_text_size"
+        private const val INSTANCE_SUFFIX_TEXT_PADDING = "suffix_text_padding"
+        private const val INSTANCE_BOTTOM_TEXT_SIZE = "bottom_text_size"
+        private const val INSTANCE_BOTTOM_TEXT = "bottom_text"
+        private const val INSTANCE_TEXT_SIZE = "text_size"
+        private const val INSTANCE_TEXT_COLOR = "text_color"
+        private const val INSTANCE_PROGRESS = "progress"
+        private const val INSTANCE_MAX = "max"
+        private const val INSTANCE_FINISHED_STROKE_COLOR = "finished_stroke_color"
+        private const val INSTANCE_UNFINISHED_STROKE_COLOR = "unfinished_stroke_color"
+        private const val INSTANCE_ARC_ANGLE = "arc_angle"
+        private const val INSTANCE_SUFFIX = "suffix"
     }
 
 }

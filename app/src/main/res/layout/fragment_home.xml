@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   xmlns:tools="http://schemas.android.com/tools"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="match_parent"
-                                                   tools:context="com.studio.timeclock4.fragments.HomeFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.studio.timeclock4.fragments.HomeFragment">
+
+
+    <!--Negative Margin for ArcProgress-->
 
 
     <Chronometer
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="80dp"
+        android:layout_margin="46dp"
         android:gravity="center"
-        android:textSize="48sp"
-        android:layout_marginTop="8dp"
+        android:textSize="34sp"
+        android:layout_marginTop="6dp"
         android:id="@+id/chrom"
+        android:fontFamily="monospace"
         app:layout_constraintBottom_toTopOf="@+id/space"
         app:layout_constraintEnd_toEndOf="@+id/arc_progress"
         app:layout_constraintStart_toStartOf="@+id/arc_progress"
@@ -42,65 +46,64 @@
         app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!--Negative Margin for ArcProgress-->
     <Space
         android:id="@+id/space"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/overviewBtn"
         app:layout_constraintEnd_toEndOf="@+id/attendanceBtn"
-        app:layout_constraintStart_toStartOf="@+id/overviewBtn"/>
+        app:layout_constraintStart_toStartOf="@+id/overviewBtn" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHorizontalCenter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".5"/>
+        app:layout_constraintGuide_percent=".5" />
 
 
     <TextView
         android:id="@+id/overviewBtn"
-        android:clickable="true"
-        android:focusable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/ic_timer"
-        android:gravity="center"
-        android:text="@string/overview"
-        android:padding="12dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:clickable="true"
+        android:drawableStart="@drawable/ic_timer"
         android:drawablePadding="@dimen/icon_padding"
+        android:focusable="true"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="@string/overview"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toStartOf="@+id/attendanceBtn"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guidelineHorizontalCenter"/>
+        app:layout_constraintTop_toTopOf="@+id/guidelineHorizontalCenter" />
 
     <TextView
         android:id="@+id/attendanceBtn"
-        android:clickable="true"
-        android:focusable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
         android:drawableStart="@drawable/ic_calendar_edit"
+        android:drawablePadding="@dimen/icon_padding"
+        android:focusable="true"
         android:gravity="center"
-        android:text="@string/attendance"
         android:padding="12dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:drawablePadding="@dimen/icon_padding"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        android:text="@string/attendance"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toEndOf="@+id/overviewBtn"
-        app:layout_constraintTop_toTopOf="@+id/guidelineHorizontalCenter"/>
+        app:layout_constraintTop_toTopOf="@+id/guidelineHorizontalCenter" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView"
@@ -111,10 +114,10 @@
         android:layout_marginBottom="16dp"
         app:cardCornerRadius="@dimen/corner_radius"
         app:cardElevation="4dp"
-        app:layout_constraintTop_toBottomOf="@id/overviewBtn"
         app:layout_constraintBottom_toTopOf="@+id/guidelineHorizontalBottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/overviewBtn"
         app:strokeColor="@color/blue"
         app:strokeWidth="1dp">
 
@@ -127,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent=".5"/>
+                app:layout_constraintGuide_percent=".5" />
 
             <TextView
                 android:id="@+id/textViewStart"
@@ -142,7 +145,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/guidelineVerticalCenter"
                 app:layout_constraintHorizontal_bias="0.2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/startTime"
@@ -151,18 +154,18 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="12dp"
                 android:lines="1"
-                tools:text="7 H. 25 Min."
                 android:textSize="22sp"
                 app:layout_constraintBottom_toTopOf="@+id/guidelineCardViewHorizontalCenter"
                 app:layout_constraintStart_toStartOf="@+id/textViewStart"
-                app:layout_constraintTop_toBottomOf="@+id/textViewStart"/>
+                app:layout_constraintTop_toBottomOf="@+id/textViewStart"
+                tools:text="7 H. 25 Min." />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineCardViewHorizontalCenter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.5"/>
+                app:layout_constraintGuide_percent="0.5" />
 
             <TextView
                 android:id="@+id/textViewEnd"
@@ -177,7 +180,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/guidelineVerticalCenter"
                 app:layout_constraintHorizontal_bias=".2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guidelineCardViewHorizontalCenter"/>
+                app:layout_constraintTop_toTopOf="@+id/guidelineCardViewHorizontalCenter" />
 
             <TextView
                 android:id="@+id/endTime"
@@ -186,11 +189,11 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="20dp"
                 android:lines="1"
-                tools:text="15 H. 25 Min."
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textViewEnd"
-                app:layout_constraintTop_toBottomOf="@+id/textViewEnd"/>
+                app:layout_constraintTop_toBottomOf="@+id/textViewEnd"
+                tools:text="15 H. 25 Min." />
 
             <TextView
                 android:id="@+id/thisWeek"
@@ -206,7 +209,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/circularProgressBar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guidelineVerticalCenter"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.shunan.circularprogressbar.CircularProgressBar
                 android:id="@+id/circularProgressBar"
@@ -219,10 +222,10 @@
                 app:layout_constraintStart_toEndOf="@id/guidelineVerticalCenter"
                 app:layout_constraintTop_toBottomOf="@+id/textViewStart"
                 app:progress="30"
+                app:progressBackgroundWidth="6dp"
                 app:progressColor="@color/green"
                 app:progressWidth="6dp"
-                app:progressBackgroundWidth="6dp"
-                app:showDot="false"/>
+                app:showDot="false" />
 
             <TextView
                 android:id="@+id/timeLeftOfWeek"
@@ -232,12 +235,12 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="20dp"
-                tools:text="-17 H. 25 Min."
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guidelineVerticalCenter"
-                app:layout_constraintTop_toBottomOf="@+id/textViewEnd"/>
+                app:layout_constraintTop_toBottomOf="@+id/textViewEnd"
+                android:text="-17 H. 25 Min." />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -248,7 +251,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".9"/>
+        app:layout_constraintGuide_percent=".9" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/startButton"
@@ -265,7 +268,7 @@
         app:layout_constraintEnd_toStartOf="@+id/editButton"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guidelineHorizontalBottom"/>
+        app:layout_constraintTop_toTopOf="@+id/guidelineHorizontalBottom" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/editButton"
@@ -284,7 +287,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintHorizontal_weight="5"
         app:layout_constraintStart_toEndOf="@+id/startButton"
-        app:layout_constraintTop_toTopOf="@+id/startButton"/>
+        app:layout_constraintTop_toTopOf="@+id/startButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

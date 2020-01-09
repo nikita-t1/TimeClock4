@@ -14,10 +14,10 @@ data class WorkDay(
     var dayOfWeek: Int,
     var dayOfMonth: Int,
     var month: Int,
-    var timeClockIn: String,
-    var timeClockOut: String,
 
     //Maybe Integer?
+    var timeClockIn: String,
+    var timeClockOut: String,
     var pauseTime: String,
     var workTimeGross: String,
     var workTimeNet: String,

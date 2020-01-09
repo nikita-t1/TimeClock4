@@ -19,6 +19,8 @@ abstract class WorkDayDatabase : RoomDatabase() {
         Null-Safety feature
      */
     companion object {
+        // Singleton prevents multiple instances of database opening at the
+        // same time.
         @Volatile
         private var INSTANCE: WorkDayDatabase? = null
 
@@ -69,7 +71,7 @@ abstract class WorkDayDatabase : RoomDatabase() {
             workDayDao.deleteAllWorkDays()
 
             var workDay = WorkDay(
-                0, 2019, 24, 1,
+                0, 2018, 24, 1,
                 24, 3, "07:14", "16:34",
                 "0:45", "8:55", "8:34", "1:34",
                 true, null, null, null
@@ -97,9 +99,6 @@ abstract class WorkDayDatabase : RoomDatabase() {
             )
             workDayDao.insertWorkDay(workDay)
 
-
-
-
             workDay = WorkDay(
                 0, 2019, 24, 1,
                 24, 3, "07:14", "16:34",
@@ -122,7 +121,7 @@ abstract class WorkDayDatabase : RoomDatabase() {
             )
             workDayDao.insertWorkDay(workDay)
             workDay = WorkDay(
-                0, 2019, 24, 4,
+                0, 2017, 24, 4,
                 27, 3, "06:18", "15:42",
                 "0:45", "8:33", "7:46", "0.43",
                 true, null, null, null

@@ -28,10 +28,9 @@ object TimeCalculations {
 
     fun convertDateStringToMinutes(dateString: String): Long {
         val date = sdf_HHmm.parse(dateString)
-        val calendar = Calendar.getInstance()
-        val hour = calendar.get(Calendar.HOUR)
-        val min = calendar.get(Calendar.MINUTE)
-        return (hour * 60 + min).toLong()
+        val min = date.time / 60
+        val hour = min / 60
+        return (hour / 60 + min)
     }
 
     fun loadEndTime(startTimeMin: Long, workingTimeMin: Long): Long {

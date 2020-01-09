@@ -3,12 +3,9 @@ package com.studio.timeclock4.model
 import androidx.lifecycle.LiveData
 
 class WorkDayRepository(private val workDayDao: WorkDayDao) {
+    val TAG = this.javaClass.simpleName
 
     val allWorkDays: LiveData<List<WorkDay>> = workDayDao.getAllWorkDays()
-
-    suspend fun selectedAll(): List<WorkDay> {
-        return workDayDao.selectAll()
-    }
 
     suspend fun insertWorkDay(workDay: WorkDay) {
         workDayDao.insertWorkDay(workDay)

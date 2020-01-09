@@ -9,7 +9,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.button.MaterialButton
 import com.studio.timeclock4.R
 import com.studio.timeclock4.utils.ChronometerPersist
@@ -19,10 +20,9 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
 
 class HomeFragment : Fragment(), View.OnClickListener {
 
-
+    private val TAG = this.javaClass.simpleName
     private lateinit var alertDialog: AlertDialog
     private lateinit var chronometerPersist: ChronometerPersist
-    private val TAG = this.javaClass.simpleName
     private lateinit var fragmentView: View
     private lateinit var viewModel: HomeViewModel
 
@@ -36,8 +36,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         when (v) {
             fragmentView.startButton -> {
                 viewModel.startPressed()
-                chronometerPersist.changeChronometerState(viewModel.currentLayoutState.ordinal)
-                updateLayoutState()
+                chronometerPersist.changeChronometerState(viewModel.currentLayoutStateOrdinal.value!!.ordinal)
             }
             fragmentView.editButton -> {
                 Log.i(TAG, "EDIT")
@@ -57,20 +56,17 @@ class HomeFragment : Fragment(), View.OnClickListener {
             cancelBtn -> {
                 alertDialog.dismiss()
                 viewModel.dialogCancel()
-                chronometerPersist.changeChronometerState(viewModel.currentLayoutState.ordinal)
-                updateLayoutState()
+                chronometerPersist.changeChronometerState(viewModel.currentLayoutStateOrdinal.value!!.ordinal)
             }
             saveBtn -> {
                 alertDialog.dismiss()
                 viewModel.dialogSave()
-                chronometerPersist.changeChronometerState(viewModel.currentLayoutState.ordinal)
-                updateLayoutState()
+                chronometerPersist.changeChronometerState(viewModel.currentLayoutStateOrdinal.value!!.ordinal)
             }
             resumeBtn -> {
                 alertDialog.dismiss()
                 viewModel.dialogResume()
-                chronometerPersist.changeChronometerState(viewModel.currentLayoutState.ordinal)
-                updateLayoutState()
+                chronometerPersist.changeChronometerState(viewModel.currentLayoutStateOrdinal.value!!.ordinal)
             }
             else -> Log.e(TAG, "Something went wrong in the onClick")
         }
@@ -87,6 +83,12 @@ class HomeFragment : Fragment(), View.OnClickListener {
         fragmentView.arc_progress.setOnClickListener(this)
 
         chronometerPersist = ChronometerPersist.getInstance(fragmentView.chrom, this)
+        chronometerPersist.hourFormat(true)
+
+//        chronometerPersist.mChronometer.setOnChronometerTickListener {
+//            fragmentView.arc_progress.progress = viewModel.getArcProgress(((SystemClock.elapsedRealtime() - chronometerPersist.mChronometer.base) / 1000))
+//        }
+
 
         return fragmentView
 
@@ -94,23 +96,26 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
-        updateLayoutState()
+        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        lifecycle.addObserver(viewModel);
+
+
+        viewModel.startButtonText.observe(this, Observer { fragmentView.startButton.text = it })
+        viewModel.startTimeString.observe(this, Observer { fragmentView.startTime.text = it })
+        viewModel.endTimeString.observe(this, Observer { fragmentView.endTime.text = it })
+        viewModel.currentLayoutStateOrdinal.observe(this, Observer {
+            if (it.ordinal == 2) showSaveDialog()
+        })
+        viewModel.startButtonColor.observe(this, Observer {
+            fragmentView.startButton.background.setTint(
+                resources.getColor(it, null)
+            )
+        })
     }
 
     override fun onResume() {
         super.onResume()
-        Log.i(TAG, "onResume")
         chronometerPersist.resumeState()
-    }
-
-    private fun updateLayoutState() {
-        fragmentView.startButton.background.setTint(resources.getColor(viewModel.startButtonColor, null))
-        fragmentView.startButton.text = viewModel.startButtonText
-        fragmentView.startTime.text = viewModel.startTimeString
-        fragmentView.endTime.text = viewModel.endTimeString
-        Log.d(TAG, "viewModel.currentLayoutState.ordinal: ${viewModel.currentLayoutState.name}")
-        if (viewModel.currentLayoutState.ordinal == 2) showSaveDialog()
     }
 
     /*
@@ -133,8 +138,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         alertDialog = dialogBuilder.create()
         alertDialog.setOnCancelListener {
             viewModel.dialogDismiss()
-            chronometerPersist.changeChronometerState(viewModel.currentLayoutState.ordinal)
-            updateLayoutState()
+            chronometerPersist.changeChronometerState(viewModel.currentLayoutStateOrdinal.value!!.ordinal)
         }
         alertDialog.show()
 

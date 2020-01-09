@@ -20,6 +20,15 @@ class MainActivity : AppCompatActivity() {
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         NavigationUI.setupWithNavController(bottom_nav, navController)
+
+//        navController.addOnDestinationChangedListener { _, destination, _ ->
+//            if(destination.id == R.id.destination_home) {
+//                toolbar.visibility = View.GONE
+//            } else {
+//                toolbar.visibility = View.VISIBLE
+//            }
+//        }
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
