@@ -1,4 +1,4 @@
-package com.studio.timeclock4
+package com.studio.timeclock4.viewmodel
 
 import androidx.lifecycle.ViewModel
 

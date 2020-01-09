@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+//apply plugin: 'com.google.gms.google-services'  //////
+
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
@@ -18,14 +20,23 @@ android {
         versionName "0.1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    applicationVariants.all { variant ->
+        variant.resValue "string", "versionName", variant.versionName
+        variant.resValue "string", "applicationId", variant.applicationId
+    }
+
     buildTypes {
         release {
             resValue "string", "app_name", "TimeClock4"
+            resValue "string", "type", '"RELEASE"'
             minifyEnabled true      //Shrinks App Size
             shrinkResources true    //Deletes unused Resources
             buildConfigField "String", "TYPE", '"RELEASE"'
-            buildConfigField "String", "IMA", "I AM A BAMBOO"
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro' //Obfuscates the App
+            buildConfigField "String", "IMA", '"I AM A BAMBOO"'
+            useProguard true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //Obfuscates the App
             signingConfig debug.signingConfig   //TODO
         }
 
@@ -34,16 +45,19 @@ android {
             applicationIdSuffix = ".beta"
             versionNameSuffix "-beta"
             resValue "string", "app_name", "TimeClock4_beta"
+            resValue "string", "type", '"BETA"'
             buildConfigField "String", "TYPE", '"BETA"'
             buildConfigField "String", "IMA", '"I AM A NINJA"'
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
+            debuggable true
         }
 
         debug {
             applicationIdSuffix = ".debug"
             versionNameSuffix "-debug"
             resValue "string", "app_name", "TimeClock4_dev"
+            resValue "string", "type", '"DEBUG"'
             useProguard false
             buildConfigField "String", "TYPE", '"DEBUG"'
             buildConfigField "String", "IMA", '"I AM A SAMURAI"'
@@ -79,17 +93,25 @@ android {
     packagingOptions {
         exclude 'META-INF/atomicfu.kotlin_module'
     }
-    
+
     lintOptions {
         abortOnError false
+    }
+
+    sourceSets {
+        main {
+            res.srcDirs = ['src/main/res',
+                           'src/debug/res/layout'
+            ]
+        }
     }
 }
 
 
 dependencies {
-    def nav_version = "2.2.0-rc04"
-    def roomVersion = '2.2.3'
-    def archLifecycleVersion = '2.2.0-rc03'
+    def nav_version = "2.2.0"
+    def roomVersion = '2.2.4'
+    def archLifecycleVersion = '2.2.0'
     def kotlin_version = '1.3.31'
     def coroutines = '1.2.0'
     def leakcanary = "2.0-alpha-2"
@@ -98,12 +120,17 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    //Firebase
+//    implementation 'com.google.firebase:firebase-analytics:17.2.2'  //////
 
     //Navigation Components
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -123,6 +150,9 @@ dependencies {
     // ViewModel Kotlin support
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"
 
+    // LiveData Kotlin support
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
@@ -134,10 +164,43 @@ dependencies {
     implementation 'com.shunan.circularprogressview:circular-progress-view:1.1.0'
 
     //LeakCanary
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary"
-    betaImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary"
+//    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary"
 
     //ThreeTen ABP -> Backport of the java.time package, which would depend on minSDK 26
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.2'
+    implementation 'org.threeten:threeten-extra:1.5.0'
 
+    //The usual Toast, but with steroids
+    implementation 'com.github.GrenderG:Toasty:1.4.2'
+
+    //A small Android library to manage one-off operations for API 14 and higher.
+    implementation 'com.jonathanfinerty.once:once:1.3.0'
+
+    //Takt is Android library for measuring the FPS using Choreographer.
+    implementation 'jp.wasabeef:takt:2.0.1'
+
+    //This is a logger with a small, extensible API which provides utility on top of Android's normal Log class.
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    //Simple, pretty and powerful logger for android
+    implementation 'com.orhanobut:logger:2.2.0'
+
+    //Lottie is a library for Android, iOS, Web, and Windows that parses Adobe After Effects animations
+    // exported as json with Bodymovin and renders them natively on mobile and on the web!
+    implementation "com.airbnb.android:lottie:3.4.0"
+
+    //Android Debug Database allows you to view databases and shared preferences directly in your browser
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+    betaImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+
+    //Another Material Time Picker for developer who do not like default Material Time Picker that difficult to use for most users
+    implementation 'com.akexorcist:snap-time-picker:1.0.0'
+
+    //A highly flexible set of lovely looking views that provides functionality of preferences.
+    implementation 'com.yarolegovich:mp:1.0.9'
+
+    //Android Library that checks for updates on Google Play, GitHub, Amazon, F-Droid or your own server.
+    implementation 'com.github.javiersantos:AppUpdater:2.7'
+
+    implementation 'com.github.100rabhkr:GetJSON:1.0'
 }

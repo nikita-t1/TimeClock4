@@ -1,13 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.yarolegovich.mp.MaterialPreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.studio.timeclock4.AboutFragment">
+    tools:context="com.studio.timeclock4.fragments.AboutFragment">
 
-    <TextView
+    <com.yarolegovich.mp.MaterialPreferenceCategory
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="wrap_content"
+        app:mpc_title="@string/app"
+        app:mpc_title_color="@color/black"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="8dp">
 
-</FrameLayout>
+        <com.yarolegovich.mp.MaterialStandardPreference
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mp_icon="@drawable/ic_application"
+            app:mp_title="@string/version"
+            app:mp_summary="@string/versionName"/>
+
+        <com.yarolegovich.mp.MaterialStandardPreference
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mp_icon="@drawable/ic_source_branch"
+            app:mp_title="Build Variant"
+            app:mp_summary="@string/type"/>
+
+        <com.yarolegovich.mp.MaterialStandardPreference
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mp_icon="@drawable/ic_android_studio"
+            app:mp_title="Application ID"
+            app:mp_summary="@string/applicationId"/>
+
+    <com.yarolegovich.mp.MaterialStandardPreference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/update_btn"
+        app:mp_icon="@drawable/ic_update"
+        app:mp_title="Check for Updates"
+        app:mp_summary="https://raw.githubusercontent.com/nikita-t1/update/master/update.json"/>
+
+    </com.yarolegovich.mp.MaterialPreferenceCategory>
+
+</com.yarolegovich.mp.MaterialPreferenceScreen>

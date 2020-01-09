@@ -5,9 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.studio.timeclock4.utils.PreferenceHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @Database(entities = [WorkDay::class], version = 1)
 abstract class WorkDayDatabase : RoomDatabase() {
@@ -56,7 +58,9 @@ abstract class WorkDayDatabase : RoomDatabase() {
             // comment out the following line.
             INSTANCE?.let { database ->
                 scope.launch(Dispatchers.IO) {
-                    populateDatabase(database.workDayDao())
+                    if (PreferenceHelper.read("enable database recreation", false)) {
+                        populateDatabase(database.workDayDao())
+                    }
                 }
             }
         }
@@ -69,61 +73,69 @@ abstract class WorkDayDatabase : RoomDatabase() {
             // Start the app with a clean database every time.
             // Not needed if you only populate on creation.
             workDayDao.deleteAllWorkDays()
+            Timber.e("DATABASE")
 
             var workDay = WorkDay(
-                0, 2018, 24, 1,
-                24, 3, "07:14", "16:34",
-                "0:45", "8:55", "8:34", "1:34",
-                true, null, null, null
-            )
-            workDayDao.insertWorkDay(workDay)
-            workDay = WorkDay(
-                0, 2019, 24, 2,
-                25, 3, "06:18", "15:42",
-                "0:45", "8:33", "7:10", "0:10",
-                true, null, null, null
-            )
-            workDayDao.insertWorkDay(workDay)
-            workDay = WorkDay(
-                0, 2019, 24, 3,
-                26, 3, "07:18", "17:42",
-                "0:45", "9:33", "07:00", "0",
-                true, null, null, null
-            )
-            workDayDao.insertWorkDay(workDay)
-            workDay = WorkDay(
-                0, 2019, 24, 4,
-                27, 3, "06:18", "15:42",
-                "0:45", "8:33", "7:46", "0.43",
+                12, 2020, 14, 5,
+                3, 4, 378, 942,
+                45, 513, 430, 10,
                 true, null, null, null
             )
             workDayDao.insertWorkDay(workDay)
 
             workDay = WorkDay(
-                0, 2019, 24, 1,
-                24, 3, "07:14", "16:34",
-                "0:45", "8:55", "8:34", "1:34",
+                11, 2020, 9, 1,
+                24, 2, 408, 942,
+                45, 513, 466, 43,
                 true, null, null, null
             )
             workDayDao.insertWorkDay(workDay)
             workDay = WorkDay(
-                0, 2019, 24, 2,
-                25, 3, "06:18", "15:42",
-                "0:45", "8:33", "7:10", "0:10",
+                0, 2020, 8, 5,
+                21, 2, 378, 942,
+                45, 513, 466, 43,
                 true, null, null, null
             )
             workDayDao.insertWorkDay(workDay)
             workDay = WorkDay(
-                0, 2019, 24, 3,
-                26, 3, "07:18", "17:42",
-                "0:45", "9:33", "07:00", "0",
+                0, 2020, 9, 7,
+                2, 3, 370, 942,
+                45, 485, 466, 43,
                 true, null, null, null
             )
             workDayDao.insertWorkDay(workDay)
             workDay = WorkDay(
-                0, 2017, 24, 4,
-                27, 3, "06:18", "15:42",
-                "0:45", "8:33", "7:46", "0.43",
+                0, 2020, 10, 7,
+                8, 3, 435, 932,
+                45, 485, 466, 13,
+                true, null, null, null
+            )
+            workDayDao.insertWorkDay(workDay)
+            workDay = WorkDay(
+                0, 2020, 11, 7,
+                9, 3, 435, 932,
+                45, 485, 466, 13,
+                true, null, null, null
+            )
+            workDayDao.insertWorkDay(workDay)
+            workDay = WorkDay(
+                0, 2020, 11, 6,
+                14, 3, 435, 932,
+                45, 485, 466, 13,
+                true, null, null, null
+            )
+            workDayDao.insertWorkDay(workDay)
+            workDay = WorkDay(
+                0, 2020, 11, 6,
+                10, 3, 435, 932,
+                45, 485, 466, 13,
+                true, null, null, null
+            )
+            workDayDao.insertWorkDay(workDay)
+            workDay = WorkDay(
+                0, 2020, 11, 6,
+                1, 2, 435, 932,
+                45, 485, 466, 13,
                 true, null, null, null
             )
             workDayDao.insertWorkDay(workDay)

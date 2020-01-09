@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/destination_listing"
-        android:name="com.studio.timeclock4.fragments.ListingFragment"
+        android:name="com.studio.timeclock4.fragments.ListingOuterFragment"
         android:label="fragment_listing"
         tools:layout="@layout/fragment_listing"/>
     <fragment
@@ -26,17 +26,49 @@
         android:label="fragment_options"
         tools:layout="@layout/fragment_options">
         <action
-            android:id="@+id/to_MainSettingsFragment"
-            app:destination="@id/mainSettingsFragment"/>
+            android:id="@+id/action_destination_options_to_timeSettingsFragment"
+            app:destination="@id/destination_timeSettings"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
+        <action
+            android:id="@+id/action_destination_options_to_destination_settings"
+            app:destination="@id/destination_settings"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
     </fragment>
     <fragment
-        android:id="@+id/mainSettingsFragment"
+        android:id="@+id/destination_settings"
         android:name="com.studio.timeclock4.fragments.MainSettingsFragment"
-        android:label="fragment_main_settings"
+        android:label="@string/dev_settings"
+        android:menuCategory="secondary"
         tools:layout="@layout/fragment_main_settings">
         <argument
             android:name="name"
             app:argType="integer"
             android:defaultValue="5"/>
+        <action android:id="@+id/action_setupFragment_to_homeFragment3"
+            app:destination="@+id/homeFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/setupFragment"
+            app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/destination_timeSettings"
+        android:name="com.studio.timeclock4.fragments.TimeSettingsFragment"
+        android:label="@string/time_settings"
+        tools:layout="@layout/fragment_time_settings" />
+    <fragment
+        android:id="@+id/destination_about"
+        android:name="com.studio.timeclock4.fragments.AboutFragment"
+        android:label="@string/about"
+        tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/destination_timeSettingsSheet"
+        android:name="com.studio.timeclock4.fragments.TimeSettingsSheetFragment"
+        tools:layout="@layout/fragment_time_settings_sheet"
+        android:label="TimeSettingsSheetFragment" />
 </navigation>

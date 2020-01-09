@@ -1,11 +1,21 @@
 package com.studio.timeclock4.model
 
+import android.util.Log
 import androidx.lifecycle.LiveData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class WorkDayRepository(private val workDayDao: WorkDayDao) {
-    val TAG = this.javaClass.simpleName
 
     val allWorkDays: LiveData<List<WorkDay>> = workDayDao.getAllWorkDays()
+
+    suspend fun getWorkday(day : Int, month : Int, year :Int) : WorkDay{
+        return withContext(Dispatchers.IO){
+            Timber.i("${Thread.currentThread().name} $day $month $year")
+            workDayDao.getWorkday(day, month, year)
+        }
+    }
 
     suspend fun insertWorkDay(workDay: WorkDay) {
         workDayDao.insertWorkDay(workDay)
@@ -22,6 +32,4 @@ class WorkDayRepository(private val workDayDao: WorkDayDao) {
     suspend fun deleteAllWorkDays() {
         workDayDao.deleteAllWorkDays()
     }
-
-
 }

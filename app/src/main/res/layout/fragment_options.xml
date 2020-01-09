@@ -1,27 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   xmlns:tools="http://schemas.android.com/tools"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="match_parent"
-                                                   tools:context="com.studio.timeclock4.fragments.OptionsFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.studio.timeclock4.fragments.OptionsFragment">
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:scaleX="1.8"
-        android:scaleY="1.8"
-        android:padding="32dp"
-        android:backgroundTint="@color/alpha"
-        android:src="@drawable/ic_settings_outline"
-        android:tint="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <com.yarolegovich.mp.MaterialPreferenceScreen
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/preference_screen"
+        app:layout_constraintBottom_toTopOf="@+id/created_by_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.yarolegovich.mp.MaterialStandardPreference
+            android:id="@+id/materialStandardPreference"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mp_summary="Summary of Preference Category 1"
+            app:mp_title="Preference Category 1" />
+
+
+        <com.yarolegovich.mp.MaterialStandardPreference
+            android:id="@+id/materialStandardPreference2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mp_summary="@string/working_time_summary"
+            app:mp_title="@string/working_time_title" />
+
+        <com.yarolegovich.mp.MaterialStandardPreference
+            android:id="@+id/materialStandardPreference3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mp_summary="Summary of Preference Category 3"
+            app:mp_title="Preference Category 3" />
+
+        <com.yarolegovich.mp.MaterialStandardPreference
+            android:id="@+id/materialStandardPreference4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mp_summary="Summary of Preference Category 4"
+            app:mp_title="Preference Category 4"/>
+
+        <com.yarolegovich.mp.MaterialStandardPreference
+            android:id="@+id/materialStandardPreference5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mp_summary="Summary of Preference Category 5"
+            app:mp_title="Preference Category 5"/>
+
+        <com.yarolegovich.mp.MaterialStandardPreference
+            android:id="@+id/materialStandardPreference6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:mp_summary="Version 1.0.1"
+            tools:mp_title="About TimeClock"/>
+
+    </com.yarolegovich.mp.MaterialPreferenceScreen>
+
+
+    <TextView
+        android:id="@+id/created_by_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Designed and Developed by"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@id/authors_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/authors_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="14dp"
+        android:text="Noah Röschard and Nikita Tarasov"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

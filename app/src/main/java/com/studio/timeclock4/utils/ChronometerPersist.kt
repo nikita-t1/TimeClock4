@@ -1,17 +1,19 @@
 package com.studio.timeclock4.utils
 
-
 import android.os.SystemClock
 import android.util.Log
 import android.widget.Chronometer
-import com.studio.timeclock4.fragments.HomeFragment
+import timber.log.Timber
 
 class ChronometerPersist private constructor() {
     private var isHourFormat = false
-    val TAG = this.javaClass.simpleName
     lateinit var mChronometer: Chronometer
-    var mTimeWhenPaused: Long = 0
-    var mTimeBase: Long = 0
+    private var mTimeWhenPaused: Long = 0
+    private var mTimeBase: Long = 0
+
+    internal enum class ChronometerState {
+        Running, Paused, Stopped
+    }
 
     fun changeChronometerState(state: Int) {
         when (state) {
@@ -33,9 +35,6 @@ class ChronometerPersist private constructor() {
             ChronometerState.Stopped.ordinal
         )] == ChronometerState.Paused
 
-    internal enum class ChronometerState {
-        Running, Paused, Stopped
-    }
 
     fun hourFormat(hourFormat: Boolean) {
         isHourFormat = hourFormat
@@ -56,7 +55,7 @@ class ChronometerPersist private constructor() {
         }
     }
 
-    fun pauseChronometer() {
+    private fun pauseChronometer() {
         storeState(ChronometerState.Paused)
         saveTimeWhenPaused()
         pauseStateChronometer()
@@ -84,25 +83,24 @@ class ChronometerPersist private constructor() {
         PreferenceHelper.write(KEY_STATE + mChronometer.id, state.ordinal)
     }
 
-    fun startChronometer() {
+    private fun startChronometer() {
         storeState(ChronometerState.Running)
         saveBase()
         startStateChronometer()
     }
 
     private fun startStateChronometer() {
-        Log.i(TAG, "${SystemClock.elapsedRealtime()}")
-        Log.i(TAG, "KEY_BASE + mChronometer.id Read: ${PreferenceHelper.read(KEY_BASE + mChronometer.id, 10L)}")
+        Timber.i("${SystemClock.elapsedRealtime()}")
+        Timber.i("KEY_BASE + mChronometer.id Read: ${PreferenceHelper.read(KEY_BASE + mChronometer.id, 10L)}")
         mTimeBase = PreferenceHelper.read(
-            KEY_BASE + mChronometer.id,
-            SystemClock.elapsedRealtime()
+            KEY_BASE + mChronometer.id, SystemClock.elapsedRealtime()
         ) //0
         mTimeWhenPaused = PreferenceHelper.read(KEY_TIME_PAUSED + mChronometer.id, 0L)
         mChronometer.base = mTimeBase + mTimeWhenPaused
         mChronometer.start()
     }
 
-    fun stopChronometer() {
+    private fun stopChronometer() {
         storeState(ChronometerState.Stopped)
         mChronometer.base = SystemClock.elapsedRealtime()
         mChronometer.stop()
@@ -121,12 +119,21 @@ class ChronometerPersist private constructor() {
     }
 
     private fun saveBase() {
-        Log.i(
-            TAG,
-            "KEY_BASE + mChronometer.id Write before: ${PreferenceHelper.read(KEY_BASE + mChronometer.id, 10L)}"
-        );
+        Timber.i("KEY_BASE + mChronometer.id Write before: ${PreferenceHelper.read(KEY_BASE + mChronometer.id, 10L)}");
         PreferenceHelper.write(KEY_BASE + mChronometer.id, SystemClock.elapsedRealtime())
-        Log.i(TAG, "KEY_BASE + mChronometer.id Write after: ${PreferenceHelper.read(KEY_BASE + mChronometer.id, 10L)}");
+        Timber.i("KEY_BASE + mChronometer.id Write after: ${PreferenceHelper.read(KEY_BASE + mChronometer.id, 10L)}");
+    }
+
+    fun substractFromChronometerBase(sec: Long){
+        val ohYeah = PreferenceHelper.read(KEY_BASE + mChronometer.id, SystemClock.elapsedRealtime())
+        PreferenceHelper.write(KEY_BASE + mChronometer.id, ohYeah + (sec * 1000))
+        startStateChronometer()
+    }
+
+    fun addToChronometerBase(sec : Long){
+        val ohYeah = PreferenceHelper.read(KEY_BASE + mChronometer.id, SystemClock.elapsedRealtime())
+        PreferenceHelper.write(KEY_BASE + mChronometer.id, ohYeah - (sec * 1000))
+        startStateChronometer()
     }
 
     private fun saveTimeWhenPaused() {
@@ -141,9 +148,9 @@ class ChronometerPersist private constructor() {
             KEY_STATE + mChronometer.id,
             ChronometerState.Stopped.ordinal
         )]
-        when {
-            state.ordinal == ChronometerState.Stopped.ordinal -> stopChronometer()
-            state.ordinal == ChronometerState.Paused.ordinal -> pauseStateChronometer()
+        when (state.ordinal) {
+            ChronometerState.Stopped.ordinal -> stopChronometer()
+            ChronometerState.Paused.ordinal -> pauseStateChronometer()
             else -> startStateChronometer()
         }
     }
@@ -154,9 +161,8 @@ class ChronometerPersist private constructor() {
         private const val KEY_BASE = "TimeBase"
         private const val KEY_STATE = "ChronometerState"
 
-        fun getInstance(chronometer: Chronometer, homeFragment: HomeFragment): ChronometerPersist {
+        fun getInstance(chronometer: Chronometer): ChronometerPersist {
             val chronometerPersist = ChronometerPersist()
-            PreferenceHelper.init(homeFragment.requireContext())
             chronometerPersist.mChronometer = chronometer
             return chronometerPersist
         }

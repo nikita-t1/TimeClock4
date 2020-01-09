@@ -1,2 +1,29 @@
-hello
-hi all
+TODO:
+
+EditButton im HomeFragment -> Layout + Funktion
+
+Switch zwischen Brutto und Netto Arbeitszeit
+Aktueller Default ist Brutto
+
+"ext_day" mit einem Circle Reveal einblenden?
+
+Anwesenheit bzw Abwesenheitstyp beim editieren eines WorkDays
+
+Das swipen über "ext_toolbar" muss dem Nutzer vorgeführt werden
+
+auch "ext_week" swipebar?
+
+doppelter Tag...
+
+-------------------------------------------
+Workday Delete/Insert -> Fragment muss OnResume nochmal durchlaufen ??
+
+Chronometer WorkingHours -> Sekunden müssen überschlagen werden
+
+InnerListingFragment -> Background Drawables müssen auch "Disabled" wirken
+
+simulateClick() on followingWeek ->
+getWeeksBetween(currentDate, LocalDateTime.now()) == (0L)
+
+-------------------------------------------
+HomeFragment -> EditButton!!!

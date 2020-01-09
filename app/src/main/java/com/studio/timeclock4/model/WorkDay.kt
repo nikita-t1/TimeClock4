@@ -15,13 +15,12 @@ data class WorkDay(
     var dayOfMonth: Int,
     var month: Int,
 
-    //Maybe Integer?
-    var timeClockIn: String,
-    var timeClockOut: String,
-    var pauseTime: String,
-    var workTimeGross: String,
-    var workTimeNet: String,
-    var overtime: String,
+    var timeClockIn: Int,
+    var timeClockOut: Int,
+    var pauseTime: Int,
+    var workTimeGross: Int,
+    var workTimeNet: Int,
+    var overtime: Int,
 
     var wasPresent: Boolean,
     var absenceType: String?,

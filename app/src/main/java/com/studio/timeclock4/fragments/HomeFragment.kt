@@ -2,73 +2,51 @@ package com.studio.timeclock4.fragments
 
 import android.os.Bundle
 import android.os.SystemClock
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.button.MaterialButton
 import com.studio.timeclock4.R
-import com.studio.timeclock4.utils.ChronometerPersist
+import com.studio.timeclock4.utils.*
 import com.studio.timeclock4.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import timber.log.Timber
 
 
 class HomeFragment : Fragment(), View.OnClickListener {
 
-    private val TAG = this.javaClass.simpleName
-    private lateinit var alertDialog: AlertDialog
     private lateinit var chronometerPersist: ChronometerPersist
     private lateinit var fragmentView: View
-    private lateinit var viewModel: HomeViewModel
-
-    private lateinit var cancelBtn: MaterialButton
-    private lateinit var saveBtn: MaterialButton
-    private lateinit var resumeBtn: MaterialButton
-
+    private val viewModel: HomeViewModel by lazy {
+        ViewModelProvider(this).get(HomeViewModel::class.java)
+    }
 
     override fun onClick(v: View?) {
-        Log.d(TAG, "onClick v: ${v.toString()}")
         when (v) {
             fragmentView.startButton -> {
                 viewModel.startPressed()
                 chronometerPersist.changeChronometerState(viewModel.currentLayoutStateOrdinal.value!!.ordinal)
             }
             fragmentView.editButton -> {
-                Log.i(TAG, "EDIT")
+                Timber.i("EDIT")
             }
             fragmentView.cardView -> {
-                Log.i(TAG, "CARD")
+                Timber.i("CARD")
             }
             fragmentView.overviewBtn -> {
-                Log.i(TAG, "OVERVIEW")
+                Timber.i("OVERVIEW")
+                chronometerPersist.substractFromChronometerBase(60)
             }
             fragmentView.attendanceBtn -> {
-                Log.i(TAG, "ATTENDANCE")
+                Timber.i( "ATTENDANCE")
+                chronometerPersist.addToChronometerBase(60)
             }
             fragmentView.arc_progress -> {
-                Log.i(TAG, "ARC")
+                Timber.i( "ARC")
             }
-            cancelBtn -> {
-                alertDialog.dismiss()
-                viewModel.dialogCancel()
-                chronometerPersist.changeChronometerState(viewModel.currentLayoutStateOrdinal.value!!.ordinal)
-            }
-            saveBtn -> {
-                alertDialog.dismiss()
-                viewModel.dialogSave()
-                chronometerPersist.changeChronometerState(viewModel.currentLayoutStateOrdinal.value!!.ordinal)
-            }
-            resumeBtn -> {
-                alertDialog.dismiss()
-                viewModel.dialogResume()
-                chronometerPersist.changeChronometerState(viewModel.currentLayoutStateOrdinal.value!!.ordinal)
-            }
-            else -> Log.e(TAG, "Something went wrong in the onClick")
+            else -> Timber.e( "Something went wrong in the onClick")
         }
     }
 
@@ -82,31 +60,23 @@ class HomeFragment : Fragment(), View.OnClickListener {
         fragmentView.attendanceBtn.setOnClickListener(this)
         fragmentView.arc_progress.setOnClickListener(this)
 
-        chronometerPersist = ChronometerPersist.getInstance(fragmentView.chrom, this)
+        chronometerPersist = ChronometerPersist.getInstance(fragmentView.chrom)
         chronometerPersist.hourFormat(true)
 
-//        chronometerPersist.mChronometer.setOnChronometerTickListener {
-//            fragmentView.arc_progress.progress = viewModel.getArcProgress(((SystemClock.elapsedRealtime() - chronometerPersist.mChronometer.base) / 1000))
-//        }
-
-
         return fragmentView
-
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        lifecycle.addObserver(viewModel);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        lifecycle.addObserver(viewModel)
 
-
-        viewModel.startButtonText.observe(this, Observer { fragmentView.startButton.text = it })
-        viewModel.startTimeString.observe(this, Observer { fragmentView.startTime.text = it })
-        viewModel.endTimeString.observe(this, Observer { fragmentView.endTime.text = it })
-        viewModel.currentLayoutStateOrdinal.observe(this, Observer {
+        viewModel.startButtonText.observe(viewLifecycleOwner, Observer { fragmentView.startButton.text = it })
+        viewModel.startTimeString.observe(viewLifecycleOwner, Observer { fragmentView.startTime.text = it })
+        viewModel.endTimeString.observe(viewLifecycleOwner, Observer { fragmentView.endTime.text = it })
+        viewModel.currentLayoutStateOrdinal.observe(viewLifecycleOwner, Observer {
             if (it.ordinal == 2) showSaveDialog()
         })
-        viewModel.startButtonColor.observe(this, Observer {
+        viewModel.startButtonColor.observe(viewLifecycleOwner, Observer {
             fragmentView.startButton.background.setTint(
                 resources.getColor(it, null)
             )
@@ -116,35 +86,27 @@ class HomeFragment : Fragment(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         chronometerPersist.resumeState()
+        Timber.i("IM BACK BITCHES")
     }
 
-    /*
-    Mostly Placeholder
-     */
+
     private fun showSaveDialog() {
-        Log.d(TAG, "showSaveDialog")
+        val time = ((SystemClock.elapsedRealtime() - chronometerPersist.mChronometer.base) / 1000 / 60)
+        val timeString = TimeCalculations.convertMinutesToDateString(time)
 
-        //Inflates View
-        val layoutView = layoutInflater.inflate(R.layout.dialog_save, null)
-        saveBtn = layoutView.findViewById(R.id.saveBtn)
-        cancelBtn = layoutView.findViewById(R.id.cancelBtn)
-        resumeBtn = layoutView.findViewById(R.id.resumeBtn)
-        val text = layoutView.findViewById<TextView>(R.id.text)
-        text.text = ((SystemClock.elapsedRealtime() - chronometerPersist.mChronometer.base) / 1000).toString()
-
-        val dialogBuilder = AlertDialog.Builder(requireContext())
-        dialogBuilder.setView(layoutView)
-
-        alertDialog = dialogBuilder.create()
-        alertDialog.setOnCancelListener {
-            viewModel.dialogDismiss()
+        val alert = AlertView(timeString, resources.getString(R.string.clock_out_question), BottomSheetStyle.BOTTOM_SHEET)
+        alert.addAction(AlertAction(resources.getString(R.string.clock_out), BottomSheetActionStyle.POSITIVE) {
+            viewModel.dialogSave(time)
             chronometerPersist.changeChronometerState(viewModel.currentLayoutStateOrdinal.value!!.ordinal)
-        }
-        alertDialog.show()
-
-        saveBtn.setOnClickListener(this)
-        cancelBtn.setOnClickListener(this)
-        resumeBtn.setOnClickListener(this)
+        })
+        alert.addAction(AlertAction(resources.getString(R.string.resume), BottomSheetActionStyle.DEFAULT) {
+            viewModel.dialogResume()
+            chronometerPersist.changeChronometerState(viewModel.currentLayoutStateOrdinal.value!!.ordinal)
+        })
+        alert.addAction(AlertAction(resources.getString(R.string.abort), BottomSheetActionStyle.NEGATIVE) {
+            viewModel.dialogCancel()
+            chronometerPersist.changeChronometerState(viewModel.currentLayoutStateOrdinal.value!!.ordinal)
+        })
+        alert.show(childFragmentManager)
     }
-
 }

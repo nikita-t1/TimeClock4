@@ -1,13 +1,12 @@
 package com.studio.timeclock4.utils
 
-import android.util.Log
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 object TimeCalculations {
 
-    val TAG = this.javaClass.simpleName
     private var sdf_HHmm = SimpleDateFormat("HH:mm", Locale.getDefault())
     private var sdf_mm = SimpleDateFormat("mm", Locale.getDefault())
 
@@ -16,25 +15,44 @@ object TimeCalculations {
         val calendar = Calendar.getInstance()
         val startHour = calendar.get(Calendar.HOUR_OF_DAY)
         val startMin = calendar.get(Calendar.MINUTE)
-        Log.d(TAG, "startHour: $startHour")
-        Log.d(TAG, "startMin: $startMin");
+        Timber.d( "startHour: $startHour")
+        Timber.d( "startMin: $startMin")
         return (startHour * 60 + startMin).toLong()
     }
 
     fun convertMinutesToDateString(min: Long): String {
+        var min = min
+        if (min < 0){
+            min *= -1
+        }
         val date = sdf_mm.parse(min.toString())
         return sdf_HHmm.format(date)
     }
 
     fun convertDateStringToMinutes(dateString: String): Long {
-        val date = sdf_HHmm.parse(dateString)
-        val min = date.time / 60
-        val hour = min / 60
-        return (hour / 60 + min)
+//        Timber.i("DAT $dateString")
+//        sdf_HHmm.timeZone = TimeZone.getTimeZone("GMT");
+//        val date = sdf_HHmm.parse(dateString)
+//        Timber.i("DATE $date")
+//        Timber.i("DATEE ${date.time}")
+//        Timber.i("DATEE ${date.time/ 1000 / 60}")
+//
+//        val min = date.time / 1000 / 60
+//        val hour = min / 60
+//        Timber.i("DATE ${(hour / 60 + min)}")
+//        return (hour / 60 + min)
+        val parts = dateString.split(":").toTypedArray()
+        val calc = (parts[0].toLong()*60 + parts[1].toLong())
+        Timber.i("DAT $calc   -> ${parts[0]}  -> ${parts[1]}")
+        return calc
+
     }
 
-    fun loadEndTime(startTimeMin: Long, workingTimeMin: Long): Long {
-        var endTime = startTimeMin + workingTimeMin
-        return endTime
+    fun loadEndTime(startTimeMin: Long, workingTimeMin: Long, pauseTimeMin: Long, addPause: Boolean): Long {
+        return if (addPause) {
+            startTimeMin + workingTimeMin + pauseTimeMin
+        } else {
+            startTimeMin + workingTimeMin
+        }
     }
 }

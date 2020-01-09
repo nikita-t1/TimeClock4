@@ -9,14 +9,8 @@ interface WorkDayDao {
     @Query("SELECT * FROM workday_table")
     fun getAllWorkDays(): LiveData<List<WorkDay>>
 
-    @Query("SELECT * FROM workday_table where weekOfYear = :weekOfYear")
-    fun findByWeekOfYear(weekOfYear: Int): LiveData<List<WorkDay>>
-
-    @Query("SELECT year FROM workday_table GROUP BY year")
-    fun groupYears(): LiveData<List<Int>>
-
-    @Query("SELECT weekOfYear FROM workday_table where year = :year GROUP BY weekOfYear")
-    fun groupWeeks(year: Int): LiveData<List<Int>>
+    @Query("SELECT * FROM workday_table WHERE year = :year AND month = :month AND dayOfMonth = :day")
+    fun getWorkday(day : Int, month : Int, year :Int): WorkDay
 
     @Insert
     suspend fun insertWorkDay(workDay: WorkDay)

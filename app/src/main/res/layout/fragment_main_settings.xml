@@ -9,12 +9,14 @@
     <com.yarolegovich.mp.MaterialPreferenceScreen
         android:id="@+id/preference_screen"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/rebirth_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.yarolegovich.mp.MaterialPreferenceCategory
+            app:mpc_title_color="@color/colorAccent2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:mpc_title="Database">
@@ -23,19 +25,43 @@
                 android:id="@+id/saving_swt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingHorizontal="12dp"
+                android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
-                android:text="Enable Saving" />
+                android:text="Enable Saving"
+                android:textSize="16sp" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/db_recreation_swt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingHorizontal="12dp"
+                android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
-                android:text="Enable Database Recreationnnnn" />
+                android:text="Enable Database Recreation"
+                android:textSize="16sp" />
 
+            <com.yarolegovich.mp.MaterialRightIconPreference
+                android:id="@+id/db_delete_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mp_icon="@drawable/ic_database_remove"
+                app:mp_icon_tint="@color/red"
+                app:mp_title="Delete Database" />
 
+            <com.yarolegovich.mp.MaterialRightIconPreference
+                android:id="@+id/db_size_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mp_icon="@drawable/ic_database_search"
+                app:mp_icon_tint="@color/blue_grey"
+                app:mp_title="Get Database Size" />
+
+        </com.yarolegovich.mp.MaterialPreferenceCategory>
+
+        <com.yarolegovich.mp.MaterialPreferenceCategory
+            app:mpc_title_color="@color/colorAccent2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mpc_title="UI Settings">
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/frames_swt"
@@ -55,107 +81,33 @@
 
         </com.yarolegovich.mp.MaterialPreferenceCategory>
 
-        <com.yarolegovich.mp.MaterialPreferenceCategory
-            app:mpc_title="titttte"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.yarolegovich.mp.MaterialStandardPreference
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                app:mp_icon="@drawable/ic_circle"
-                app:mp_title="drfgsdfg"/>
-
-            <com.yarolegovich.mp.MaterialRightIconPreference
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mp_icon="@drawable/ic_calendar_edit"
-                app:mp_title="sadfsf"/>
-
-
-        </com.yarolegovich.mp.MaterialPreferenceCategory>
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/name_text_input"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/name_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Hintttttttttt" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.yarolegovich.mp.MaterialPreferenceCategory
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:mpc_title="title">
-
-            <com.yarolegovich.mp.MaterialSwitchPreference
-                android:id="@+id/pref_auto_loc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mp_default_value="true"
-                app:mp_key="true"
-                app:mp_title="titlen" />
-
-            <com.yarolegovich.mp.MaterialEditTextPreference
-                android:id="@+id/pref_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mp_default_value="true"
-                app:mp_key="true"
-                app:mp_show_value="onRight"
-                app:mp_title="strititleetion" />
-
-        </com.yarolegovich.mp.MaterialPreferenceCategory>
-
-
-        <com.yarolegovich.mp.MaterialPreferenceCategory
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:mpc_title="titleing/help_improve">
-
-            <com.yarolegovich.mp.MaterialRightIconPreference
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mp_icon="@drawable/ic_calendar"
-                app:mp_icon_tint="@color/blue"
-                app:mp_title="titlerate_the_lib" />
-
-            <com.yarolegovich.mp.MaterialRightIconPreference
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:mp_icon="@drawable/ic_calendar"
-                app:mp_icon_tint="@color/green"
-                app:mp_title="title/donate" />
-
-        </com.yarolegovich.mp.MaterialPreferenceCategory>
-
-
-
     </com.yarolegovich.mp.MaterialPreferenceScreen>
 
-
-
-
     <Button
-        android:backgroundTint="@color/white"
-        android:id="@+id/rebirth_btn"
-        android:paddingHorizontal="128dp"
+        android:id="@+id/error_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Force Error"
+        android:layout_margin="8dp"
+        android:backgroundTint="@color/amber"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/rebirth_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:backgroundTint="@color/white"
         android:foregroundGravity="center"
         android:gravity="center"
+        android:paddingHorizontal="32dp"
+        android:text="RESTART APP"
+        android:textColor="@color/red"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textColor="@color/red"
-        android:text="RESTAAAAAAAAART" />
+        app:layout_constraintStart_toEndOf="@+id/error_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
