@@ -23,13 +23,11 @@ class MainSettingsFragment : Fragment(R.layout.fragment_main_settings), View.OnC
         super.onViewCreated(view, savedInstanceState)
         rebirth_btn.setOnClickListener(this)
         saving_swt.setOnClickListener(this)
-        db_recreation_swt.setOnClickListener(this)
         frames_swt.setOnClickListener(this)
         anim_swt.setOnClickListener(this)
         error_btn.setOnClickListener(this)
 
         saving_swt.isChecked = Pref.read(Pref.DEV_EnableSaving, false)
-        db_recreation_swt.isChecked = Pref.read(Pref.DEV_EnableDatabaseRecreation, false)
         frames_swt.isChecked = Pref.read(Pref.DEV_EnableFrames, true)
         anim_swt.isChecked = Pref.read(Pref.DEV_EnableDayButtonAnimation, true)
     }
@@ -47,7 +45,6 @@ class MainSettingsFragment : Fragment(R.layout.fragment_main_settings), View.OnC
             rebirth_btn -> triggerRebirth(requireContext())
 
             saving_swt -> Pref.write(Pref.DEV_EnableSaving, saving_swt.isChecked)
-            db_recreation_swt -> Pref.write(Pref.DEV_EnableDatabaseRecreation, db_recreation_swt.isChecked)
             frames_swt -> Pref.write(Pref.DEV_EnableFrames, frames_swt.isChecked)
             anim_swt -> Pref.write(Pref.DEV_EnableDayButtonAnimation, anim_swt.isChecked)
 

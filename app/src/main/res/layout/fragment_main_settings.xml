@@ -30,15 +30,6 @@
                 android:text="Enable Saving"
                 android:textSize="16sp" />
 
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/db_recreation_swt"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="14dp"
-                android:text="Enable Database Recreation"
-                android:textSize="16sp" />
-
             <com.yarolegovich.mp.MaterialRightIconPreference
                 android:id="@+id/db_delete_btn"
                 android:layout_width="match_parent"

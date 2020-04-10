@@ -17,7 +17,6 @@ object PreferenceHelper {
     const val working_days_week = "working_days_week"
 
     const val DEV_EnableSaving = "DEV_EnableSaving"
-    const val DEV_EnableDatabaseRecreation = "DEV_EnableDatabaseRecreation"
     const val DEV_EnableFrames = "DEV_EnableFrames"
     const val DEV_EnableDayButtonAnimation = "DEV_EnableDayButtonAnimation"
 
