@@ -2,6 +2,7 @@ package com.studio.timeclock4.viewmodel
 
 import android.app.Application
 import android.content.res.TypedArray
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -40,8 +41,11 @@ class TimeSettingsViewModel(application: Application) : AndroidViewModel(applica
     private val _vacation = MutableLiveData<String>()
     val vacation: LiveData<String> = _vacation
 
+
+
     init {
         setValues()
+        Toasty.info(app, Pref.read(Pref.working_time, 0L).toString() , Toasty.LENGTH_SHORT).show()
     }
 
     private fun setValues(){
@@ -51,7 +55,7 @@ class TimeSettingsViewModel(application: Application) : AndroidViewModel(applica
         _workingTimeWeek.apply {
             value = "${(Pref.read(Pref.working_time_week, 2400L).toFloat() / 60f).toInt()}.${(Pref.read(Pref.working_time_week, 2400L).toFloat() % 60f /60*100).toInt()} $hourShort"
         }
-        _pauseTime.apply {
+         _pauseTime.apply {
             value = "${(Pref.read(Pref.pause_time, 1L).toFloat() / 60f).toInt()}.${(Pref.read(Pref.pause_time, 1L).toFloat() % 60f /60*100).toInt()} $hourShort"
         }
         _flexAccount.apply {
@@ -111,11 +115,11 @@ class TimeSettingsViewModel(application: Application) : AndroidViewModel(applica
             when(field) {
                 InputField.workingTime -> updateField(
                     InputField.workingTimeWeek,
-                    min * Pref.read(Pref.working_days_week, 5L)
+                    min * Pref.read(Pref.working_days_week, 5).toLong()
                 )
                 InputField.workingTimeWeek -> updateField(
                     InputField.workingTime,
-                    ceil(min / Pref.read(Pref.working_days_week, 5L).toDouble()).toLong()
+                    ceil(min / Pref.read(Pref.working_days_week, 5).toDouble()).toLong()
                 )
             }
             return arrayOf(min, true)
@@ -131,5 +135,19 @@ class TimeSettingsViewModel(application: Application) : AndroidViewModel(applica
             default
         }
 
+    }
+
+    fun updateWorkWeek(dayChip: String, isChecked: Boolean) {
+        var workingDaysAmount = Pref.read(Pref.working_days_week, 0)
+        if (workingDaysAmount > 7) Toasty.info(app, "ZUVIELE TAGE", Toasty.LENGTH_SHORT).show()
+        Timber.i("$workingDaysAmount")
+        when (isChecked){
+            true -> Pref.write(Pref.working_days_week, (workingDaysAmount + 1))
+            false -> Pref.write(Pref.working_days_week, (workingDaysAmount - 1))
+        }
+        workingDaysAmount = Pref.read(Pref.working_days_week, 0)
+        Timber.i(workingDaysAmount.toString())
+        Pref.write(dayChip, isChecked)
+        updateField(InputField.workingTimeWeek, (Pref.read(Pref.working_time, 8L) * workingDaysAmount))
     }
 }

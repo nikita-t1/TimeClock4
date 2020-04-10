@@ -112,7 +112,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
 //        workingTimeMin = PreferenceHelper.read(workingTimeMinPref, 456L)    //7,6h
         workingTimeMin = Pref.read(Pref.working_time, 480L)    //7,6h
         //TODO: Needs to be set somewhere
-        workingTimeWeekMin = workingTimeMin * Pref.read(workingDaysAmountPref, 5)
+        workingTimeWeekMin = workingTimeMin * Pref.read(Pref.working_days_week, 5)
         updateLayoutState()
     }
 

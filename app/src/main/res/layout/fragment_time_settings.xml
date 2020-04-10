@@ -37,18 +37,27 @@
         app:mp_title="@string/vacation"
         android:id="@+id/vacation"/>
 
+    <com.yarolegovich.mp.MaterialStandardPreference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:mp_title="Work Days"
+        app:mp_summary=""
+        />
+
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.chip.ChipGroup
             app:singleLine="true"
+            android:id="@+id/chipGroup"
             android:layout_marginBottom="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:id="@+id/mondayChip"
                 app:chipBackgroundColor="@color/bg_chip_state_list"
                 android:checkable="true"
                 android:layout_width="wrap_content"
@@ -57,6 +66,7 @@
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:id="@+id/tuesdayChip"
                 app:chipBackgroundColor="@color/bg_chip_state_list"
                 android:checkable="true"
                 android:layout_width="wrap_content"
@@ -65,6 +75,7 @@
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:id="@+id/wednesdayChip"
                 app:chipBackgroundColor="@color/bg_chip_state_list"
                 android:checkable="true"
                 android:layout_width="wrap_content"
@@ -73,6 +84,7 @@
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:id="@+id/thursdayChip"
                 app:chipBackgroundColor="@color/bg_chip_state_list"
                 android:checkable="true"
                 android:layout_width="wrap_content"
@@ -81,6 +93,7 @@
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:id="@+id/fridayChip"
                 app:chipBackgroundColor="@color/bg_chip_state_list"
                 android:checkable="true"
                 android:layout_width="wrap_content"
@@ -89,6 +102,7 @@
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:id="@+id/saturdayChip"
                 app:chipBackgroundColor="@color/bg_chip_state_list"
                 android:checkable="true"
                 android:layout_width="wrap_content"
@@ -97,6 +111,7 @@
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:id="@+id/sundayChip"
                 app:chipBackgroundColor="@color/bg_chip_state_list"
                 android:checkable="true"
                 android:layout_width="wrap_content"

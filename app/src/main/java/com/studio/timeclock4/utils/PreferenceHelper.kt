@@ -16,6 +16,14 @@ object PreferenceHelper {
     const val vacation = "vacation"
     const val working_days_week = "working_days_week"
 
+    const val MONDAY_CHIP = "MONDAY_CHIP"
+    const val TUESDAY_CHIP = "TUESDAY_CHIP"
+    const val WEDNESDAY_CHIP = "WEDNESDAY_CHIP"
+    const val THURSDAY_CHIP = "THURSDAY_CHIP"
+    const val FRIDAY_CHIP = "FRIDAY_CHIP"
+    const val SATURDAY_CHIP = "SATURDAY_CHIP"
+    const val SUNDAY_CHIP = "SUNDAY_CHIP"
+
     const val DEV_EnableSaving = "DEV_EnableSaving"
     const val DEV_EnableFrames = "DEV_EnableFrames"
     const val DEV_EnableDayButtonAnimation = "DEV_EnableDayButtonAnimation"
@@ -27,11 +35,13 @@ object PreferenceHelper {
     fun init(context: Context) {
         prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
-//        write(working_time, 1L)
-//        write(working_time_week, 1L)
-//        write(pause_time, 1L)
-//        write(flex_account, 1L)
-//        write(vacation, 1L)
+        //Default Values
+        write(working_time, 480L)
+        write(working_time_week, 2400L)
+        write(pause_time, 30L)
+        write(flex_account, 1L)
+        write(vacation, 1L)
+        write(working_days_week, 5)
     }
 
 
