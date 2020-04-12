@@ -40,7 +40,7 @@ open class MainApplication : Application() {
 
             //Creates a Frames Indicator and Listener
             val taktProgramm = Takt.stock(this).color(Color.BLACK).seat(Seat.TOP_LEFT).listener {
-                if (it <25) ErrorHandler.react(ErrorTypes.ERROR03)
+                if (it < PreferenceHelper.DEV_MinFrames) ErrorHandler.react(ErrorTypes.ERROR03)
             }
 
             //Plants Timber DebugTree
@@ -51,8 +51,7 @@ open class MainApplication : Application() {
             })
 
             //Hides Frames Indicator (keeps Listener)
-            if(BuildConfig.BUILD_TYPE != "debug") taktProgramm.hide()
-            if(!PreferenceHelper.read("enable frames", true)) taktProgramm.hide()
+            if(!PreferenceHelper.read(PreferenceHelper.DEV_EnableFrames, false)) taktProgramm.hide()
         } else {
             //Plants Timber ReleaseTree
             Timber.plant(object : Timber.Tree() {

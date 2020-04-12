@@ -8,11 +8,11 @@ import com.studio.timeclock4.model.WorkDayDao
 import com.studio.timeclock4.model.WorkDayDatabase
 import com.studio.timeclock4.model.WorkDayRepository
 import com.studio.timeclock4.utils.CalendarUtils
-import com.studio.timeclock4.utils.PreferenceHelper as Pref
 import com.studio.timeclock4.utils.TimeCalculations
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
 import timber.log.Timber
+import com.studio.timeclock4.utils.PreferenceHelper as Pref
 
 class HomeViewModel(application: Application) : AndroidViewModel(application), LifecycleObserver {
 
@@ -35,20 +35,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
 
 
     private var workingTimeWeekMin: Long
-    private val workingDaysAmountPref = "workingDaysAmountPref"
-
-    private val layoutStatePref = "layoutStatePref"
-
     private var startTimeMin: Long
-    private val startTimePref = "startTime"
-
     private var endTimeMin: Long
-    private val endTimeMinPref = "endTimeMin"
-
     private var pauseTimeMin: Long
-    private val pauseTimeMinPref = "pauseTimeMin"
-
-    private val workingTimeMinPref = "workingTimeMin"
     private var workingTimeMin: Long
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
@@ -87,32 +76,28 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
         Timber.d( "init")
         _currentLayoutStateOrdinal.apply {
             value = LayoutState.values()[Pref.read(
-                layoutStatePref,
+                Pref.LAYOUT_STATE,
                 LayoutState.Ready.ordinal
             )]
         }
 
-        startTimeMin = Pref.read(startTimePref, 0L)
+        startTimeMin = Pref.read(Pref.START_TIME, Pref.Default_START_TIME)
         _startTime.apply {
             value = TimeCalculations.convertMinutesToDateString(startTimeMin)
         }
 
-        endTimeMin = Pref.read(endTimeMinPref, 0L)
+        endTimeMin = Pref.read(Pref.END_TIME, Pref.Default_END_TIME)
         _endTime.apply {
             value = TimeCalculations.convertMinutesToDateString(endTimeMin)
         }
 
-        //TODO: Needs to be set somewhere
-        pauseTimeMin = Pref.read(Pref.pause_time, 5L)
+        pauseTimeMin = Pref.read(Pref.PAUSE_TIME, Pref.Default_PAUSE_TIME)
         _pauseTime.apply {
             value = TimeCalculations.convertMinutesToDateString(pauseTimeMin)
         }
 
-        //TODO: Needs to be set somewhere
-//        workingTimeMin = PreferenceHelper.read(workingTimeMinPref, 456L)    //7,6h
-        workingTimeMin = Pref.read(Pref.working_time, 480L)    //7,6h
-        //TODO: Needs to be set somewhere
-        workingTimeWeekMin = workingTimeMin * Pref.read(Pref.working_days_week, 5)
+        workingTimeMin = Pref.read(Pref.WORKING_TIME, Pref.Default_WORKING_TIME)
+        workingTimeWeekMin = workingTimeMin * Pref.read(Pref.WORKING_DAYS_WEEK, Pref.Default_WORKING_DAYS_WEEK)
         updateLayoutState()
     }
 
@@ -127,9 +112,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
 
             startTimeMin = TimeCalculations.loadStartTime()
 
-            Pref.write(startTimePref, startTimeMin)
+            Pref.write(Pref.START_TIME, startTimeMin)
             endTimeMin = TimeCalculations.loadEndTime(startTimeMin, workingTimeMin, pauseTimeMin, true)
-            Pref.write(endTimeMinPref, endTimeMin)
+            Pref.write(Pref.END_TIME, endTimeMin)
 
             _startTime.apply {
                 value = TimeCalculations.convertMinutesToDateString(startTimeMin)
@@ -143,11 +128,11 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
 
 
     private fun updateLayoutState() {
-        Pref.write(layoutStatePref, currentLayoutStateOrdinal.value!!.ordinal)
+        Pref.write(Pref.LAYOUT_STATE, currentLayoutStateOrdinal.value!!.ordinal)
         Timber.d(LayoutState.getState(currentLayoutStateOrdinal.value!!.ordinal).toString())
 
-        if (Pref.read(startTimePref, 0L) == 0L) _startTime.apply { value = "00:00" }
-        if (Pref.read(endTimeMinPref, 0L) == 0L) _endTime.apply { value = "00:00" }
+        if (Pref.read(Pref.START_TIME, 0L) == 0L) _startTime.apply { value = "00:00" }
+        if (Pref.read(Pref.END_TIME, 0L) == 0L) _endTime.apply { value = "00:00" }
 
         when (currentLayoutStateOrdinal.value) {
             LayoutState.Ready -> {
@@ -174,8 +159,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
 
     fun dialogCancel() {
         _currentLayoutStateOrdinal.apply { value = LayoutState.Ready }
-        Pref.remove(startTimePref)
-        Pref.remove(endTimeMinPref)
+        Pref.remove(Pref.START_TIME)
+        Pref.remove(Pref.END_TIME)
         updateLayoutState()
     }
 

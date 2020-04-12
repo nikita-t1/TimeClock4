@@ -3,7 +3,10 @@ package com.studio.timeclock4.fragments
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewStub
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
@@ -70,6 +73,7 @@ class ListingInnerFragment(private val position: Int) : Fragment(), View.OnClick
                 DayOfWeek.FRIDAY -> friday_btn.callOnClick()
                 DayOfWeek.SATURDAY -> saturday_btn.callOnClick()
                 DayOfWeek.SUNDAY -> sunday_btn.callOnClick()
+                else -> monday_btn.callOnClick()
             }
         } else monday_btn.callOnClick()
     }
@@ -148,8 +152,8 @@ class ListingInnerFragment(private val position: Int) : Fragment(), View.OnClick
 
                     //Looks nice with the fade ObjectAnimator
 
-                    if (PreferenceHelper.read("dayButton anim", false)){
-                        delay(250)
+                    if (PreferenceHelper.read(PreferenceHelper.DEV_EnableDayButtonAnimation, false)){
+                        delay(PreferenceHelper.DEV_DefaultDayButtonAnimationTime)
                     }
 
                     val workday = listingViewModel.weekDayToViewModelElement(currentDate.dayOfWeek)
@@ -166,10 +170,10 @@ class ListingInnerFragment(private val position: Int) : Fragment(), View.OnClick
                     clickedButton.apply {
                         elevation = 0f
                         animate()
-                            .translationY(30f)
+                            .translationY(28f)
                             .start()
                     }
-                    delay(100)
+                    delay(PreferenceHelper.DEV_DefaultExtDayRevealDelay) // Delay bis ext_day zu sehen ist
                     createAnimatorSet(1f).start()
 
                     if (workday.value == listingViewModel.emptyWorkDay) {
@@ -213,6 +217,3 @@ class ListingInnerFragment(private val position: Int) : Fragment(), View.OnClick
 private fun String.capitalise(): CharSequence? {
     return this.toLowerCase().capitalize()
 }
-
-
-

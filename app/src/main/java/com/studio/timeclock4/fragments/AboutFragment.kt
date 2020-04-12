@@ -1,7 +1,6 @@
 package com.studio.timeclock4.fragments
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,24 +21,21 @@ class AboutFragment : Fragment(R.layout.fragment_about) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        update_btn.setSummary(Pref.read(Pref.updateLink, "URL to your JSON File"))
+        update_btn.setSummary(Pref.read(Pref.UPDATE_LINK, Pref.Default_UPDATE_LINK))
 
         val viewInflated = LayoutInflater.from(context)
             .inflate(R.layout.alert_text_input_link, getView() as ViewGroup?, false)
-        viewInflated.input.setText(Pref.read(Pref.updateLink, "URL to your JSON File"))
+        viewInflated.input.setText(Pref.read(Pref.UPDATE_LINK, Pref.Default_UPDATE_LINK))
 
         update_btn.setOnClickListener(){
             val builder = AlertDialog.Builder(context).apply {
                 setTitle("UpdateLink")
                 setView(viewInflated)
-
-                setPositiveButton(
-                    R.string.add, DialogInterface.OnClickListener { dialog, which ->
-                        Pref.write(Pref.updateLink, viewInflated.input.text.toString())
-                        update_btn.setSummary(Pref.read(Pref.updateLink, "URL to your JSON File"))
-                        dialog.dismiss()
-                    }
-                )
+                setPositiveButton(R.string.add) { dialog, which ->
+                    Pref.write(Pref.UPDATE_LINK, viewInflated.input.text.toString())
+                    update_btn.setSummary(Pref.read(Pref.UPDATE_LINK, Pref.Default_UPDATE_LINK))
+                    dialog.dismiss()
+                }
                 show()
             }
         }

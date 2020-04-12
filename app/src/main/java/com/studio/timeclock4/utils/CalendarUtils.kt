@@ -1,15 +1,9 @@
 package com.studio.timeclock4.utils
 
 import org.threeten.bp.LocalDateTime
-import org.threeten.bp.Month
-import org.threeten.bp.Year
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.temporal.ChronoUnit
-import org.threeten.bp.temporal.Temporal
-import org.threeten.bp.temporal.TemporalField
 import org.threeten.bp.temporal.WeekFields
-import org.threeten.extra.Weeks
-import timber.log.Timber
 import java.util.*
 
 object CalendarUtils {
@@ -45,7 +39,7 @@ object CalendarUtils {
         return ChronoUnit.WEEKS.between(date1, date2)
     }
 
-    fun getWeeksBetween() = 313
+    fun getWeeksBetween() = PreferenceHelper.DEV_DefaultAmountWeeks
 
     fun dateStringToLdt(dateString : String) : LocalDateTime{
         val formatter: DateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME

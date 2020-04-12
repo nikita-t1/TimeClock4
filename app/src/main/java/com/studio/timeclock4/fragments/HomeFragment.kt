@@ -14,7 +14,6 @@ import com.studio.timeclock4.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import timber.log.Timber
 
-
 class HomeFragment : Fragment(), View.OnClickListener {
 
     private lateinit var chronometerPersist: ChronometerPersist
@@ -88,7 +87,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
         chronometerPersist.resumeState()
         Timber.i("IM BACK BITCHES")
     }
-
 
     private fun showSaveDialog() {
         val time = ((SystemClock.elapsedRealtime() - chronometerPersist.mChronometer.base) / 1000 / 60)

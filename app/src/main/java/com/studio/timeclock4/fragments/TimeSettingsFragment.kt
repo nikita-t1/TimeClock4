@@ -1,20 +1,17 @@
 package com.studio.timeclock4.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.CompoundButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.chip.ChipGroup
 import com.studio.timeclock4.R
 import com.studio.timeclock4.viewmodel.TimeSettingsViewModel
-import es.dmoral.toasty.Toasty
+import com.studio.timeclock4.viewmodel.TimeSettingsViewModel.InputField
 import kotlinx.android.synthetic.main.fragment_time_settings.*
 import timber.log.Timber
 import com.studio.timeclock4.utils.PreferenceHelper as Pref
-import com.studio.timeclock4.viewmodel.TimeSettingsViewModel.InputField as InputField
 import com.yarolegovich.mp.MaterialStandardPreference as MSP
 
 class TimeSettingsFragment : Fragment(R.layout.fragment_time_settings), View.OnClickListener,
@@ -34,7 +31,6 @@ class TimeSettingsFragment : Fragment(R.layout.fragment_time_settings), View.OnC
         setChipState()
         setObservers()
         setListeners()
-//        Toasty.info(requireContext(), "Angaben in Dezimal", Toasty.LENGTH_SHORT).show()
     }
 
     private fun setChipState() {
@@ -87,11 +83,11 @@ class TimeSettingsFragment : Fragment(R.layout.fragment_time_settings), View.OnC
         Timber.w("CLICK")
 
         when (v){
-            working_time -> showDialog(InputField.workingTime, (v as MSP), Pref.working_time)
-            working_time_week -> showDialog(InputField.workingTimeWeek, (v as MSP), Pref.working_time_week)
-            pause_time -> showDialog(InputField.pauseTime, (v as MSP), Pref.pause_time)
-            flex_account -> showDialog(InputField.flexAccount, (v as MSP), Pref.flex_account)
-            vacation -> showDialog(InputField.vacation, (v as MSP), Pref.vacation)
+            working_time -> showDialog(InputField.workingTime, (v as MSP), Pref.WORKING_TIME)
+            working_time_week -> showDialog(InputField.workingTimeWeek, (v as MSP), Pref.WORKING_TIME_WEEK)
+            pause_time -> showDialog(InputField.pauseTime, (v as MSP), Pref.PAUSE_TIME)
+            flex_account -> showDialog(InputField.flexAccount, (v as MSP), Pref.FLEX_ACCOUNT)
+            vacation -> showDialog(InputField.vacation, (v as MSP), Pref.VACATION)
         }
     }
 

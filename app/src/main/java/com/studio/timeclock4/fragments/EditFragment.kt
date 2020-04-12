@@ -15,14 +15,15 @@ import com.studio.timeclock4.R
 import com.studio.timeclock4.model.WorkDay
 import com.studio.timeclock4.utils.ErrorHandler
 import com.studio.timeclock4.utils.ErrorTypes
-import com.studio.timeclock4.utils.PreferenceHelper
-import com.studio.timeclock4.utils.TimeCalculations.convertMinutesToDateString
 import com.studio.timeclock4.utils.TimeCalculations.convertDateStringToMinutes
+import com.studio.timeclock4.utils.TimeCalculations.convertMinutesToDateString
 import com.studio.timeclock4.viewmodel.ListingViewModel
-import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.fragment_edit.*
 import org.threeten.bp.Month
 import timber.log.Timber
+import kotlin.math.abs
+import kotlin.math.log10
+import com.studio.timeclock4.utils.PreferenceHelper as Pref
 
 
 class EditFragment(private val workDay: WorkDay, private val databaseAction : DatabaseAction) : DialogFragment(), View.OnClickListener {
@@ -36,7 +37,7 @@ class EditFragment(private val workDay: WorkDay, private val databaseAction : Da
     private var pause: Long = 0
 
     private lateinit var dialogView: View
-    private val workingTimeMin by lazy { PreferenceHelper.read(PreferenceHelper.working_time, 456L)   } //7,6h
+    private val workingTimeMin by lazy {Pref.read(Pref.WORKING_TIME, Pref.Default_WORKING_TIME)}
     private val listingViewModel: ListingViewModel by lazy {
         ViewModelProvider(requireActivity()).get(ListingViewModel::class.java)
     }
@@ -53,12 +54,7 @@ class EditFragment(private val workDay: WorkDay, private val databaseAction : Da
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        saveBtn.setOnClickListener(this)
-        cancelBtn.setOnClickListener(this)
-        deleteBtn.setOnClickListener(this)
-        startCard.setOnClickListener(this)
-        endCard.setOnClickListener(this)
-        pauseCard.setOnClickListener(this)
+        setListeners()
 
         if (workDay != null){
             workTimeString.text = convertMinutesToDateString(workDay.workTimeGross.toLong())
@@ -70,6 +66,15 @@ class EditFragment(private val workDay: WorkDay, private val databaseAction : Da
         }else{
             ErrorHandler.react(ErrorTypes.ERROR05)
         }
+    }
+
+    private fun setListeners() {
+        saveBtn.setOnClickListener(this)
+        cancelBtn.setOnClickListener(this)
+        deleteBtn.setOnClickListener(this)
+        startCard.setOnClickListener(this)
+        endCard.setOnClickListener(this)
+        pauseCard.setOnClickListener(this)
     }
 
     override fun onResume() {
@@ -104,7 +109,6 @@ class EditFragment(private val workDay: WorkDay, private val databaseAction : Da
                     overtime = ((timeClockOut - timeClockIn) - pauseTime - workingTimeMin).toInt()
                     if (databaseAction == DatabaseAction.UPDATE) listingViewModel.updateWorkDay(newWorkDay)
                     else if (databaseAction == DatabaseAction.INSERT)listingViewModel.insertWorkDay(newWorkDay)
-//                    else
                 }
                 dismiss()
             }
@@ -115,19 +119,12 @@ class EditFragment(private val workDay: WorkDay, private val databaseAction : Da
                 listingViewModel.deleteWorkDay(workDay)
                 dismiss()
             }
+
             startCard ->{
                 val minutes = convertDateStringToMinutes(startTimeString.text.toString())
-                val dialogBuilder = SnapTimePickerDialog.Builder().apply {
-                    if (BuildConfig.DEBUG){
-                        setPreselectedTime(TimeValue(5,20))
-                    } else setPreselectedTime(TimeValue((minutes/60).toInt(), (minutes%60).toInt()))
-                }
-                val dialog = dialogBuilder.build()
+                val dialog = buildDialog(minutes,5,20)
                 dialog.setListener {hour, minute ->
-                    Toasty.info(requireContext(), "", Toasty.LENGTH_SHORT).show()
-                    val hourString = if (hour <= 9) "0$hour" else "$hour"
-                    val minuteString = if (minute <= 9) "0$minute" else "$minute"
-                    dialogView.findViewById<TextView>(R.id.startTimeString)?.text = "$hourString:$minuteString"
+                    dialogView.findViewById<TextView>(R.id.startTimeString)?.text = constructDateString(hour, minute)
                     start = convertDateStringToMinutes(startTimeString.text.toString())
                     calcWorkTime()
                 }
@@ -136,19 +133,9 @@ class EditFragment(private val workDay: WorkDay, private val databaseAction : Da
             endCard ->{
                 Timber.i("ENDCARD")
                 val minutes = convertDateStringToMinutes(endTimeString.text.toString())
-                val dialogBuilder = SnapTimePickerDialog.Builder().apply {
-                    if (BuildConfig.DEBUG){
-                        setPreselectedTime(TimeValue(14,40))
-                    } else setPreselectedTime(TimeValue((minutes/60).toInt(), (minutes%60).toInt()))
-                    setTitle(R.string.set_start_time)
-                    setThemeColor(R.color.light_pink)
-                    setTitleColor(R.color.grey)
-                }
-                val dialog = dialogBuilder.build()
+                val dialog = buildDialog(minutes, 14,40)
                 dialog.setListener {hour, minute ->
-                    val hourString = if (hour <= 9) "0$hour" else "$hour"
-                    val minuteString = if (minute <= 9) "0$minute" else "$minute"
-                    dialogView.findViewById<TextView>(R.id.endTimeString)?.text = "$hourString:$minuteString"
+                    dialogView.findViewById<TextView>(R.id.endTimeString)?.text = constructDateString(hour, minute)
                     end = convertDateStringToMinutes(endTimeString.text.toString())
                     calcWorkTime()
                 }
@@ -157,16 +144,9 @@ class EditFragment(private val workDay: WorkDay, private val databaseAction : Da
             }
             pauseCard ->{
                 val minutes = convertDateStringToMinutes(pauseTimeString.text.toString())
-                val dialogBuilder = SnapTimePickerDialog.Builder().apply {
-                    if (BuildConfig.DEBUG){
-                        setPreselectedTime(TimeValue(1,0))
-                    } else setPreselectedTime(TimeValue((minutes/60).toInt(), (minutes%60).toInt()))
-                }
-                val dialog = dialogBuilder.build()
+                val dialog = buildDialog(minutes, 1,0)
                 dialog.setListener {hour, minute ->
-                    val hourString = if (hour <= 9) "0$hour" else "$hour"
-                    val minuteString = if (minute <= 9) "0$minute" else "$minute"
-                    dialogView.findViewById<TextView>(R.id.pauseTimeString)?.text = "$hourString:$minuteString"
+                    dialogView.findViewById<TextView>(R.id.pauseTimeString)?.text = constructDateString(hour, minute)
                     pause = convertDateStringToMinutes(pauseTimeString.text.toString())
                     calcWorkTime()
                 }
@@ -175,23 +155,32 @@ class EditFragment(private val workDay: WorkDay, private val databaseAction : Da
         }
     }
 
+    private fun constructDateString(hour: Int, minutes: Int) : String{
+        val hourString = if (hour.digits() == 1) "0$hour" else "$hour"
+        val minuteString = if (minutes.digits() == 1) "0$minutes" else "$minutes"
+        return "$hourString:$minuteString"
+    }
+
+    private fun buildDialog(minutes: Long, selectedHour: Int, selectedMin: Int): SnapTimePickerDialog {
+        val dialogBuilder = SnapTimePickerDialog.Builder().apply {
+            if (BuildConfig.DEBUG){
+                setPreselectedTime(TimeValue(selectedHour,selectedMin))
+            } else setPreselectedTime(TimeValue((minutes/60).toInt(), (minutes%60).toInt()))
+        }
+        return dialogBuilder.build()
+    }
+
     private fun calcWorkTime(){
         workTimeString.text = convertMinutesToDateString(end - start - pause)
-    }
-
-
-    override fun onDetach() {
-        super.onDetach()
-        Timber.e("DETACH")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Timber.e("DESTROY")
     }
 }
 
 private fun Month.capitalize(): String {
     return this.toString().toLowerCase().capitalize()
 
+}
+
+private fun Int.digits() = when(this) {
+    0 -> 1
+    else -> log10(abs(toDouble())).toInt() + 1
 }

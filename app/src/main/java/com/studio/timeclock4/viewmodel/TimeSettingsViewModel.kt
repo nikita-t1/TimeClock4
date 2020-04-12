@@ -1,19 +1,15 @@
 package com.studio.timeclock4.viewmodel
 
 import android.app.Application
-import android.content.res.TypedArray
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.studio.timeclock4.R
+import com.studio.timeclock4.utils.TimeCalculations
 import es.dmoral.toasty.Toasty
 import timber.log.Timber
-import java.math.RoundingMode
-import java.text.DecimalFormat
 import kotlin.math.ceil
 import kotlin.math.pow
-import kotlin.math.roundToInt
 import com.studio.timeclock4.utils.PreferenceHelper as Pref
 
 class TimeSettingsViewModel(application: Application) : AndroidViewModel(application) {
@@ -45,35 +41,38 @@ class TimeSettingsViewModel(application: Application) : AndroidViewModel(applica
 
     init {
         setValues()
-        Toasty.info(app, Pref.read(Pref.working_time, 0L).toString() , Toasty.LENGTH_SHORT).show()
+        Toasty.info(app, Pref.read(Pref.WORKING_TIME, 0L).toString() , Toasty.LENGTH_SHORT).show()
     }
 
     private fun setValues(){
         _workingTime.apply {
-            value = "${(Pref.read(Pref.working_time, 480L).toFloat() / 60f).toInt()}.${(Pref.read(Pref.working_time, 480L).toFloat() % 60f /60*100).toInt()} $hourShort"
+//            value = "${(Pref.read(Pref.WORKING_TIME, Pref.Default_WORKING_TIME).toFloat() / 60f).toInt()}.${(Pref.read(Pref.WORKING_TIME, 480L).toFloat() % 60f /60*100).toInt()} $hourShort"
+            value = TimeCalculations.convertMinutesToDateString(Pref.read(Pref.WORKING_TIME, Pref.Default_WORKING_TIME))
         }
         _workingTimeWeek.apply {
-            value = "${(Pref.read(Pref.working_time_week, 2400L).toFloat() / 60f).toInt()}.${(Pref.read(Pref.working_time_week, 2400L).toFloat() % 60f /60*100).toInt()} $hourShort"
+            value = "${(Pref.read(Pref.WORKING_TIME_WEEK, Pref.Default_WORKING_TIME_WEEK).toFloat() / 60f).toInt()}." +
+                    "${(Pref.read(Pref.WORKING_TIME_WEEK, Pref.Default_WORKING_TIME_WEEK).toFloat() % 60f /60*100).toInt()} $hourShort"
         }
          _pauseTime.apply {
-            value = "${(Pref.read(Pref.pause_time, 1L).toFloat() / 60f).toInt()}.${(Pref.read(Pref.pause_time, 1L).toFloat() % 60f /60*100).toInt()} $hourShort"
+             value = TimeCalculations.convertMinutesToDateString(Pref.read(Pref.PAUSE_TIME, Pref.Default_PAUSE_TIME))
         }
         _flexAccount.apply {
-            value = "${(Pref.read(Pref.flex_account, 0L).toFloat() / 60f).toInt()}.${(Pref.read(Pref.flex_account, 0L).toFloat() % 60f /60*100).toInt()} $hourShort"
+            value = "${(Pref.read(Pref.FLEX_ACCOUNT, Pref.Default_FLEX_ACCOUNT).toFloat() / 60f).toInt()}." +
+                    "${(Pref.read(Pref.FLEX_ACCOUNT, Pref.Default_FLEX_ACCOUNT).toFloat() % 60f /60*100).toInt()} $hourShort"
         }
         _vacation.apply {
-            value = "${Pref.read(Pref.vacation, 25L)} $days"
+            value = "${Pref.read(Pref.VACATION, Pref.Default_VACATION)} $days"
         }
     }
 
     fun updateField(field: InputField, text: Long) {
         kotlin.runCatching {
             when (field) {
-                InputField.workingTime -> Pref.write(Pref.working_time, text)
-                InputField.workingTimeWeek -> Pref.write(Pref.working_time_week, text)
-                InputField.pauseTime -> Pref.write(Pref.pause_time, text)
-                InputField.flexAccount -> Pref.write(Pref.flex_account, text)
-                InputField.vacation -> Pref.write(Pref.vacation, text)
+                InputField.workingTime -> Pref.write(Pref.WORKING_TIME, text)
+                InputField.workingTimeWeek -> Pref.write(Pref.WORKING_TIME_WEEK, text)
+                InputField.pauseTime -> Pref.write(Pref.PAUSE_TIME, text)
+                InputField.flexAccount -> Pref.write(Pref.FLEX_ACCOUNT, text)
+                InputField.vacation -> Pref.write(Pref.VACATION, text)
             }
         }
         setValues()
@@ -84,7 +83,6 @@ class TimeSettingsViewModel(application: Application) : AndroidViewModel(applica
         var min = 0
         if (!text.isBlank() && !text.startsWith(".") && !text.endsWith(".")) {
             if (field != InputField.vacation) {
-                val lenght = text.length
                 val isFloat = text.contains(".")
                 val parts: Array<String>?
                 min = if (isFloat) {
@@ -115,11 +113,11 @@ class TimeSettingsViewModel(application: Application) : AndroidViewModel(applica
             when(field) {
                 InputField.workingTime -> updateField(
                     InputField.workingTimeWeek,
-                    min * Pref.read(Pref.working_days_week, 5).toLong()
+                    min * Pref.read(Pref.WORKING_DAYS_WEEK, Pref.Default_WORKING_DAYS_WEEK).toLong()
                 )
                 InputField.workingTimeWeek -> updateField(
                     InputField.workingTime,
-                    ceil(min / Pref.read(Pref.working_days_week, 5).toDouble()).toLong()
+                    ceil(min / Pref.read(Pref.WORKING_DAYS_WEEK, Pref.Default_WORKING_DAYS_WEEK).toDouble()).toLong()
                 )
             }
             return arrayOf(min, true)
@@ -138,16 +136,17 @@ class TimeSettingsViewModel(application: Application) : AndroidViewModel(applica
     }
 
     fun updateWorkWeek(dayChip: String, isChecked: Boolean) {
-        var workingDaysAmount = Pref.read(Pref.working_days_week, 0)
+        var workingDaysAmount = Pref.read(Pref.WORKING_DAYS_WEEK, Pref.Default_WORKING_DAYS_WEEK)
         if (workingDaysAmount > 7) Toasty.info(app, "ZUVIELE TAGE", Toasty.LENGTH_SHORT).show()
         Timber.i("$workingDaysAmount")
         when (isChecked){
-            true -> Pref.write(Pref.working_days_week, (workingDaysAmount + 1))
-            false -> Pref.write(Pref.working_days_week, (workingDaysAmount - 1))
+            true -> Pref.write(Pref.WORKING_DAYS_WEEK, (workingDaysAmount + 1))
+            false -> Pref.write(Pref.WORKING_DAYS_WEEK, (workingDaysAmount - 1))
         }
-        workingDaysAmount = Pref.read(Pref.working_days_week, 0)
+        workingDaysAmount = Pref.read(Pref.WORKING_DAYS_WEEK, Pref.Default_WORKING_DAYS_WEEK)
         Timber.i(workingDaysAmount.toString())
         Pref.write(dayChip, isChecked)
-        updateField(InputField.workingTimeWeek, (Pref.read(Pref.working_time, 8L) * workingDaysAmount))
+        Timber.e("(Pref.read(Pref.WORKING_TIME, Pref.Default_WORKING_TIME) ${(Pref.read(Pref.WORKING_TIME, Pref.Default_WORKING_TIME))} ")
+        updateField(InputField.workingTimeWeek, (Pref.read(Pref.WORKING_TIME, Pref.Default_WORKING_TIME) * workingDaysAmount))
     }
 }

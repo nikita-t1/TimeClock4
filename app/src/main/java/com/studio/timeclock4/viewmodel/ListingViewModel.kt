@@ -3,12 +3,18 @@ package com.studio.timeclock4.viewmodel
 import android.app.Application
 import android.graphics.Color
 import android.os.SystemClock
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.studio.timeclock4.model.WorkDay
 import com.studio.timeclock4.model.WorkDayDatabase
 import com.studio.timeclock4.model.WorkDayRepository
 import com.studio.timeclock4.utils.CalendarUtils
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.launch
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDateTime
 import timber.log.Timber
@@ -50,7 +56,7 @@ class ListingViewModel(application: Application) : AndroidViewModel(application)
 
 
     init {
-        Timber.i("init " + SystemClock.elapsedRealtime().toString())
+        Timber.i("init ${SystemClock.elapsedRealtime()}")
         // Gets reference to WordDao from WordRoomDatabase to construct
         // the correct WordRepository.
         val workDayDao =
@@ -64,7 +70,7 @@ class ListingViewModel(application: Application) : AndroidViewModel(application)
             0, 0, 0, 0,
             false, null, "Testtag / Elvis Operator", null
         )
-        Timber.i("init " + SystemClock.elapsedRealtime().toString())
+        Timber.i("init ${SystemClock.elapsedRealtime()}")
     }
 
     /**
@@ -105,14 +111,14 @@ class ListingViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun updateWorkWeek(week: LocalDateTime) {
+    private fun updateWorkWeek(week: LocalDateTime) {
         lastWeek = week
         viewModelScope.launch() {
             _loading.apply {
                 value = true
             }
             Timber.i("3 ${SystemClock.elapsedRealtime()-v}")
-            Timber.i("viewModelScope.launch" + Thread.currentThread().name)
+            Timber.i("viewModelScope.launch ${Thread.currentThread().name}")
 
             val mon = async {
                 _monDay.apply {
@@ -204,6 +210,5 @@ class ListingViewModel(application: Application) : AndroidViewModel(application)
         return if (localWorkDay.value == emptyWorkDay){
             Color.RED
         } else Color.GREEN
-
     }
 }

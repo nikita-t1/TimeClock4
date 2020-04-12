@@ -2,6 +2,7 @@ package com.studio.timeclock4
 
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -12,7 +13,6 @@ import com.github.javiersantos.appupdater.enums.UpdateFrom
 import com.studio.timeclock4.utils.PreferenceHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
-import android.widget.TextView as TextView1
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,13 +26,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
-        findViewById<TextView1>(R.id.toolbar_title).text = resources.getText(R.string.app_name_final).toString() + " ${BuildConfig.TYPE}"
+        findViewById<TextView>(R.id.toolbar_title).text = resources.getText(R.string.app_name_final).toString() + " ${BuildConfig.TYPE}"
 
         //TODO belongs into the Application class
         val appUpdater = AppUpdater(this)
 //        appUpdater.showEvery(3)
         appUpdater.setUpdateFrom(UpdateFrom.JSON)
-        appUpdater.setUpdateJSON(PreferenceHelper.read(PreferenceHelper.updateLink, "URL to your JSON File"))
+        appUpdater.setUpdateJSON(PreferenceHelper.read(PreferenceHelper.UPDATE_LINK, "URL to your JSON File"))
         appUpdater.setDisplay(Display.SNACKBAR)
         kotlin.runCatching {appUpdater.start()}
 
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         window.statusBarColor = resources.getColor(R.color.alpha, null)     //Transparent Background
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            findViewById<TextView1>(R.id.toolbar_title).text = resources.getText(R.string.app_name_final).toString()
+            findViewById<TextView>(R.id.toolbar_title).text = resources.getText(R.string.app_name_final).toString()
             supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
             if(destination.id == R.id.destination_listing) {
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
                 toolbar_title.visibility = View.VISIBLE
             }
             if (destination.id == R.id.destination_settings || destination.id == R.id.destination_timeSettings || destination.id == R.id.destination_about){
-                findViewById<TextView1>(R.id.toolbar_title).text = destination.label.toString()
+                findViewById<TextView>(R.id.toolbar_title).text = destination.label.toString()
                 supportActionBar?.setDisplayHomeAsUpEnabled(true)
             }
         }

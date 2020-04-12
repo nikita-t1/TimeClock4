@@ -4,15 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.DecelerateInterpolator
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import com.studio.timeclock4.R
 import com.studio.timeclock4.utils.CalendarUtils
 import com.studio.timeclock4.utils.OnSwipeTouchListener
@@ -43,8 +42,8 @@ class ListingOuterFragment : Fragment() {
         viewPager = view.findViewById(R.id.pager)
         lottieAnimation = view.findViewById(R.id.lottie_animation)
         lottieAnimation.apply {
-            repeatCount = 999
-            setAnimation(R.raw.loading_dialogue)
+            repeatCount = LottieDrawable.INFINITE
+            setAnimation(R.raw.lottie_loading_circle)
             playAnimation()
         }
 
@@ -80,7 +79,7 @@ class ListingOuterFragment : Fragment() {
             delay(100)
 
             viewPager.apply {
-                isUserInputEnabled = false;
+                isUserInputEnabled = false
                 adapter = pagerAdapter
                 offscreenPageLimit = 1
 
@@ -110,7 +109,7 @@ class ListingOuterFragment : Fragment() {
                 if (!isLoading){
                     viewPager.animate().apply {
                         alpha(1f)
-                        setDuration(300).interpolator = DecelerateInterpolator()
+//                        setDuration(300).interpolator = DecelerateInterpolator()
                     }
                     Timber.i("Data Loading Completed")
                     lottieAnimation.apply {

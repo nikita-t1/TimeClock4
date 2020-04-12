@@ -2,19 +2,32 @@ package com.studio.timeclock4.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-import timber.log.Timber
 
 object PreferenceHelper {
 
     private lateinit var prefs: SharedPreferences
 
-    const val updateLink = "updateLink"
-    const val working_time = "working_time"
-    const val working_time_week = "working_time_week"
-    const val pause_time = "pause_time"
-    const val flex_account = "flex_account"
-    const val vacation = "vacation"
-    const val working_days_week = "working_days_week"
+    const val UPDATE_LINK = "updateLink"
+    const val WORKING_TIME = "working_time"
+    const val WORKING_TIME_WEEK = "working_time_week"
+    const val PAUSE_TIME = "pause_time"
+    const val FLEX_ACCOUNT = "flex_account"
+    const val VACATION = "vacation"
+    const val WORKING_DAYS_WEEK = "working_days_week"
+
+    const val LAYOUT_STATE = "LAYOUT_STATE"
+    const val START_TIME = "START_TIME"
+    const val END_TIME = "END_TIME"
+
+    const val Default_UPDATE_LINK = "URL to your JSON File"
+    const val Default_WORKING_TIME = 480L
+    const val Default_PAUSE_TIME = 30L
+    const val Default_START_TIME = 0L
+    const val Default_END_TIME = 0L
+    const val Default_WORKING_DAYS_WEEK = 5
+    const val Default_FLEX_ACCOUNT = 1L
+    const val Default_VACATION = 25L
+    const val Default_WORKING_TIME_WEEK = 2400L
 
     const val MONDAY_CHIP = "MONDAY_CHIP"
     const val TUESDAY_CHIP = "TUESDAY_CHIP"
@@ -27,21 +40,16 @@ object PreferenceHelper {
     const val DEV_EnableSaving = "DEV_EnableSaving"
     const val DEV_EnableFrames = "DEV_EnableFrames"
     const val DEV_EnableDayButtonAnimation = "DEV_EnableDayButtonAnimation"
-
+    const val DEV_MinFrames = 25
+    const val DEV_DefaultDayButtonAnimationTime = 250L
+    const val DEV_DefaultExtDayRevealDelay = 100L
+    const val DEV_DefaultAmountWeeks = 313
 
 
     private const val PREFS_NAME = "params"
 
     fun init(context: Context) {
         prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-
-        //Default Values
-        write(working_time, 480L)
-        write(working_time_week, 2400L)
-        write(pause_time, 30L)
-        write(flex_account, 1L)
-        write(vacation, 1L)
-        write(working_days_week, 5)
     }
 
 

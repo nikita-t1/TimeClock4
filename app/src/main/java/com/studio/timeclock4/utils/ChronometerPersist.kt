@@ -1,7 +1,6 @@
 package com.studio.timeclock4.utils
 
 import android.os.SystemClock
-import android.util.Log
 import android.widget.Chronometer
 import timber.log.Timber
 
@@ -119,9 +118,9 @@ class ChronometerPersist private constructor() {
     }
 
     private fun saveBase() {
-        Timber.i("KEY_BASE + mChronometer.id Write before: ${PreferenceHelper.read(KEY_BASE + mChronometer.id, 10L)}");
+        Timber.i("KEY_BASE + mChronometer.id Write before: ${PreferenceHelper.read(KEY_BASE + mChronometer.id, 10L)}")
         PreferenceHelper.write(KEY_BASE + mChronometer.id, SystemClock.elapsedRealtime())
-        Timber.i("KEY_BASE + mChronometer.id Write after: ${PreferenceHelper.read(KEY_BASE + mChronometer.id, 10L)}");
+        Timber.i("KEY_BASE + mChronometer.id Write after: ${PreferenceHelper.read(KEY_BASE + mChronometer.id, 10L)}")
     }
 
     fun substractFromChronometerBase(sec: Long){

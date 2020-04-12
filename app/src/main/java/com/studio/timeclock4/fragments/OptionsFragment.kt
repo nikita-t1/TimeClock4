@@ -28,7 +28,6 @@ class OptionsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         materialStandardPreference6.apply {
             setTitle("${resources.getString(R.string.about)} ${resources.getString(R.string.app_name_final)}")
             setSummary(BuildConfig.VERSION_NAME)
@@ -51,13 +50,8 @@ class OptionsFragment : Fragment() {
                     ).show(childFragmentManager, "")
                 }
                 return@setOnLongClickListener true
-
             }
-
         }
-
-
     }
-
 }
 

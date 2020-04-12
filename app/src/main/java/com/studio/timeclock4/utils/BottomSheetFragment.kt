@@ -11,7 +11,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.studio.timeclock4.R
 import kotlinx.android.synthetic.main.action_layout_light.view.*
 import kotlinx.android.synthetic.main.alert_layout_dark.view.*
-import timber.log.Timber
 
 @SuppressLint("ValidFragment")
 open class BottomSheetFragment(
@@ -93,16 +92,15 @@ open class BottomSheetFragment(
                     BottomSheetActionStyle.POSITIVE -> {
                         view.tvAction.setTextColor(ContextCompat.getColor(context!!, R.color.green))
                     }
-                    BottomSheetActionStyle.NEGATIVE -> {
+                    BottomSheetActionStyle.NEGATIVE ->
                         view.tvAction.setTextColor(ContextCompat.getColor(context!!, R.color.red))
-                    }
+
                     BottomSheetActionStyle.DEFAULT -> {
                         if (theme == BottomSheetTheme.LIGHT)
                             view.tvAction.setTextColor(ContextCompat.getColor(context!!, R.color.darkGray))
                         else if (theme == BottomSheetTheme.DARK)
                             view.tvAction.setTextColor(ContextCompat.getColor(context!!, R.color.lightWhite))
                     }
-
                 }
             }
 
