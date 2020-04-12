@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -58,20 +56,54 @@
                 android:id="@+id/frames_swt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingHorizontal="12dp"
+                android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
+                android:textSize="16sp"
                 android:text="Enable Frames" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/anim_swt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingHorizontal="12dp"
+                android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
+                android:textSize="16sp"
                 android:text="Enable dayButton anim" />
 
-        </com.yarolegovich.mp.MaterialPreferenceCategory>
+            <com.yarolegovich.mp.MaterialRightIconPreference
+                app:mp_icon="@drawable/ic_checkbox_blank_circle"
+                android:id="@+id/titleColorPicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mp_title="Title Color"/>
 
+            <RadioGroup
+                android:weightSum="2"
+                android:paddingHorizontal="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:id="@+id/radioGroup">
+
+                <RadioButton
+                    android:id="@+id/radio_first"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Color U"
+                    android:checked="true"/>
+
+                <RadioButton
+                    android:id="@+id/radio_second"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Color Time"/>
+
+            </RadioGroup>
+        </com.yarolegovich.mp.MaterialPreferenceCategory>
     </com.yarolegovich.mp.MaterialPreferenceScreen>
 
     <Button

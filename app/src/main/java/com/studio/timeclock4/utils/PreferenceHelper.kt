@@ -40,6 +40,8 @@ object PreferenceHelper {
     const val DEV_EnableSaving = "DEV_EnableSaving"
     const val DEV_EnableFrames = "DEV_EnableFrames"
     const val DEV_EnableDayButtonAnimation = "DEV_EnableDayButtonAnimation"
+    const val DEV_TitleColor = "DEV_TitleColor"
+    const val DEV_ColorTitle_U = "DEV_ColorTitle_U"
     const val DEV_MinFrames = 25
     const val DEV_DefaultDayButtonAnimationTime = 250L
     const val DEV_DefaultExtDayRevealDelay = 100L

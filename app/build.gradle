@@ -178,4 +178,7 @@ dependencies {
 
     //Android Library that checks for updates on Google Play, GitHub, Amazon, F-Droid or your own server.
     implementation 'com.github.javiersantos:AppUpdater:2.7'
+
+    // ColorPickerDialog is a simple dialog making it quick and easy to add a color picker functionality to any app.
+    implementation 'me.jfenn.ColorPickerDialog:base:0.2.1'
 }

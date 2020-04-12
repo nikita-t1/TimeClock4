@@ -23,10 +23,10 @@
     <fragment
         android:id="@+id/destination_options"
         android:name="com.studio.timeclock4.fragments.OptionsFragment"
-        android:label="fragment_options"
+        android:label="@string/menu"
         tools:layout="@layout/fragment_options">
         <action
-            android:id="@+id/action_destination_options_to_timeSettingsFragment"
+            android:id="@+id/action_destination_options_to_destination_timeSettingsFragment"
             app:destination="@id/destination_timeSettings"
             app:enterAnim="@anim/fragment_open_enter"
             app:exitAnim="@anim/fragment_open_exit"
@@ -35,6 +35,13 @@
         <action
             android:id="@+id/action_destination_options_to_destination_settings"
             app:destination="@id/destination_settings"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_open_enter"
+            app:popExitAnim="@anim/fragment_open_exit" />
+        <action
+            android:id="@+id/action_destination_options_to_destination_about"
+            app:destination="@id/destination_about"
             app:enterAnim="@anim/fragment_open_enter"
             app:exitAnim="@anim/fragment_open_exit"
             app:popEnterAnim="@anim/fragment_open_enter"

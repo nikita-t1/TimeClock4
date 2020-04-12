@@ -1,6 +1,8 @@
 package com.studio.timeclock4
 
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -14,9 +16,12 @@ import com.studio.timeclock4.utils.PreferenceHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
+    private val title by lazy {resources.getText(R.string.app_name_final).toString()}
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.e("HELLO SIR")
@@ -26,7 +31,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
-        findViewById<TextView>(R.id.toolbar_title).text = resources.getText(R.string.app_name_final).toString() + " ${BuildConfig.TYPE}"
 
         //TODO belongs into the Application class
         val appUpdater = AppUpdater(this)
@@ -44,12 +48,20 @@ class MainActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR //Dark Icons
         window.statusBarColor = resources.getColor(R.color.alpha, null)     //Transparent Background
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            findViewById<TextView>(R.id.toolbar_title).text = resources.getText(R.string.app_name_final).toString()
+
+        navController.addOnDestinationChangedListener{ controller, destination, arguments ->
+            if (BuildConfig.DEBUG){
+                val ss = SpannableString(title)
+                when(PreferenceHelper.read(PreferenceHelper.DEV_ColorTitle_U, false)){
+                    true -> ss.setSpan(ForegroundColorSpan(PreferenceHelper.read(PreferenceHelper.DEV_TitleColor, 0)), 0, 1, 0)
+                    false -> ss.setSpan(ForegroundColorSpan(PreferenceHelper.read(PreferenceHelper.DEV_TitleColor, 0)), 1, 5, 0)
+                }
+                findViewById<TextView>(R.id.toolbar_title).text = ss
+            }
             supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
             if(destination.id == R.id.destination_listing) {
-                window.statusBarColor = resources.getColor(R.color.light_pink, null)     //Transparent Background
+                window.statusBarColor = resources.getColor(R.color.light_pink, null)
                 toolbar.visibility = View.GONE
                 toolbar_title.visibility = View.GONE
             } else {
@@ -61,6 +73,7 @@ class MainActivity : AppCompatActivity() {
                 findViewById<TextView>(R.id.toolbar_title).text = destination.label.toString()
                 supportActionBar?.setDisplayHomeAsUpEnabled(true)
             }
+            if (destination.id == R.id.destination_options) findViewById<TextView>(R.id.toolbar_title).text = destination.label.toString()
         }
     }
 

@@ -32,17 +32,17 @@ class OptionsFragment : Fragment() {
             setTitle("${resources.getString(R.string.about)} ${resources.getString(R.string.app_name_final)}")
             setSummary(BuildConfig.VERSION_NAME)
             materialStandardPreference2.setOnClickListener(){
-                Navigation.findNavController(view).navigate(R.id.action_destination_options_to_timeSettingsFragment)
+                Navigation.findNavController(view).navigate(R.id.action_destination_options_to_destination_timeSettingsFragment)
             }
 
             setOnClickListener(){
                 AboutFragment()
-                Navigation.findNavController(view).navigate(R.id.destination_about)
+                Navigation.findNavController(view).navigate(R.id.action_destination_options_to_destination_about)
             }
 
             setOnLongClickListener{
                 if (BuildConfig.DEBUG){
-                    Navigation.findNavController(view).navigate(R.id.destination_settings)
+                    Navigation.findNavController(view).navigate(R.id.action_destination_options_to_destination_settings)
                 }else {
                     val i = resources.openRawResource(R.raw.todo).bufferedReader().use { it.readText() }
                     BottomSheetFragment("Herzlichen Glückwunsch,\n du hast das versteckte Menü entdeckt\n",
@@ -54,4 +54,3 @@ class OptionsFragment : Fragment() {
         }
     }
 }
-
