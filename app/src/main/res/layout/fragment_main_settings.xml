@@ -104,6 +104,25 @@
 
             </RadioGroup>
         </com.yarolegovich.mp.MaterialPreferenceCategory>
+
+        <com.yarolegovich.mp.MaterialPreferenceCategory
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mpc_title_color="@color/colorAccent2"
+            app:mpc_title="Debugging">
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/leakCanaryCheckBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enable LeakCanary Leak Detection"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="14dp"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:layoutDirection="rtl"/>
+        </com.yarolegovich.mp.MaterialPreferenceCategory>
+
     </com.yarolegovich.mp.MaterialPreferenceScreen>
 
     <Button

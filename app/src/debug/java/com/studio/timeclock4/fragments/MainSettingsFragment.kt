@@ -18,7 +18,9 @@ import com.studio.timeclock4.utils.PreferenceHelper as Pref
 class MainSettingsFragment : Fragment(R.layout.fragment_main_settings), View.OnClickListener{
 
     private lateinit var fragmentView: View
-    private val viewModel: MainSettingsViewModel by lazy { ViewModelProvider(this).get(MainSettingsViewModel::class.java) }
+    private val viewModel: MainSettingsViewModel by lazy {
+        ViewModelProvider(this).get(MainSettingsViewModel::class.java)
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,9 +33,10 @@ class MainSettingsFragment : Fragment(R.layout.fragment_main_settings), View.OnC
         titleColorPicker.setOnClickListener(this)
         radio_first.setOnClickListener(this)
         radio_second.setOnClickListener(this)
+        leakCanaryCheckBox.setOnClickListener(this)
 
         titleColorPicker.setIconColor(Pref.read(Pref.DEV_TitleColor, 0))
-        if (Pref.read(Pref.DEV_ColorTitle_U, false)){
+        if (Pref.read(Pref.DEV_ColorTitle_U, false)) {
             radio_first.isChecked = true
         } else {
             radio_second.isChecked = true
@@ -41,6 +44,7 @@ class MainSettingsFragment : Fragment(R.layout.fragment_main_settings), View.OnC
         saving_swt.isChecked = Pref.read(Pref.DEV_EnableSaving, false)
         frames_swt.isChecked = Pref.read(Pref.DEV_EnableFrames, true)
         anim_swt.isChecked = Pref.read(Pref.DEV_EnableDayButtonAnimation, true)
+        leakCanaryCheckBox.isChecked = leakcanary.LeakCanary.config.dumpHeap
     }
 
     private fun triggerRebirth(context: Context) {
@@ -74,6 +78,8 @@ class MainSettingsFragment : Fragment(R.layout.fragment_main_settings), View.OnC
             }
             radio_first -> Pref.write(Pref.DEV_ColorTitle_U, true)
             radio_second -> Pref.write(Pref.DEV_ColorTitle_U, false)
+            leakCanaryCheckBox -> leakcanary.LeakCanary.config =
+                leakcanary.LeakCanary.config.copy(dumpHeap = leakCanaryCheckBox.isChecked)
 
         }
     }

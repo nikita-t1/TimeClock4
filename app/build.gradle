@@ -95,7 +95,7 @@ dependencies {
     def archLifecycleVersion = '2.2.0'
     def kotlin_version = '1.3.31'
     def coroutines = '1.2.0'
-    def leakcanary = "2.0-alpha-2"
+    def leakcanary = "2.2"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
