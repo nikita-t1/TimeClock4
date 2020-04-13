@@ -25,6 +25,11 @@ android:
     - sys-img-armeabi-v7a-android-17
     - android-$ANDROID_EMULATOR_LEVEL
     - sys-img-armeabi-v7a-google_apis-$ANDROID_EMULATOR_LEVEL
+    
+
+branches:
+  only:
+  - master
 
 
 #before_cache:
