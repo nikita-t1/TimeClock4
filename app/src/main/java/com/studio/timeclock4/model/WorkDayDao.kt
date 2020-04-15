@@ -12,6 +12,9 @@ interface WorkDayDao {
     @Query("SELECT * FROM workday_table WHERE year = :year AND month = :month AND dayOfMonth = :day")
     fun getWorkday(day : Int, month : Int, year :Int): WorkDay
 
+    @Query("SELECT * FROM workday_table WHERE workDayId = :id")
+    fun getWorkday(id : Int): WorkDay
+
     @Insert
     suspend fun insertWorkDay(workDay: WorkDay)
 

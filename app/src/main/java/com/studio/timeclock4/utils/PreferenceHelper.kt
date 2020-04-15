@@ -16,8 +16,10 @@ object PreferenceHelper {
     const val WORKING_DAYS_WEEK = "working_days_week"
 
     const val LAYOUT_STATE = "LAYOUT_STATE"
-    const val START_TIME = "START_TIME"
-    const val END_TIME = "END_TIME"
+    const val CURRENT_START_TIME = "START_TIME"
+    const val CURRENT_END_TIME = "END_TIME"
+    const val CURRENT_PAUSE_TIME = "CURRENT_PAUSE_TIME"
+    const val CURRENT_NOTE = "CURRENT_NOTE"
 
     const val Default_UPDATE_LINK = "URL to your JSON File"
     const val Default_WORKING_TIME = 480L
@@ -28,6 +30,7 @@ object PreferenceHelper {
     const val Default_FLEX_ACCOUNT = 1L
     const val Default_VACATION = 25L
     const val Default_WORKING_TIME_WEEK = 2400L
+    const val Default_CURRENT_NOTE = ""
 
     const val MONDAY_CHIP = "MONDAY_CHIP"
     const val TUESDAY_CHIP = "TUESDAY_CHIP"

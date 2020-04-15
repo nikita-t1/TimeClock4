@@ -2,6 +2,7 @@ package com.studio.timeclock4.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.studio.timeclock4.BuildConfig
 import com.studio.timeclock4.R
 import com.studio.timeclock4.model.WorkDay
 import com.studio.timeclock4.model.WorkDayDao
@@ -27,18 +28,18 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
     private val _endTime = MutableLiveData<String>()
     val endTimeString: LiveData<String> = _endTime
     private val _pauseTime = MutableLiveData<String>()
-    val _pauseTimeString: LiveData<String> = _pauseTime
+    val pauseTimeString: LiveData<String> = _pauseTime
     private val _currentLayoutStateOrdinal = MutableLiveData<LayoutState>()
     val currentLayoutStateOrdinal: LiveData<LayoutState> = _currentLayoutStateOrdinal
     private val _startButtonColor = MutableLiveData<Int>()
     val startButtonColor: LiveData<Int> = _startButtonColor
-
 
     private var workingTimeWeekMin: Long
     private var startTimeMin: Long
     private var endTimeMin: Long
     private var pauseTimeMin: Long
     private var workingTimeMin: Long
+    var noteString: String
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun sexy() {
@@ -48,8 +49,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
             x++ // Same as x += 1
         }
     }
-
-
 
     enum class LayoutState{
         Ready, Tracking, Saving;
@@ -81,26 +80,27 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
             )]
         }
 
-        startTimeMin = Pref.read(Pref.START_TIME, Pref.Default_START_TIME)
+        startTimeMin = Pref.read(Pref.CURRENT_START_TIME, Pref.Default_START_TIME)
         _startTime.apply {
             value = TimeCalculations.convertMinutesToDateString(startTimeMin)
         }
 
-        endTimeMin = Pref.read(Pref.END_TIME, Pref.Default_END_TIME)
+        endTimeMin = Pref.read(Pref.CURRENT_END_TIME, Pref.Default_END_TIME)
         _endTime.apply {
             value = TimeCalculations.convertMinutesToDateString(endTimeMin)
         }
 
-        pauseTimeMin = Pref.read(Pref.PAUSE_TIME, Pref.Default_PAUSE_TIME)
+        pauseTimeMin = Pref.read(Pref.CURRENT_PAUSE_TIME, Pref.read(Pref.PAUSE_TIME, Pref.Default_PAUSE_TIME))
         _pauseTime.apply {
             value = TimeCalculations.convertMinutesToDateString(pauseTimeMin)
         }
 
         workingTimeMin = Pref.read(Pref.WORKING_TIME, Pref.Default_WORKING_TIME)
         workingTimeWeekMin = workingTimeMin * Pref.read(Pref.WORKING_DAYS_WEEK, Pref.Default_WORKING_DAYS_WEEK)
+
+        noteString = Pref.read(Pref.CURRENT_NOTE, Pref.Default_CURRENT_NOTE)
         updateLayoutState()
     }
-
 
     fun startPressed() {
         _currentLayoutStateOrdinal.apply {
@@ -109,30 +109,21 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
         }
         if (currentLayoutStateOrdinal.value == LayoutState.Tracking) {
             Timber.i("TIME ${LocalDateTime.now().second}")
-
             startTimeMin = TimeCalculations.loadStartTime()
-
-            Pref.write(Pref.START_TIME, startTimeMin)
-            endTimeMin = TimeCalculations.loadEndTime(startTimeMin, workingTimeMin, pauseTimeMin, true)
-            Pref.write(Pref.END_TIME, endTimeMin)
-
-            _startTime.apply {
-                value = TimeCalculations.convertMinutesToDateString(startTimeMin)
-            }
-            _endTime.apply {
-                value = TimeCalculations.convertMinutesToDateString(endTimeMin)
-            }
+            Pref.write(Pref.CURRENT_START_TIME, startTimeMin)
         }
         updateLayoutState()
     }
-
 
     private fun updateLayoutState() {
         Pref.write(Pref.LAYOUT_STATE, currentLayoutStateOrdinal.value!!.ordinal)
         Timber.d(LayoutState.getState(currentLayoutStateOrdinal.value!!.ordinal).toString())
 
-        if (Pref.read(Pref.START_TIME, 0L) == 0L) _startTime.apply { value = "00:00" }
-        if (Pref.read(Pref.END_TIME, 0L) == 0L) _endTime.apply { value = "00:00" }
+        if (Pref.read(Pref.CURRENT_START_TIME, 0L) == 0L) _startTime.apply { value = "00:00" }
+        if (Pref.read(Pref.CURRENT_END_TIME, 0L) == 0L) _endTime.apply { value = "00:00" }
+
+        Timber.e(startTimeString.value)
+
 
         when (currentLayoutStateOrdinal.value) {
             LayoutState.Ready -> {
@@ -146,44 +137,45 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
                 _startButtonText.apply {
                     value = getApplication<Application>().resources.getString(R.string.stop)
                 }
+
+                startTimeMin = Pref.read(Pref.CURRENT_START_TIME, Pref.Default_START_TIME)
+                pauseTimeMin = Pref.read(Pref.CURRENT_PAUSE_TIME, Pref.read(Pref.PAUSE_TIME, Pref.Default_PAUSE_TIME))
+                noteString = Pref.read(Pref.CURRENT_NOTE, Pref.Default_CURRENT_NOTE)
+
+                endTimeMin = TimeCalculations.loadEndTime(startTimeMin, workingTimeMin, pauseTimeMin, true)
+                Pref.write(Pref.CURRENT_END_TIME, endTimeMin)
+
+                _startTime.apply {
+                    value = TimeCalculations.convertMinutesToDateString(startTimeMin)
+                }
+                _endTime.apply {
+                    value = TimeCalculations.convertMinutesToDateString(endTimeMin)
+                }
+                _pauseTime.apply {
+                    value = TimeCalculations.convertMinutesToDateString(pauseTimeMin)
+                }
             }
             LayoutState.Saving -> {
                 _startButtonColor.apply { value = R.color.red }
                 _startButtonText.apply {
                     value = getApplication<Application>().resources.getString(R.string.stop)
                 }
-
             }
         }
     }
 
     fun dialogCancel() {
         _currentLayoutStateOrdinal.apply { value = LayoutState.Ready }
-        Pref.remove(Pref.START_TIME)
-        Pref.remove(Pref.END_TIME)
+        Pref.remove(Pref.CURRENT_START_TIME)
+        Pref.remove(Pref.CURRENT_END_TIME)
+        Pref.remove(Pref.CURRENT_PAUSE_TIME)
+        Pref.remove(Pref.CURRENT_NOTE)
         updateLayoutState()
     }
 
     fun dialogSave(endTime: Long) {
         viewModelScope.launch {
             val ldt = LocalDateTime.now()
-            Timber.e("WorkDay:\n" +
-                    "workDayId = 0\n" +
-                    "year = ${ldt.year}\n" +
-                    "weekOfYear = ${CalendarUtils.getWeekOfYear(ldt)}\n" +
-                    "dayOfWeek = ${ldt.dayOfWeek.value}\n" +
-                    "dayOfMonth = ${ldt.dayOfMonth}\n" +
-                    "month = ${ldt.month.value}\n" +
-                    "timeClockIn = ${startTimeMin}\n" +
-                    "timeClockOut = ${startTimeMin + endTime}\n" +
-                    "pauseTime = ${pauseTimeMin}\n" +
-                    "workTimeGross = ${endTime}\n" +
-                    "wornTimeNet = ${endTime - pauseTimeMin}\n" +
-                    "overtime = ${(endTime - pauseTimeMin) - workingTimeMin}\n" +
-                    "wasPresent = true\n" +
-                    "absenceType = null\n" +
-                    "userNote = null\n" +   //Todo Let user add Note on LayoutState.Saving ??
-                    "furtherAddition = null")
             val workDay = WorkDay(0,
                 ldt.year,
                 CalendarUtils.getWeekOfYear(ldt),
@@ -198,13 +190,16 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
                 (endTime - pauseTimeMin - workingTimeMin).toInt(),
                 true,
                 null,
-                "",
+                noteString,
                 null)
-            if (Pref.read("enable saving", false)){
+            if (Pref.read(Pref.DEV_EnableSaving, true) or !BuildConfig.DEBUG){
+                val existingWorkDay = repository.getWorkday(ldt.dayOfMonth, ldt.monthValue, ldt.year)
+                if (existingWorkDay != null){
+                    repository.deleteWorkDay(existingWorkDay)
+                }
                 repository.insertWorkDay(workDay)
             }
         }
-        //Basically the same from here on
         dialogCancel()
     }
 
@@ -215,5 +210,32 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
 
     fun getArcProgress(workedTime: Long): Float {
         return (workedTime / workingTimeMin).toFloat()
+    }
+
+    fun createTemporaryWorkDay(): WorkDay {
+        val ldt = LocalDateTime.now()
+        return WorkDay(0,
+            ldt.year,
+            CalendarUtils.getWeekOfYear(ldt),
+            ldt.dayOfWeek.value,
+            ldt.dayOfMonth,
+            ldt.month.value,
+            TimeCalculations.convertDateStringToMinutes(startTimeString.value.toString()).toInt(),
+            ldt.hour*60 + ldt.minute,
+            TimeCalculations.convertDateStringToMinutes(pauseTimeString.value.toString()).toInt(),
+            0,
+            0,
+            0,
+            true,
+            null,
+            noteString,
+            null)
+    }
+
+    fun setNewWorkDayValues(startTimeMin: Int, pauseTime: Int, noteString: String) {
+        Pref.write(Pref.CURRENT_START_TIME, startTimeMin.toLong())
+        Pref.write(Pref.CURRENT_PAUSE_TIME, pauseTime.toLong())
+        Pref.write(Pref.CURRENT_NOTE, noteString)
+        updateLayoutState()
     }
 }

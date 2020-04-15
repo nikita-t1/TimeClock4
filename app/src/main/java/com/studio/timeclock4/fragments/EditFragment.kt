@@ -1,6 +1,8 @@
 package com.studio.timeclock4.fragments
 
 import android.content.res.Resources
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +17,6 @@ import com.studio.timeclock4.R
 import com.studio.timeclock4.model.WorkDay
 import com.studio.timeclock4.utils.ErrorHandler
 import com.studio.timeclock4.utils.ErrorTypes
-import com.studio.timeclock4.utils.TimeCalculations.convertDateStringToMinutes
-import com.studio.timeclock4.utils.TimeCalculations.convertMinutesToDateString
 import com.studio.timeclock4.viewmodel.ListingViewModel
 import kotlinx.android.synthetic.main.fragment_edit.*
 import org.threeten.bp.Month
@@ -24,6 +24,7 @@ import timber.log.Timber
 import kotlin.math.abs
 import kotlin.math.log10
 import com.studio.timeclock4.utils.PreferenceHelper as Pref
+import com.studio.timeclock4.utils.TimeCalculations as TC
 
 
 class EditFragment(private val workDay: WorkDay, private val databaseAction : DatabaseAction) : DialogFragment(), View.OnClickListener {
@@ -42,6 +43,11 @@ class EditFragment(private val workDay: WorkDay, private val databaseAction : Da
         ViewModelProvider(requireActivity()).get(ListingViewModel::class.java)
     }
 
+    private fun sendNewWorkDayValues(startTimeMin: Int, pauseTime: Int, userNote: String) {
+        val frag: HomeFragment? = targetFragment as HomeFragment?
+        frag?.receiveNewWorkDayValues(startTimeMin, pauseTime, userNote)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
@@ -56,11 +62,16 @@ class EditFragment(private val workDay: WorkDay, private val databaseAction : Da
         super.onViewCreated(view, savedInstanceState)
         setListeners()
 
+        if (databaseAction == DatabaseAction.PREVIEW){
+            endCard.isEnabled = false
+            endCard.foreground= ColorDrawable(Color.parseColor("#906F6F6F"))
+        }
+
         if (workDay != null){
-            workTimeString.text = convertMinutesToDateString(workDay.workTimeGross.toLong())
-            startTimeString.text = convertMinutesToDateString(workDay.timeClockIn.toLong())
-            endTimeString.text = convertMinutesToDateString(workDay.timeClockOut.toLong())
-            pauseTimeString.text = convertMinutesToDateString(workDay.pauseTime.toLong())
+            workTimeString.text = TC.convertMinutesToDateString(workDay.workTimeGross.toLong())
+            startTimeString.text = TC.convertMinutesToDateString(workDay.timeClockIn.toLong())
+            endTimeString.text = TC.convertMinutesToDateString(workDay.timeClockOut.toLong())
+            pauseTimeString.text = TC.convertMinutesToDateString(workDay.pauseTime.toLong())
             noteString.setText(workDay.userNote)
             date.text = "${workDay.dayOfMonth}. ${Month.of(workDay.month).capitalize()} ${workDay.year}"
         }else{
@@ -88,9 +99,11 @@ class EditFragment(private val workDay: WorkDay, private val databaseAction : Da
         params.height = (height - (height/10))
         window.attributes = params
 
-        start = convertDateStringToMinutes(startTimeString.text.toString())
-        end = convertDateStringToMinutes(endTimeString.text.toString())
-        pause = convertDateStringToMinutes(pauseTimeString.text.toString())
+        start = TC.convertDateStringToMinutes(startTimeString.text.toString())
+        end = TC.convertDateStringToMinutes(endTimeString.text.toString())
+        pause = TC.convertDateStringToMinutes(pauseTimeString.text.toString())
+        calcWorkTime()
+        if (databaseAction == DatabaseAction.PREVIEW) workTimeString.text = TC.convertMinutesToNegativeDateString(end - start - pause)
     }
 
     override fun onClick(v: View?) {
@@ -100,15 +113,18 @@ class EditFragment(private val workDay: WorkDay, private val databaseAction : Da
                 Timber.i("SAVE")
                 val newWorkDay = workDay
                 newWorkDay.apply {
-                    timeClockIn = convertDateStringToMinutes(startTimeString.text.toString()).toInt()
-                    timeClockOut = convertDateStringToMinutes(endTimeString.text.toString()).toInt()
-                    pauseTime = convertDateStringToMinutes(pauseTimeString.text.toString()).toInt()
+                    timeClockIn = TC.convertDateStringToMinutes(startTimeString.text.toString()).toInt()
+                    timeClockOut = TC.convertDateStringToMinutes(endTimeString.text.toString()).toInt()
+                    pauseTime = TC.convertDateStringToMinutes(pauseTimeString.text.toString()).toInt()
                     userNote = noteString.text.toString()
                     workTimeGross = timeClockOut - timeClockIn
                     workTimeNet = timeClockOut - timeClockIn - pauseTime
                     overtime = ((timeClockOut - timeClockIn) - pauseTime - workingTimeMin).toInt()
                     if (databaseAction == DatabaseAction.UPDATE) listingViewModel.updateWorkDay(newWorkDay)
                     else if (databaseAction == DatabaseAction.INSERT)listingViewModel.insertWorkDay(newWorkDay)
+                    else if (databaseAction == DatabaseAction.PREVIEW) {
+                        sendNewWorkDayValues(timeClockIn, pauseTime, userNote!!)
+                    }
                 }
                 dismiss()
             }
@@ -121,34 +137,43 @@ class EditFragment(private val workDay: WorkDay, private val databaseAction : Da
             }
 
             startCard ->{
-                val minutes = convertDateStringToMinutes(startTimeString.text.toString())
+                val minutes = TC.convertDateStringToMinutes(startTimeString.text.toString())
                 val dialog = buildDialog(minutes,5,20)
                 dialog.setListener {hour, minute ->
                     dialogView.findViewById<TextView>(R.id.startTimeString)?.text = constructDateString(hour, minute)
-                    start = convertDateStringToMinutes(startTimeString.text.toString())
+                    start = TC.convertDateStringToMinutes(startTimeString.text.toString())
                     calcWorkTime()
+
                 }
                 dialog.show(childFragmentManager, tag)
             }
             endCard ->{
                 Timber.i("ENDCARD")
-                val minutes = convertDateStringToMinutes(endTimeString.text.toString())
+                val minutes = TC.convertDateStringToMinutes(endTimeString.text.toString())
                 val dialog = buildDialog(minutes, 14,40)
                 dialog.setListener {hour, minute ->
                     dialogView.findViewById<TextView>(R.id.endTimeString)?.text = constructDateString(hour, minute)
-                    end = convertDateStringToMinutes(endTimeString.text.toString())
+                    end = TC.convertDateStringToMinutes(endTimeString.text.toString())
                     calcWorkTime()
                 }
                 dialog.show(childFragmentManager, tag)
 
             }
             pauseCard ->{
-                val minutes = convertDateStringToMinutes(pauseTimeString.text.toString())
+                val minutes = TC.convertDateStringToMinutes(pauseTimeString.text.toString())
                 val dialog = buildDialog(minutes, 1,0)
                 dialog.setListener {hour, minute ->
-                    dialogView.findViewById<TextView>(R.id.pauseTimeString)?.text = constructDateString(hour, minute)
-                    pause = convertDateStringToMinutes(pauseTimeString.text.toString())
-                    calcWorkTime()
+                    if (databaseAction != DatabaseAction.PREVIEW) {
+                        dialogView.findViewById<TextView>(R.id.pauseTimeString)?.text =
+                            constructDateString(hour, minute)
+                        pause = TC.convertDateStringToMinutes(pauseTimeString.text.toString())
+                        calcWorkTime()
+                    } else {
+                        dialogView.findViewById<TextView>(R.id.pauseTimeString)?.text =
+                            constructDateString(hour, minute)
+                        pause = TC.convertDateStringToMinutes(pauseTimeString.text.toString())
+                        workTimeString.text = TC.convertMinutesToNegativeDateString(end - start - pause)
+                    }
                 }
                 dialog.show(childFragmentManager, tag)
             }
@@ -171,7 +196,7 @@ class EditFragment(private val workDay: WorkDay, private val databaseAction : Da
     }
 
     private fun calcWorkTime(){
-        workTimeString.text = convertMinutesToDateString(end - start - pause)
+        workTimeString.text = TC.convertMinutesToDateString(end - start - pause)
     }
 }
 

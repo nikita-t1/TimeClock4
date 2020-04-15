@@ -17,7 +17,6 @@ import com.studio.timeclock4.utils.CalendarUtils
 import com.studio.timeclock4.utils.PreferenceHelper
 import com.studio.timeclock4.utils.TimeCalculations.convertMinutesToDateString
 import com.studio.timeclock4.viewmodel.ListingViewModel
-import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.action_add_workday.*
 import kotlinx.android.synthetic.main.viewpager_page.*
 import kotlinx.coroutines.Dispatchers
@@ -96,7 +95,6 @@ class ListingInnerFragment(private val position: Int) : Fragment(), View.OnClick
     override fun onPause() {
         super.onPause()
         createAnimatorSet(0f).start()
-        Toasty.info(requireContext(), "PAUSE", Toasty.LENGTH_SHORT).show()
         lastClickedButton?.apply {
             animate().translationY(0f).start()
             elevation= this@ListingInnerFragment.elevation

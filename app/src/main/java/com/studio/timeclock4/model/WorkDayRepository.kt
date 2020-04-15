@@ -1,6 +1,5 @@
 package com.studio.timeclock4.model
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -14,6 +13,13 @@ class WorkDayRepository(private val workDayDao: WorkDayDao) {
         return withContext(Dispatchers.IO){
             Timber.i("${Thread.currentThread().name} $day $month $year")
             workDayDao.getWorkday(day, month, year)
+        }
+    }
+
+    suspend fun getWorkday(id: Int) : WorkDay{
+        return withContext(Dispatchers.IO){
+            Timber.i("${Thread.currentThread().name} $id")
+            workDayDao.getWorkday(id)
         }
     }
 

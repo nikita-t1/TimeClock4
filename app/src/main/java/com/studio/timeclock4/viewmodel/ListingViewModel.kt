@@ -71,6 +71,11 @@ class ListingViewModel(application: Application) : AndroidViewModel(application)
             false, null, "Testtag / Elvis Operator", null
         )
         Timber.i("init ${SystemClock.elapsedRealtime()}")
+        lastWeek = LocalDateTime.now()
+        allWorkDays.observeForever {
+            Timber.i("observeForever")
+            updateWorkWeek(lastWeek)
+        }
     }
 
     /**
@@ -92,7 +97,7 @@ class ListingViewModel(application: Application) : AndroidViewModel(application)
         viewModelScope.launch(Dispatchers.IO) {
             repository.updateWorkDay(workDay)
         }
-        updateWorkWeek(lastWeek)
+//        updateWorkWeek(lastWeek)
     }
 
     fun deleteWorkDay(workDay: WorkDay) {
@@ -100,7 +105,7 @@ class ListingViewModel(application: Application) : AndroidViewModel(application)
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteWorkDay(workDay)
         }
-        updateWorkWeek(lastWeek)
+//        updateWorkWeek(lastWeek)
     }
 
     fun deleteAllWorkDays(doYouReallyWantTooDeleteAllWorkDays: Boolean) {

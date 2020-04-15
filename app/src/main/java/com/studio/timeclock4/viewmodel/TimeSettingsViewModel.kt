@@ -41,7 +41,6 @@ class TimeSettingsViewModel(application: Application) : AndroidViewModel(applica
 
     init {
         setValues()
-        Toasty.info(app, Pref.read(Pref.WORKING_TIME, 0L).toString() , Toasty.LENGTH_SHORT).show()
     }
 
     private fun setValues(){

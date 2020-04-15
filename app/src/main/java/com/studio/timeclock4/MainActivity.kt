@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                     false -> ss.setSpan(ForegroundColorSpan(PreferenceHelper.read(PreferenceHelper.DEV_TitleColor, 0)), 1, 5, 0)
                 }
                 findViewById<TextView>(R.id.toolbar_title).text = ss
-            }
+            } else findViewById<TextView>(R.id.toolbar_title).text = title
             supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
             if(destination.id == R.id.destination_listing) {

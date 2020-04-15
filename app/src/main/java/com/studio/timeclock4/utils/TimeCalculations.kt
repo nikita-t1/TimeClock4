@@ -29,6 +29,16 @@ object TimeCalculations {
         return sdf_HHmm.format(date)
     }
 
+    fun convertMinutesToNegativeDateString(min: Long): String {
+        Timber.e("$min")
+        var minutes = if (min >= 0) min else (min * -1)
+
+        Timber.e("$minutes")
+        val date = sdf_mm.parse(minutes.toString())
+        val HHmm = sdf_HHmm.format(date)
+        return if (min >= 0) HHmm else "-$HHmm"
+    }
+
     fun convertDateStringToMinutes(dateString: String): Long {
 //        Timber.i("DAT $dateString")
 //        sdf_HHmm.timeZone = TimeZone.getTimeZone("GMT");

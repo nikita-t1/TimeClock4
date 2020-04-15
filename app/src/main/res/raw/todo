@@ -1,5 +1,9 @@
 TODO:
 
+Wenn ein Workday beim "Clock Out" schon in der Datenbank existiert wird er gelöscht und durch den aktuellen ersetzt
+
+Nachtarbeit?
+
 EditButton im HomeFragment -> Layout + Funktion
 
 Switch zwischen Brutto und Netto Arbeitszeit

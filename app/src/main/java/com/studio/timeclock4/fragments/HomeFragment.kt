@@ -11,8 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.studio.timeclock4.R
 import com.studio.timeclock4.utils.*
 import com.studio.timeclock4.viewmodel.HomeViewModel
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import timber.log.Timber
+
 
 class HomeFragment : Fragment(), View.OnClickListener {
 
@@ -29,18 +31,20 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 chronometerPersist.changeChronometerState(viewModel.currentLayoutStateOrdinal.value!!.ordinal)
             }
             fragmentView.editButton -> {
-                Timber.i("EDIT")
+                val dialog = EditFragment(
+                    viewModel.createTemporaryWorkDay(),
+                    EditFragment.DatabaseAction.PREVIEW
+                )
+                showEditDialog(dialog)
             }
             fragmentView.cardView -> {
                 Timber.i("CARD")
             }
             fragmentView.overviewBtn -> {
                 Timber.i("OVERVIEW")
-                chronometerPersist.substractFromChronometerBase(60)
             }
             fragmentView.attendanceBtn -> {
                 Timber.i( "ATTENDANCE")
-                chronometerPersist.addToChronometerBase(60)
             }
             fragmentView.arc_progress -> {
                 Timber.i( "ARC")
@@ -74,12 +78,18 @@ class HomeFragment : Fragment(), View.OnClickListener {
         viewModel.endTimeString.observe(viewLifecycleOwner, Observer { fragmentView.endTime.text = it })
         viewModel.currentLayoutStateOrdinal.observe(viewLifecycleOwner, Observer {
             if (it.ordinal == 2) showSaveDialog()
+            editButton.isClickable = it.ordinal == 1
         })
         viewModel.startButtonColor.observe(viewLifecycleOwner, Observer {
             fragmentView.startButton.background.setTint(
                 resources.getColor(it, null)
             )
         })
+    }
+
+    private fun showEditDialog(dialog : EditFragment) {
+        dialog.setTargetFragment(this, 0)
+        dialog.show(parentFragmentManager, "dialog")
     }
 
     override fun onResume() {
@@ -106,5 +116,18 @@ class HomeFragment : Fragment(), View.OnClickListener {
             chronometerPersist.changeChronometerState(viewModel.currentLayoutStateOrdinal.value!!.ordinal)
         })
         alert.show(childFragmentManager)
+    }
+
+    fun receiveNewWorkDayValues(startTimeMin: Int, pauseTime: Int, userNote: String) {
+        val currentStartTime = PreferenceHelper.read(PreferenceHelper.CURRENT_START_TIME, PreferenceHelper.Default_START_TIME)
+        Timber.e("new: $startTimeMin , old: $currentStartTime")
+        if (currentStartTime < startTimeMin){
+            val difference = startTimeMin - currentStartTime
+            chronometerPersist.substractFromChronometerBase(difference*60)
+        } else if (currentStartTime > startTimeMin){
+            val difference = currentStartTime - startTimeMin
+            chronometerPersist.addToChronometerBase(difference*60)
+        }
+        viewModel.setNewWorkDayValues(startTimeMin, pauseTime, userNote)
     }
 }
