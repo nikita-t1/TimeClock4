@@ -21,7 +21,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
-        versionName "0.3.0"
+        versionName "0.3.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -111,7 +111,6 @@ android {
     }
 }
 
-
 dependencies {
     def nav_version = "2.2.1"
     def roomVersion = '2.2.5'
@@ -145,7 +144,7 @@ dependencies {
 
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersion"
-//    kapt "androidx.lifecycle:lifecycle-compiler:$archLifecycleVersion"
+    // kapt "androidx.lifecycle:lifecycle-compiler:$archLifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-common-java8:$archLifecycleVersion"
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
 
