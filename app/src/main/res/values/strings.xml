@@ -52,6 +52,9 @@
     <string name="working_time_summary">Daily Target, Break Time, Flextime Account</string>
     <string name="time_settings">Time Settings</string>
     <string name="version">Version</string>
+    <string name="no_update_found">You are already running the latest Version</string>
+    <string name="update_found">A newer Version was found on Github</string>
+
 
     <string name="work_time_per_day">Work Time per Day</string>
     <string name="work_time_per_week">Work Time Per Week</string>

@@ -7,7 +7,6 @@ object PreferenceHelper {
 
     private lateinit var prefs: SharedPreferences
 
-    const val UPDATE_LINK = "updateLink"
     const val WORKING_TIME = "working_time"
     const val WORKING_TIME_WEEK = "working_time_week"
     const val PAUSE_TIME = "pause_time"
@@ -21,7 +20,6 @@ object PreferenceHelper {
     const val CURRENT_PAUSE_TIME = "CURRENT_PAUSE_TIME"
     const val CURRENT_NOTE = "CURRENT_NOTE"
 
-    const val Default_UPDATE_LINK = "URL to your JSON File"
     const val Default_WORKING_TIME = 480L
     const val Default_PAUSE_TIME = 30L
     const val Default_START_TIME = 0L
@@ -51,6 +49,8 @@ object PreferenceHelper {
     const val DEV_DefaultAmountWeeks = 313
     const val DEV_IconViewDp = 96f
     const val DEV_IconViewV26RoundPx = 0.16f
+    const val DEV_UpdateLink = "https://raw.githubusercontent.com/nikita-t1/TimeClock4/master/update.json"
+
 
     private const val PREFS_NAME = "params"
 

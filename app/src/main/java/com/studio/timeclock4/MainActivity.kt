@@ -33,9 +33,8 @@ class MainActivity : AppCompatActivity() {
 
         //TODO belongs into the Application class
         val appUpdater = AppUpdater(this)
-//        appUpdater.showEvery(3)
         appUpdater.setUpdateFrom(UpdateFrom.JSON)
-        appUpdater.setUpdateJSON(PreferenceHelper.read(PreferenceHelper.UPDATE_LINK, "URL to your JSON File"))
+        appUpdater.setUpdateJSON(PreferenceHelper.DEV_UpdateLink)
         appUpdater.setDisplay(Display.SNACKBAR)
         kotlin.runCatching {appUpdater.start()}
 

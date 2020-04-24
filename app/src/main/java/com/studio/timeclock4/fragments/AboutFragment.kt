@@ -2,42 +2,42 @@ package com.studio.timeclock4.fragments
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.github.javiersantos.appupdater.AppUpdaterUtils
+import com.github.javiersantos.appupdater.AppUpdaterUtils.UpdateListener
+import com.github.javiersantos.appupdater.enums.AppUpdaterError
+import com.github.javiersantos.appupdater.enums.UpdateFrom
+import com.github.javiersantos.appupdater.objects.Update
 import com.studio.timeclock4.BuildConfig
 import com.studio.timeclock4.R
 import com.studio.timeclock4.utils.AppIconHelperV26
 import com.studio.timeclock4.viewmodel.AboutViewModel
-import kotlinx.android.synthetic.main.alert_text_input_link.view.*
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.fragment_about.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import kotlin.math.roundToInt
 import com.studio.timeclock4.utils.PreferenceHelper as Pref
 
 
 class AboutFragment : Fragment(R.layout.fragment_about) {
 
+    private var appUpdaterUtils: AppUpdaterUtils? = null
     private val viewModel: AboutViewModel by lazy {
         ViewModelProvider(this).get(AboutViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        update_btn.setSummary(Pref.read(Pref.UPDATE_LINK, Pref.Default_UPDATE_LINK))
-
-        val viewInflated = LayoutInflater.from(context)
-            .inflate(R.layout.alert_text_input_link, getView() as ViewGroup?, false)
-        viewInflated.input.setText(Pref.read(Pref.UPDATE_LINK, Pref.Default_UPDATE_LINK))
+        update_btn.setSummary(Pref.DEV_UpdateLink)
 
         iconView.clipToOutline = true
         viewModel.viewModelScope.launch {
@@ -45,21 +45,35 @@ class AboutFragment : Fragment(R.layout.fragment_about) {
             linearLayout.visibility = View.VISIBLE
             playIconAnimatorSet()
         }
-
         setAppIcon()
 
         update_btn.setOnClickListener(){
-            val builder = AlertDialog.Builder(context).apply {
-                setTitle("UpdateLink")
-                setView(viewInflated)
-                setPositiveButton(R.string.add) { dialog, which ->
-                    Pref.write(Pref.UPDATE_LINK, viewInflated.input.text.toString())
-                    update_btn.setSummary(Pref.read(Pref.UPDATE_LINK, Pref.Default_UPDATE_LINK))
-                    dialog.dismiss()
-                }
-                show()
+            if (appUpdaterUtils == null){
+                appUpdaterUtils =
+                    AppUpdaterUtils(requireContext())
+                        .setUpdateFrom(UpdateFrom.JSON)
+                        .setUpdateJSON(Pref.DEV_UpdateLink)
+                        .withListener(object : UpdateListener {
+                            override fun onSuccess(update: Update, isUpdateAvailable: Boolean?) {
+                                if (isUpdateAvailable!!){
+                                    Toasty.info(requireContext(), resources.getString(R.string.update_found), Toasty.LENGTH_SHORT).show()
+                                } else {
+                                    Toasty.info(requireContext(), resources.getString(R.string.no_update_found), Toasty.LENGTH_SHORT).show()
+                                }
+
+                            }
+                            override fun onFailed(error: AppUpdaterError?) {
+                                Timber.e("Something went wrong here")
+                            }
+                        })
             }
+            appUpdaterUtils?.start()
         }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        appUpdaterUtils?.stop()
     }
 
     private fun setAppIcon() {
