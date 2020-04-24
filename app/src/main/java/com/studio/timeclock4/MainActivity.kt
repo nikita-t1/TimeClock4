@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private val title by lazy {resources.getText(R.string.app_name_final).toString()}
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.e("HELLO SIR")
         Timber.w(PreferenceHelper.read("enable saving", false).toString())

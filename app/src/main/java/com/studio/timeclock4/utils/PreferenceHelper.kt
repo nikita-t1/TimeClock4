@@ -49,7 +49,8 @@ object PreferenceHelper {
     const val DEV_DefaultDayButtonAnimationTime = 250L
     const val DEV_DefaultExtDayRevealDelay = 100L
     const val DEV_DefaultAmountWeeks = 313
-
+    const val DEV_IconViewDp = 96f
+    const val DEV_IconViewV26RoundPx = 0.16f
 
     private const val PREFS_NAME = "params"
 
