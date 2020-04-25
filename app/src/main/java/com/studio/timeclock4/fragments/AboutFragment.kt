@@ -37,11 +37,12 @@ class AboutFragment : Fragment(R.layout.fragment_about) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        update_btn.setSummary(Pref.DEV_UpdateLink)
+        versionText.text = "${resources.getString(R.string.version)} ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
+        copyrightNotice.text = "${resources.getString(R.string.copyright_notice)} ${resources.getString(R.string.company)}"
 
         iconView.clipToOutline = true
         viewModel.viewModelScope.launch {
-            delay(100)
+            delay(Pref.DEV_IconVisibilityDelay.toLong())
             linearLayout.visibility = View.VISIBLE
             playIconAnimatorSet()
         }

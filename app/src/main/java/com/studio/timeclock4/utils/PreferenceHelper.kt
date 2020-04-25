@@ -49,6 +49,7 @@ object PreferenceHelper {
     const val DEV_DefaultAmountWeeks = 313
     const val DEV_IconViewDp = 96f
     const val DEV_IconViewV26RoundPx = 0.16f
+    const val DEV_IconVisibilityDelay = 100
     const val DEV_UpdateLink = "https://raw.githubusercontent.com/nikita-t1/TimeClock4/master/update.json"
 
 

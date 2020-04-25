@@ -1,45 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
     tools:context="com.studio.timeclock4.fragments.AboutFragment">
 
-    <LinearLayout
-        android:visibility="gone"
-        android:id="@+id/linearLayout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="42dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:animateLayoutChanges="true">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iconView"
-            android:scaleType="fitCenter"
-            android:scaleY="0"
-            android:scaleX="0"
+        <LinearLayout
+            android:visibility="gone"
+            android:animateLayoutChanges="true"
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:src="@mipmap/ic_launcher"/>
+            android:layout_marginTop="42dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    </LinearLayout>
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iconView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:scaleX="0"
+                android:scaleY="0"
+                android:src="@mipmap/ic_launcher" />
 
-    <com.yarolegovich.mp.MaterialPreferenceScreen
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/app_name_final"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/versionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/versionName"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/copyrightNotice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/copyright_notice" />
+        </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="42dp"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <com.yarolegovich.mp.MaterialPreferenceCategory
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="42dp"
             app:cardCornerRadius="8dp"
             app:cardUseCompatPadding="true"
             app:mpc_title="@string/app"
@@ -48,34 +76,110 @@
             <com.yarolegovich.mp.MaterialStandardPreference
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:mp_icon="@drawable/ic_application"
-                app:mp_summary="@string/versionName"
-                app:mp_title="@string/version" />
-
-            <com.yarolegovich.mp.MaterialStandardPreference
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 app:mp_icon="@drawable/ic_source_branch"
                 app:mp_summary="@string/type"
-                app:mp_title="Build Variant" />
+                app:mp_title="@string/build_variant" />
 
             <com.yarolegovich.mp.MaterialStandardPreference
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mp_icon="@drawable/ic_android_studio"
                 app:mp_summary="@string/applicationId"
-                app:mp_title="Application ID" />
+                app:mp_title="@string/application_id" />
+
+            <com.yarolegovich.mp.MaterialStandardPreference
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mp_icon="@drawable/ic_comment_quote_outline"
+                app:mp_title="@string/feedback" />
+
+            <com.yarolegovich.mp.MaterialStandardPreference
+                android:id="@+id/share_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mp_icon="@drawable/ic_share_variant"
+                app:mp_title="@string/share" />
+
+        </com.yarolegovich.mp.MaterialPreferenceCategory>
+
+        <com.yarolegovich.mp.MaterialPreferenceCategory
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp"
+            app:cardUseCompatPadding="true"
+            app:mpc_title="@string/development"
+            app:mpc_title_color="@color/black">
 
             <com.yarolegovich.mp.MaterialStandardPreference
                 android:id="@+id/update_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mp_icon="@drawable/ic_update"
-                app:mp_summary="https://raw.githubusercontent.com/nikita-t1/update/master/update.json"
-                app:mp_title="Check for Updates" />
+                app:mp_title="@string/check_for_updates" />
+
+            <com.yarolegovich.mp.MaterialStandardPreference
+                android:id="@+id/changelog_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mp_icon="@drawable/ic_radar"
+                app:mp_title="@string/changelog" />
+
+            <com.yarolegovich.mp.MaterialStandardPreference
+                android:id="@+id/bug_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mp_icon="@drawable/ic_bug_outline"
+                app:mp_title="@string/report_bug" />
+
+            <com.yarolegovich.mp.MaterialStandardPreference
+                android:id="@+id/contact_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mp_icon="@drawable/ic_contacts_outline"
+                app:mp_summary="support.dicky@gmail.com"
+                app:mp_title="@string/contact_us" />
+
+            <com.yarolegovich.mp.MaterialStandardPreference
+                android:id="@+id/donate_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mp_icon="@drawable/ic_gift_outline"
+                app:mp_title="@string/support_development" />
 
         </com.yarolegovich.mp.MaterialPreferenceCategory>
 
-    </com.yarolegovich.mp.MaterialPreferenceScreen>
+        <com.yarolegovich.mp.MaterialPreferenceCategory
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp"
+            app:cardUseCompatPadding="true"
+            app:mpc_title="@string/privacy_legal"
+            app:mpc_title_color="@color/black">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <com.yarolegovich.mp.MaterialStandardPreference
+                android:id="@+id/policy_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mp_icon="@drawable/ic_shield_lock"
+                app:mp_title="@string/privacy_policy" />
+
+            <com.yarolegovich.mp.MaterialStandardPreference
+                android:id="@+id/terms_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mp_icon="@drawable/ic_book_open"
+                app:mp_title="@string/terms_service" />
+
+            <com.yarolegovich.mp.MaterialStandardPreference
+                android:id="@+id/libraries_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mp_icon="@drawable/ic_file_document"
+                app:mp_title="@string/third_party_libraries" />
+
+        </com.yarolegovich.mp.MaterialPreferenceCategory>
+
+    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
