@@ -161,9 +161,6 @@ dependencies {
     //ViewPager 2
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
-    //Circular Progressbar
-    implementation 'com.shunan.circularprogressview:circular-progress-view:1.1.0'
-
     //LeakCanary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary"
 
@@ -203,4 +200,7 @@ dependencies {
 
     // ColorPickerDialog is a simple dialog making it quick and easy to add a color picker functionality to any app.
     implementation 'me.jfenn.ColorPickerDialog:base:0.2.1'
+
+    //An Android custom rounded Progress Bar
+    implementation 'com.sasank.roundedhorizontalprogress:roundedhorizontalprogress:1.0.1'
 }

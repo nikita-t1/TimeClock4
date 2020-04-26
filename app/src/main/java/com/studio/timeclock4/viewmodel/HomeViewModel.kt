@@ -16,6 +16,7 @@ import timber.log.Timber
 import com.studio.timeclock4.utils.PreferenceHelper as Pref
 
 class HomeViewModel(application: Application) : AndroidViewModel(application), LifecycleObserver {
+    val app = application
 
     private var workDayDao: WorkDayDao =
         WorkDayDatabase.getWorkDayDatabase(application, viewModelScope).workDayDao()
@@ -34,6 +35,15 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
     private val _startButtonColor = MutableLiveData<Int>()
     val startButtonColor: LiveData<Int> = _startButtonColor
 
+    private val _chronometerFormat = MutableLiveData<String>()
+    val chronometerFormat: LiveData<String> = _chronometerFormat
+    private val _remainingText = MutableLiveData<String>()
+    val remainingText: LiveData<String> = _remainingText
+    private val _progressBarDay = MutableLiveData<Int>()
+    val progressBarDay: LiveData<Int> = _progressBarDay
+    private val _progressBarWeek = MutableLiveData<Int>()
+    val progressBarWeek: LiveData<Int> = _progressBarWeek
+
     private var workingTimeWeekMin: Long
     private var startTimeMin: Long
     private var endTimeMin: Long
@@ -42,12 +52,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
     var noteString: String
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    fun sexy() {
-        var x = 1
-        while (x < 15) {
-//            Log.i("TAG", "HEYYY")
-            x++ // Same as x += 1
-        }
+    fun onResume() {
+
     }
 
     enum class LayoutState{
@@ -104,8 +110,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
 
     fun startPressed() {
         _currentLayoutStateOrdinal.apply {
-            value =
-                LayoutState.next(LayoutState.getState(currentLayoutStateOrdinal.value!!.ordinal))
+            value = LayoutState.next(LayoutState.getState(currentLayoutStateOrdinal.value!!.ordinal))
         }
         if (currentLayoutStateOrdinal.value == LayoutState.Tracking) {
             Timber.i("TIME ${LocalDateTime.now().second}")
@@ -119,24 +124,18 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
         Pref.write(Pref.LAYOUT_STATE, currentLayoutStateOrdinal.value!!.ordinal)
         Timber.d(LayoutState.getState(currentLayoutStateOrdinal.value!!.ordinal).toString())
 
-        if (Pref.read(Pref.CURRENT_START_TIME, 0L) == 0L) _startTime.apply { value = "00:00" }
-        if (Pref.read(Pref.CURRENT_END_TIME, 0L) == 0L) _endTime.apply { value = "00:00" }
-
+        if (Pref.read(Pref.CURRENT_START_TIME, 0L) == 0L) _startTime.value = "00:00"
+        if (Pref.read(Pref.CURRENT_END_TIME, 0L) == 0L) _endTime.value = "00:00"
         Timber.e(startTimeString.value)
-
 
         when (currentLayoutStateOrdinal.value) {
             LayoutState.Ready -> {
                 _startButtonColor.apply { value = R.color.green }
-                _startButtonText.apply {
-                    value = getApplication<Application>().resources.getString(R.string.start)
-                }
+                _startButtonText.apply { value = app.resources.getString(R.string.start) }
             }
             LayoutState.Tracking -> {
                 _startButtonColor.apply { value = R.color.red }
-                _startButtonText.apply {
-                    value = getApplication<Application>().resources.getString(R.string.stop)
-                }
+                _startButtonText.apply { value = app.resources.getString(R.string.stop) }
 
                 startTimeMin = Pref.read(Pref.CURRENT_START_TIME, Pref.Default_START_TIME)
                 pauseTimeMin = Pref.read(Pref.CURRENT_PAUSE_TIME, Pref.read(Pref.PAUSE_TIME, Pref.Default_PAUSE_TIME))
@@ -157,11 +156,26 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
             }
             LayoutState.Saving -> {
                 _startButtonColor.apply { value = R.color.red }
-                _startButtonText.apply {
-                    value = getApplication<Application>().resources.getString(R.string.stop)
-                }
+                _startButtonText.apply { value = app.resources.getString(R.string.stop) }
             }
         }
+    }
+
+    fun onChronometerClick(elapsedMillis: Long, isHourFormat: Boolean){
+        val elapsedMin = elapsedMillis / 1000 / 60.0
+        if (isHourFormat) {
+            when {
+                elapsedMillis < 3600000L -> _chronometerFormat.value = "00:%s"
+                elapsedMillis < 3.6e+7 -> _chronometerFormat.value = "0%s"
+                else -> _chronometerFormat.value = "%s"
+            }
+        } else {
+            _chronometerFormat.value = "%s"
+        }
+        _progressBarDay.value = kotlin.math.floor((elapsedMin / (workingTimeMin + pauseTimeMin) * 100)).toInt()
+        _remainingText.value =
+            TimeCalculations.convertMinutesToDateString(((workingTimeMin + pauseTimeMin) - elapsedMin).toLong())
+
     }
 
     fun dialogCancel() {

@@ -34,26 +34,6 @@ class ChronometerPersist private constructor() {
             ChronometerState.Stopped.ordinal
         )] == ChronometerState.Paused
 
-
-    fun hourFormat(hourFormat: Boolean) {
-        isHourFormat = hourFormat
-        if (isHourFormat) {
-            mChronometer.onChronometerTickListener = Chronometer.OnChronometerTickListener { c ->
-                val elapsedMillis = SystemClock.elapsedRealtime() - c.base
-
-                when {
-                    elapsedMillis < 3600000L -> c.format = "00:%s"
-                    elapsedMillis < 3.6e+7 -> c.format = "0%s"
-                    else -> c.format = "%s"
-                }
-            }
-        } else {
-
-            mChronometer.onChronometerTickListener = null
-            mChronometer.format = "%s"
-        }
-    }
-
     private fun pauseChronometer() {
         storeState(ChronometerState.Paused)
         saveTimeWhenPaused()
@@ -103,10 +83,10 @@ class ChronometerPersist private constructor() {
         storeState(ChronometerState.Stopped)
         mChronometer.base = SystemClock.elapsedRealtime()
         mChronometer.stop()
-        if (isHourFormat)
+//        if (isHourFormat)
             mChronometer.text = "00:00:00"
-        else
-            mChronometer.text = "00:00"
+//        else
+//            mChronometer.text = "00:00"
         clearState()
     }
 

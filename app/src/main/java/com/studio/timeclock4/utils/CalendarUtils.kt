@@ -4,9 +4,13 @@ import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.temporal.ChronoUnit
 import org.threeten.bp.temporal.WeekFields
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 object CalendarUtils {
+    private val dateStringFull: DateFormat= SimpleDateFormat("EEEE, dd.MM.yyyy", Locale.getDefault())
+
 
     val startDate: LocalDateTime get() {
         val startDatePref  = PreferenceHelper.read("startDate", "0")
@@ -51,6 +55,9 @@ object CalendarUtils {
         return ldt.format(formatter)
     }
 
+    fun getFullDateString(): String {
+        return dateStringFull.format(Date())
+    }
 
 
 }

@@ -92,3 +92,4 @@ lint/tmp/
 # lint/reports/
 /.idea/
 /keystore.properties
+/app/src/debug/java/com/studio/timeclock4/KotlinTest.kt

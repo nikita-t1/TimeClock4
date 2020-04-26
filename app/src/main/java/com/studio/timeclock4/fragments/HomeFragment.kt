@@ -30,24 +30,18 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 viewModel.startPressed()
                 chronometerPersist.changeChronometerState(viewModel.currentLayoutStateOrdinal.value!!.ordinal)
             }
-            fragmentView.editButton -> {
-                val dialog = EditFragment(
-                    viewModel.createTemporaryWorkDay(),
-                    EditFragment.DatabaseAction.PREVIEW
-                )
-                showEditDialog(dialog)
-            }
+//            fragmentView.editButton -> {
+//                val dialog = EditFragment(
+//                    viewModel.createTemporaryWorkDay(),
+//                    EditFragment.DatabaseAction.PREVIEW
+//                )
+//                showEditDialog(dialog)
+//            }
             fragmentView.cardView -> {
                 Timber.i("CARD")
             }
-            fragmentView.overviewBtn -> {
-                Timber.i("OVERVIEW")
-            }
             fragmentView.attendanceBtn -> {
                 Timber.i( "ATTENDANCE")
-            }
-            fragmentView.arc_progress -> {
-                Timber.i( "ARC")
             }
             else -> Timber.e( "Something went wrong in the onClick")
         }
@@ -57,14 +51,15 @@ class HomeFragment : Fragment(), View.OnClickListener {
         fragmentView = inflater.inflate(R.layout.fragment_home, container, false)
 
         fragmentView.startButton.setOnClickListener(this)
-        fragmentView.editButton.setOnClickListener(this)
         fragmentView.cardView.setOnClickListener(this)
-        fragmentView.overviewBtn.setOnClickListener(this)
         fragmentView.attendanceBtn.setOnClickListener(this)
-        fragmentView.arc_progress.setOnClickListener(this)
 
         chronometerPersist = ChronometerPersist.getInstance(fragmentView.chrom)
-        chronometerPersist.hourFormat(true)
+        fragmentView.chrom.setOnChronometerTickListener {
+            val elapsedMillis = (SystemClock.elapsedRealtime() - it.base)
+            viewModel.onChronometerClick(elapsedMillis, true)
+            Timber.i("${(elapsedMillis / 1000 / 60)}")
+        }
 
         return fragmentView
     }
@@ -72,19 +67,44 @@ class HomeFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycle.addObserver(viewModel)
+        dayStringFull.text = CalendarUtils.getFullDateString()
 
         viewModel.startButtonText.observe(viewLifecycleOwner, Observer { fragmentView.startButton.text = it })
         viewModel.startTimeString.observe(viewLifecycleOwner, Observer { fragmentView.startTime.text = it })
         viewModel.endTimeString.observe(viewLifecycleOwner, Observer { fragmentView.endTime.text = it })
         viewModel.currentLayoutStateOrdinal.observe(viewLifecycleOwner, Observer {
             if (it.ordinal == 2) showSaveDialog()
-            editButton.isClickable = it.ordinal == 1
+//            editButton.isClickable = it.ordinal == 1
         })
         viewModel.startButtonColor.observe(viewLifecycleOwner, Observer {
             fragmentView.startButton.background.setTint(
                 resources.getColor(it, null)
             )
         })
+        viewModel.chronometerFormat.observe(viewLifecycleOwner, Observer {
+            chrom.format = it
+        })
+
+        viewModel.progressBarDay.observe(viewLifecycleOwner, Observer {
+            horizontal_progress_bar.progress = it
+            Timber.i("$it")
+        })
+
+        viewModel.remainingText.observe(viewLifecycleOwner, Observer {
+            val remainingString =
+                viewModel.progressBarDay.value?.let {progressBarDayValue ->
+                    if (progressBarDayValue >= 100){
+                        remainingText.setTextColor(resources.getColor(R.color.green, null))
+                        return@let "+ $it"
+                    } else {
+                        remainingText.setTextColor(resources.getColor(R.color.red, null))
+                        return@let "- $it"
+                    }
+                }
+            remainingText.text = remainingString
+        })
+
+        viewModel.onChronometerClick(1,true)
     }
 
     private fun showEditDialog(dialog : EditFragment) {

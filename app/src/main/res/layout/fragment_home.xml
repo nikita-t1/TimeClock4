@@ -7,286 +7,239 @@
     tools:context="com.studio.timeclock4.fragments.HomeFragment">
 
 
-    <!--Negative Margin for ArcProgress-->
-
-
     <Chronometer
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="46dp"
-        android:gravity="center"
-        android:textSize="34sp"
-        android:layout_marginTop="6dp"
         android:id="@+id/chrom"
-        android:fontFamily="monospace"
-        app:layout_constraintBottom_toTopOf="@+id/space"
-        app:layout_constraintEnd_toEndOf="@+id/arc_progress"
-        app:layout_constraintStart_toStartOf="@+id/arc_progress"
-        app:layout_constraintTop_toTopOf="@+id/arc_progress"/>
-
-    <com.studio.timeclock4.customviews.ArcProgress
-        android:id="@+id/arc_progress"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_start"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="@dimen/margin_end"
-        app:arc_bottom_text="-1 H. 25 Min."
-        app:arc_bottom_text_color="@color/red"
-        app:arc_bottom_text_size="18sp"
-        app:arc_center_text_color="@color/black"
-        app:arc_central_text="5:12:45"
-        app:arc_finished_color="@color/green"
-        app:arc_progress="50"
-        app:arc_stroke_width="14dp"
-        app:arc_text_size="48sp"
-        app:arc_unfinished_color="@color/light_grey"
-        app:layout_constrainedHeight="true"
-        app:layout_constraintBottom_toTopOf="@id/space"
-        app:layout_constraintDimensionRatio="H,1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Space
-        android:id="@+id/space"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/overviewBtn"
-        app:layout_constraintEnd_toEndOf="@+id/attendanceBtn"
-        app:layout_constraintStart_toStartOf="@+id/overviewBtn" />
+        android:fontFamily="monospace"
+        android:gravity="center"
+        android:textSize="64sp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/horizontal_progress_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <com.sasank.roundedhorizontalprogress.RoundedHorizontalProgressBar
+        android:id="@+id/horizontal_progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        android:maxHeight="12dp"
+        android:minHeight="12dp"
+        android:progress="40"
+        app:backgroundColor="@color/light_grey"
+        app:layout_constraintBottom_toTopOf="@+id/remainingText"
+        app:layout_constraintEnd_toEndOf="@+id/chrom"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/chrom"
+        app:layout_constraintTop_toBottomOf="@+id/chrom"
+        app:progressColor="@color/green" />
+
+    <TextView
+        android:id="@+id/remainingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/red"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineHorizontalCenter"
+        app:layout_constraintEnd_toEndOf="@+id/horizontal_progress_bar"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/horizontal_progress_bar"
+        app:layout_constraintTop_toBottomOf="@+id/horizontal_progress_bar"
+        tools:text="-3H 78Min" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHorizontalCenter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".5" />
+        app:layout_constraintGuide_percent="0.4" />
 
-    <TextView
-        android:id="@+id/overviewBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:clickable="true"
-        android:drawableStart="@drawable/ic_timer"
-        android:drawablePadding="@dimen/icon_padding"
-        android:focusable="true"
-        android:gravity="center"
-        android:padding="12dp"
-        android:text="string/applicationId"
-        app:layout_constraintBottom_toTopOf="@+id/cardView"
-        app:layout_constraintEnd_toStartOf="@+id/attendanceBtn"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guidelineHorizontalCenter" />
-
-    <TextView
+    <com.google.android.material.chip.Chip
         android:id="@+id/attendanceBtn"
+        style="@style/Widget.MaterialComponents.Chip.Action"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:clickable="true"
-        android:drawableStart="@drawable/ic_calendar_edit"
         android:drawablePadding="@dimen/icon_padding"
         android:focusable="true"
         android:gravity="center"
+        android:backgroundTint="@color/light_grey"
         android:padding="12dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
         android:text="@string/attendance"
+        app:chipIcon="@drawable/ic_timer"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toEndOf="@+id/overviewBtn"
-        app:layout_constraintTop_toTopOf="@+id/guidelineHorizontalCenter" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineHorizontalCenter"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineVerticalCenter"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.65" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/margin_start"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
         android:layout_marginEnd="@dimen/margin_end"
         android:layout_marginBottom="16dp"
         app:cardCornerRadius="@dimen/corner_radius"
         app:cardElevation="4dp"
         app:layout_constraintBottom_toTopOf="@+id/guidelineHorizontalBottom"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineVerticalCenter"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/overviewBtn"
-        app:strokeColor="@color/blue"
-        app:strokeWidth="1dp">
+        app:layout_constraintTop_toBottomOf="@id/attendanceBtn">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="#EDE5F0"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelineVerticalCenter"
+            <TextView
+                android:id="@+id/dayStringFull"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent=".5" />
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/friday"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/textViewStart"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textViewStart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="14dp"
                 android:layout_marginEnd="8dp"
                 android:lines="1"
                 android:text="@string/start_time"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toStartOf="@+id/guidelineVerticalCenter"
-                app:layout_constraintHorizontal_bias="0.2"
+                app:layout_constraintBottom_toTopOf="@+id/textViewEnd"
+                app:layout_constraintEnd_toStartOf="@+id/startTime"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/dayStringFull"
+                app:layout_constraintVertical_chainStyle="spread" />
 
             <TextView
                 android:id="@+id/startTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="12dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:lines="1"
-                android:textSize="22sp"
-                app:layout_constraintBottom_toTopOf="@+id/guidelineCardViewHorizontalCenter"
-                app:layout_constraintStart_toStartOf="@+id/textViewStart"
-                app:layout_constraintTop_toBottomOf="@+id/textViewStart"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textViewStart"
+                app:layout_constraintTop_toTopOf="@+id/textViewStart"
                 tools:text="7 H. 25 Min." />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelineCardViewHorizontalCenter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.5" />
 
             <TextView
                 android:id="@+id/textViewEnd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="6dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="14dp"
                 android:lines="1"
                 android:text="@string/end_time"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toStartOf="@+id/guidelineVerticalCenter"
-                app:layout_constraintHorizontal_bias=".2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/endTime"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guidelineCardViewHorizontalCenter" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewStart" />
 
             <TextView
                 android:id="@+id/endTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginEnd="8dp"
                 android:lines="1"
-                android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textViewEnd"
-                app:layout_constraintTop_toBottomOf="@+id/textViewEnd"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewEnd"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textViewEnd"
+                app:layout_constraintTop_toTopOf="@+id/textViewEnd"
                 tools:text="15 H. 25 Min." />
-
-            <TextView
-                android:id="@+id/thisWeek"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/this_week"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/circularProgressBar"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guidelineVerticalCenter"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.shunan.circularprogressbar.CircularProgressBar
-                android:id="@+id/circularProgressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/endTime"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/guidelineVerticalCenter"
-                app:layout_constraintTop_toBottomOf="@+id/textViewStart"
-                app:progress="30"
-                app:progressBackgroundWidth="6dp"
-                app:progressColor="@color/green"
-                app:progressWidth="6dp"
-                app:showDot="false" />
-
-            <TextView
-                android:id="@+id/timeLeftOfWeek"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="20dp"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guidelineVerticalCenter"
-                app:layout_constraintTop_toBottomOf="@+id/textViewEnd"
-                android:text="-17 H. 25 Min." />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/this_week"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/this_week"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/week_progress_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cardView"
+        app:layout_constraintTop_toTopOf="@+id/cardView"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <com.studio.timeclock4.customviews.CircularProgressView
+        android:id="@+id/week_progress_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="6dp"
+        app:barWidth="12dp"
+        app:countText="50%"
+        app:countTextSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cardView"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cardView"
+        app:layout_constraintTop_toBottomOf="@id/this_week"
+        app:percentage="200"
+        app:progressColor="@color/red" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHorizontalBottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".9" />
+        app:layout_constraintGuide_percent="0.85" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/startButton"
         android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="@dimen/margin_start"
+        android:layout_height="64dp"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/green"
         android:text="@string/start"
         app:cornerRadius="6dp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/editButton"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guidelineHorizontalBottom" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/editButton"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_marginEnd="@dimen/margin_end"
-        android:backgroundTint="@color/grey"
-        app:cornerRadius="8dp"
-        app:icon="@drawable/ic_circle_edit_outline"
-        app:iconGravity="textStart"
-        app:iconPadding="0dp"
-        app:iconTint="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/startButton"
-        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintHorizontal_weight="5"
-        app:layout_constraintStart_toEndOf="@+id/startButton"
-        app:layout_constraintTop_toTopOf="@+id/startButton" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineHorizontalBottom"
+        app:layout_constraintVertical_bias="0.38" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
