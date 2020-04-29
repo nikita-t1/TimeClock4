@@ -41,7 +41,7 @@
         android:elevation="24dp"
         android:background="@drawable/bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         app:menu="@menu/menu_navigation"/>
 
 </LinearLayout>

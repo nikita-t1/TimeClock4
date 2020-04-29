@@ -1,10 +1,12 @@
 package com.studio.timeclock4.fragments
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.os.SystemClock
-import android.view.LayoutInflater
+import android.util.TypedValue
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -12,84 +14,76 @@ import com.studio.timeclock4.R
 import com.studio.timeclock4.utils.*
 import com.studio.timeclock4.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_home.view.*
 import timber.log.Timber
 
 
-class HomeFragment : Fragment(), View.OnClickListener {
+class HomeFragment : Fragment(R.layout.fragment_home), View.OnClickListener {
 
     private lateinit var chronometerPersist: ChronometerPersist
-    private lateinit var fragmentView: View
     private val viewModel: HomeViewModel by lazy {
-        ViewModelProvider(this).get(HomeViewModel::class.java)
+        ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
+    }
+    private val bottomNavBarHeight by lazy {
+        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 56f, activity!!.resources.displayMetrics).toInt()
     }
 
     override fun onClick(v: View?) {
         when (v) {
-            fragmentView.startButton -> {
+            startButton -> {
                 viewModel.startPressed()
                 chronometerPersist.changeChronometerState(viewModel.currentLayoutStateOrdinal.value!!.ordinal)
             }
-//            fragmentView.editButton -> {
-//                val dialog = EditFragment(
-//                    viewModel.createTemporaryWorkDay(),
-//                    EditFragment.DatabaseAction.PREVIEW
-//                )
-//                showEditDialog(dialog)
-//            }
-            fragmentView.cardView -> {
-                Timber.i("CARD")
+            cardView -> {
+                val location = IntArray(2)
+                guidelineHorizontalCenter.getLocationOnScreen(location)
+                val sourceX = location[0]
+                val sourceY = location[1]
+                Timber.i("$sourceY, ${resources.displayMetrics.heightPixels}, $bottomNavBarHeight")
+                createAnimatorSet(0f).start()
+                showEditDialog(HomeDetailsFragment(sourceY, bottomNavBarHeight))
             }
-            fragmentView.attendanceBtn -> {
+            attendanceBtn -> {
                 Timber.i( "ATTENDANCE")
             }
             else -> Timber.e( "Something went wrong in the onClick")
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        fragmentView = inflater.inflate(R.layout.fragment_home, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        lifecycle.addObserver(viewModel)
 
-        fragmentView.startButton.setOnClickListener(this)
-        fragmentView.cardView.setOnClickListener(this)
-        fragmentView.attendanceBtn.setOnClickListener(this)
+        startButton.setOnClickListener(this)
+        cardView.setOnClickListener(this)
+        attendanceBtn.setOnClickListener(this)
 
-        chronometerPersist = ChronometerPersist.getInstance(fragmentView.chrom)
-        fragmentView.chrom.setOnChronometerTickListener {
+        chronometerPersist = ChronometerPersist.getInstance(chrom)
+        chrom.setOnChronometerTickListener {
             val elapsedMillis = (SystemClock.elapsedRealtime() - it.base)
             viewModel.onChronometerClick(elapsedMillis, true)
             Timber.i("${(elapsedMillis / 1000 / 60)}")
         }
-
-        return fragmentView
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        lifecycle.addObserver(viewModel)
         dayStringFull.text = CalendarUtils.getFullDateString()
 
-        viewModel.startButtonText.observe(viewLifecycleOwner, Observer { fragmentView.startButton.text = it })
-        viewModel.startTimeString.observe(viewLifecycleOwner, Observer { fragmentView.startTime.text = it })
-        viewModel.endTimeString.observe(viewLifecycleOwner, Observer { fragmentView.endTime.text = it })
+        viewModel.startButtonText.observe(viewLifecycleOwner, Observer { startButton.text = it })
+        viewModel.startTimeString.observe(viewLifecycleOwner, Observer { startTime.text = it })
+        viewModel.endTimeString.observe(viewLifecycleOwner, Observer { endTime.text = it })
         viewModel.currentLayoutStateOrdinal.observe(viewLifecycleOwner, Observer {
             if (it.ordinal == 2) showSaveDialog()
 //            editButton.isClickable = it.ordinal == 1
         })
         viewModel.startButtonColor.observe(viewLifecycleOwner, Observer {
-            fragmentView.startButton.background.setTint(
+            startButton.background.setTint(
                 resources.getColor(it, null)
             )
         })
         viewModel.chronometerFormat.observe(viewLifecycleOwner, Observer {
             chrom.format = it
         })
-
         viewModel.progressBarDay.observe(viewLifecycleOwner, Observer {
             horizontal_progress_bar.progress = it
             Timber.i("$it")
         })
-
         viewModel.remainingText.observe(viewLifecycleOwner, Observer {
             val remainingString =
                 viewModel.progressBarDay.value?.let {progressBarDayValue ->
@@ -107,7 +101,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         viewModel.onChronometerClick(1,true)
     }
 
-    private fun showEditDialog(dialog : EditFragment) {
+    private fun showEditDialog(dialog : DialogFragment) {
         dialog.setTargetFragment(this, 0)
         dialog.show(parentFragmentManager, "dialog")
     }
@@ -116,6 +110,15 @@ class HomeFragment : Fragment(), View.OnClickListener {
         super.onResume()
         chronometerPersist.resumeState()
         Timber.i("IM BACK BITCHES")
+    }
+
+    private fun createAnimatorSet(alpha: Float): AnimatorSet {
+        val progressBar_fade = ObjectAnimator.ofFloat(horizontal_progress_bar, View.ALPHA, alpha)
+        val remainingText_fade = ObjectAnimator.ofFloat(remainingText, View.ALPHA, alpha)
+        val cardViewConstraint_fade = ObjectAnimator.ofFloat(cardViewConstraint, View.ALPHA, alpha)
+        val animatorSet = AnimatorSet()
+        animatorSet.playTogether(progressBar_fade, remainingText_fade, cardViewConstraint_fade)
+        return animatorSet
     }
 
     private fun showSaveDialog() {
@@ -140,7 +143,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     fun receiveNewWorkDayValues(startTimeMin: Int, pauseTime: Int, userNote: String) {
         val currentStartTime = PreferenceHelper.read(PreferenceHelper.CURRENT_START_TIME, PreferenceHelper.Default_START_TIME)
-        Timber.e("new: $startTimeMin , old: $currentStartTime")
         if (currentStartTime < startTimeMin){
             val difference = startTimeMin - currentStartTime
             chronometerPersist.substractFromChronometerBase(difference*60)
@@ -149,5 +151,9 @@ class HomeFragment : Fragment(), View.OnClickListener {
             chronometerPersist.addToChronometerBase(difference*60)
         }
         viewModel.setNewWorkDayValues(startTimeMin, pauseTime, userNote)
+    }
+
+    fun onDetailsDismiss() {
+        createAnimatorSet(1f).start()
     }
 }

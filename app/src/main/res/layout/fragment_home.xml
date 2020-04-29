@@ -13,11 +13,11 @@
         android:layout_height="wrap_content"
         android:fontFamily="monospace"
         android:gravity="center"
-        android:textSize="64sp"
+        android:textSize="72sp"
+        android:maxLines="1"
         android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toTopOf="@+id/horizontal_progress_bar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
@@ -31,13 +31,13 @@
         android:maxHeight="12dp"
         android:minHeight="12dp"
         android:progress="40"
+        app:progressColor="#F38D8B"
         app:backgroundColor="@color/light_grey"
         app:layout_constraintBottom_toTopOf="@+id/remainingText"
         app:layout_constraintEnd_toEndOf="@+id/chrom"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/chrom"
-        app:layout_constraintTop_toBottomOf="@+id/chrom"
-        app:progressColor="@color/green" />
+        app:layout_constraintTop_toBottomOf="@+id/chrom" />
 
     <TextView
         android:id="@+id/remainingText"
@@ -53,6 +53,14 @@
         app:layout_constraintTop_toBottomOf="@+id/horizontal_progress_bar"
         tools:text="-3H 78Min" />
 
+    <View
+        android:id="@+id/guidelineHorizontalCenterDEBUG"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_blue"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineHorizontalCenter"
+        app:layout_constraintTop_toTopOf="@+id/guidelineHorizontalCenter" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHorizontalCenter"
         android:layout_width="match_parent"
@@ -60,22 +68,22 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.4" />
 
-    <com.google.android.material.chip.Chip
+    <TextView
+        android:textColor="@color/black"
         android:id="@+id/attendanceBtn"
-        style="@style/Widget.MaterialComponents.Chip.Action"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="22dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:clickable="true"
-        android:drawablePadding="@dimen/icon_padding"
         android:focusable="true"
         android:gravity="center"
         android:backgroundTint="@color/light_grey"
         android:padding="12dp"
         android:text="@string/attendance"
-        app:chipIcon="@drawable/ic_timer"
+        android:drawableStart="@drawable/ic_timer"
+        android:drawablePadding="@dimen/icon_padding"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guidelineHorizontalCenter"
@@ -90,6 +98,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView"
+        android:transitionName="firstTransitionName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="22dp"
@@ -104,19 +113,21 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:background="#EDE5F0"
+            android:id="@+id/cardViewConstraint"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/dayStringFull"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="14dp"
                 android:text="@string/friday"
+                android:paddingStart="8dp"
+                android:textColor="@color/black"
                 android:textSize="20sp"
-                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/textViewStart"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -195,6 +206,7 @@
         android:layout_height="wrap_content"
         android:text="@string/this_week"
         android:textStyle="bold"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/week_progress_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cardView"
@@ -209,13 +221,13 @@
         app:barWidth="12dp"
         app:countText="50%"
         app:countTextSize="14sp"
+        app:progressColor="#F38D8B"
         app:layout_constraintBottom_toBottomOf="@+id/cardView"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cardView"
         app:layout_constraintTop_toBottomOf="@id/this_week"
-        app:percentage="200"
-        app:progressColor="@color/red" />
+        app:percentage="200" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHorizontalBottom"
@@ -228,13 +240,14 @@
         android:id="@+id/startButton"
         android:layout_width="0dp"
         android:layout_height="64dp"
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginHorizontal="22dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/green"
         android:text="@string/start"
         app:cornerRadius="6dp"
         android:textSize="16sp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/alpha"
+    android:id="@+id/ooo"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <com.google.android.material.card.MaterialCardView
+        app:cardUseCompatPadding="true"
+        android:layout_marginHorizontal="12dp"
+        android:transitionName="secondTransitionName"
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/corner_radius"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#EDE5F0">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineVerticalCenter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.6" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineHorizontalInnerCenter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.25" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineHorizontalBottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.55" />
+
+            <TextView
+                android:textColor="@color/black"
+                android:id="@+id/dayStringFull"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="26dp"
+                android:layout_marginBottom="28dp"
+                android:text="@string/friday"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@id/todayText"
+                app:layout_constraintEnd_toStartOf="@+id/edit_btn"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/edit_btn"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:iconPadding="0dp"
+                style="@style/DayButton"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:backgroundTint="@color/light_grey"
+                android:gravity="center_vertical|start"
+                app:cornerRadius="16dp"
+                app:iconGravity="textStart"
+                app:icon="@drawable/ic_circle_edit_outline"
+                app:iconTint="@color/blue_grey"
+                app:layout_constraintBottom_toTopOf="@+id/thisWeekText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/dayStringFull"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:textColor="@color/black"
+                android:id="@+id/todayText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="18dp"
+                android:text="@string/today"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guidelineHorizontalInnerCenter"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineVerticalCenter"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dayStringFull" />
+
+            <TextView
+                android:textColor="@color/black"
+                android:id="@+id/thisWeekText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/this_week"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/todayText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guidelineVerticalCenter"
+                app:layout_constraintTop_toTopOf="@+id/todayText" />
+
+            <TextView
+                android:id="@+id/textViewStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:lines="1"
+                android:text="@string/start_time"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/textViewEnd"
+                app:layout_constraintEnd_toStartOf="@+id/startTime"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guidelineHorizontalInnerCenter"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/startTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:lines="1"
+                android:text="7 H. 25 Min."
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewStart"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineVerticalCenter"
+                app:layout_constraintStart_toEndOf="@+id/textViewStart"
+                app:layout_constraintTop_toTopOf="@+id/textViewStart" />
+
+            <TextView
+                android:id="@+id/textViewEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="14dp"
+                android:lines="1"
+                android:text="@string/end_time"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@id/textViewPause"
+                app:layout_constraintEnd_toStartOf="@+id/endTime"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewStart" />
+
+            <TextView
+                android:id="@+id/endTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:text="15 H. 25 Min."
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewEnd"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineVerticalCenter"
+                app:layout_constraintStart_toEndOf="@+id/textViewEnd"
+                app:layout_constraintTop_toTopOf="@+id/textViewEnd" />
+
+            <TextView
+                android:id="@+id/textViewPause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:lines="1"
+                android:text="@string/pause_time"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/guidelineHorizontalBottom"
+                app:layout_constraintEnd_toStartOf="@+id/pauseTime"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewEnd" />
+
+            <TextView
+                android:id="@+id/pauseTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:text="15 H. 25 Min."
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewPause"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineVerticalCenter"
+                app:layout_constraintStart_toEndOf="@+id/textViewPause"
+                app:layout_constraintTop_toTopOf="@+id/textViewPause" />
+
+            <com.studio.timeclock4.customviews.CircularProgressView
+                android:id="@+id/circularProgressView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="48dp"
+                app:percentage="0"
+                app:barWidth="12dp"
+                app:progressColor="#F38D8B"
+                app:layout_constraintBottom_toTopOf="@+id/remainingTextDay"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineVerticalCenter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guidelineHorizontalBottom"
+                app:layout_constraintVertical_chainStyle="spread_inside" />
+
+            <TextView
+                android:id="@+id/remainingTextDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                tools:text="sdfsdf"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineVerticalCenter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/circularProgressView" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

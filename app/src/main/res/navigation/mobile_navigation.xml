@@ -78,4 +78,9 @@
         android:name="com.studio.timeclock4.fragments.TimeSettingsSheetFragment"
         tools:layout="@layout/fragment_time_settings_sheet"
         android:label="TimeSettingsSheetFragment" />
+    <fragment
+        android:id="@+id/destination_homeDetails"
+        android:name="com.studio.timeclock4.fragments.HomeDetailsFragment"
+        tools:layout="@layout/fragment_home_details"
+        android:label="HomeDetailsFragment" />
 </navigation>

@@ -25,7 +25,7 @@ class CircularProgressView : View {
 
     //Colors (with defaults)
     private var mProgressColor = Color.GREEN
-    private var mRimColor = -0x11111112
+    private var mRimColor = Color.parseColor("#D1CCD2")
     private var mCountTextColor = Color.BLACK
     private var mDefTextColor = Color.BLACK
 

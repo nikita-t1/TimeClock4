@@ -26,6 +26,12 @@
 
     </style>
 
+
+    <style name="HomeDetailsFragmentAnimation" >
+        <item name="android:windowEnterAnimation">@anim/anim_in_home_details_fragment</item>
+        <item name="android:windowExitAnimation">@anim/anim_out_home_details_fragment</item>
+    </style>
+
     <!--AlertView-->
     <style name="CustomBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
