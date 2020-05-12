@@ -10,10 +10,13 @@ interface WorkDayDao {
     fun getAllWorkDays(): LiveData<List<WorkDay>>
 
     @Query("SELECT * FROM workday_table WHERE year = :year AND month = :month AND dayOfMonth = :day")
-    fun getWorkday(day : Int, month : Int, year :Int): WorkDay
+    fun getWorkday(day: Int, month: Int, year: Int): WorkDay
+
+    @Query("SELECT year, month, dayOfMonth, workTimeNet, overtime FROM workday_table WHERE year = :year AND weekOfYear = :weekOfYear")
+    fun getMinimalWorkday(year: Int, weekOfYear: Int): List<MinimalWorkDay>
 
     @Query("SELECT * FROM workday_table WHERE workDayId = :id")
-    fun getWorkday(id : Int): WorkDay
+    fun getWorkday(id: Int): WorkDay
 
     @Insert
     suspend fun insertWorkDay(workDay: WorkDay)

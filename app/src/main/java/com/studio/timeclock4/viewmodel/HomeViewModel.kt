@@ -10,7 +10,9 @@ import com.studio.timeclock4.model.WorkDayDatabase
 import com.studio.timeclock4.model.WorkDayRepository
 import com.studio.timeclock4.utils.CalendarUtils
 import com.studio.timeclock4.utils.TimeCalculations
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.threeten.bp.LocalDateTime
 import timber.log.Timber
 import com.studio.timeclock4.utils.PreferenceHelper as Pref
@@ -43,17 +45,57 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
     val progressBarDay: LiveData<Int> = _progressBarDay
     private val _progressBarWeek = MutableLiveData<Int>()
     val progressBarWeek: LiveData<Int> = _progressBarWeek
+    private var workTimeNetWeek: Int = 0
+    private var meanWorkTimeSetPoint: Int = 0 //Mittelwert der Sollarbeitszeit
 
     private var workingTimeWeekMin: Long
     private var startTimeMin: Long
     private var endTimeMin: Long
     private var pauseTimeMin: Long
     private var workingTimeMin: Long
+    private var workingDaysWeek: Int
     var noteString: String
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    fun onResume() {
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    fun onCreate() {
+        Timber.i("RESUME")
+        viewModelScope.launch(Dispatchers.IO) {
 
+            val ldt = LocalDateTime.now()
+            workTimeNetWeek = 0
+            var workDaySetPoint = 0
+            val daysInDatabaseWeek = arrayListOf<Int>()
+            val minimalWorkdayList =
+                repository.getMinimalWorkday(ldt.year, CalendarUtils.getWeekOfYear(ldt))
+
+            Timber.i("minimalWorkdayList ${minimalWorkdayList.size}")
+            for (workday in minimalWorkdayList) {
+                workTimeNetWeek += workday.workTimeNet
+                if (workday.dayOfMonth !in daysInDatabaseWeek) { // !in == not in
+                    daysInDatabaseWeek.add(workday.dayOfMonth)
+                    workDaySetPoint += calcWorkTimeSetPoint(workday.workTimeNet, workday.overtime)
+                }
+            }
+
+            val missingDays =
+                when {
+                    workingDaysWeek - daysInDatabaseWeek.size >= 0 -> workingDaysWeek - daysInDatabaseWeek.size
+                    workingDaysWeek - daysInDatabaseWeek.size < 0 -> 0
+                    else -> 0
+                }
+
+            if (workingDaysWeek > daysInDatabaseWeek.size){
+                workDaySetPoint += missingDays * workingTimeMin.toInt()
+                meanWorkTimeSetPoint = workDaySetPoint / (daysInDatabaseWeek.size + missingDays) * workingDaysWeek
+            } else {
+                meanWorkTimeSetPoint = workDaySetPoint / daysInDatabaseWeek.size * workingDaysWeek
+            }
+
+            withContext(Dispatchers.Main){
+                _progressBarWeek.value = kotlin.math.floor(
+                    ((workTimeNetWeek) / meanWorkTimeSetPoint.toFloat()) * 100).toInt()
+            }
+        }
     }
 
     enum class LayoutState{
@@ -74,11 +116,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
         }
     }
 
-
     init {
         repository = WorkDayRepository(workDayDao)
 
-        Timber.d( "init")
+        Timber.w( "init")
         _currentLayoutStateOrdinal.apply {
             value = LayoutState.values()[Pref.read(
                 Pref.LAYOUT_STATE,
@@ -102,13 +143,16 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
         }
 
         workingTimeMin = Pref.read(Pref.WORKING_TIME, Pref.Default_WORKING_TIME)
-        workingTimeWeekMin = workingTimeMin * Pref.read(Pref.WORKING_DAYS_WEEK, Pref.Default_WORKING_DAYS_WEEK)
+        Timber.w("$workingTimeMin")
+        workingDaysWeek = Pref.read(Pref.WORKING_DAYS_WEEK, Pref.Default_WORKING_DAYS_WEEK)
+        workingTimeWeekMin = workingTimeMin * workingDaysWeek
 
         noteString = Pref.read(Pref.CURRENT_NOTE, Pref.Default_CURRENT_NOTE)
         updateLayoutState()
     }
 
     fun startPressed() {
+
         _currentLayoutStateOrdinal.apply {
             value = LayoutState.next(LayoutState.getState(currentLayoutStateOrdinal.value!!.ordinal))
         }
@@ -175,6 +219,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
         _progressBarDay.value = kotlin.math.floor((elapsedMin / (workingTimeMin + pauseTimeMin) * 100)).toInt()
         _remainingText.value =
             TimeCalculations.convertMinutesToDateString(((workingTimeMin + pauseTimeMin) - elapsedMin).toLong())
+        Timber.i("$workTimeNetWeek + $elapsedMin")
+        _progressBarWeek.value = kotlin.math.floor(((workTimeNetWeek + elapsedMin.toInt()) / meanWorkTimeSetPoint.toFloat()) * 100).toInt()
+
 
     }
 
@@ -251,5 +298,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
         Pref.write(Pref.CURRENT_PAUSE_TIME, pauseTime.toLong())
         Pref.write(Pref.CURRENT_NOTE, noteString)
         updateLayoutState()
+    }
+
+    private fun calcWorkTimeSetPoint(workTimeNet: Int, overtime: Int): Int{
+        return workTimeNet - overtime
     }
 }

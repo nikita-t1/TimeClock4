@@ -4,6 +4,7 @@ import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.temporal.ChronoUnit
 import org.threeten.bp.temporal.WeekFields
+import timber.log.Timber
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -28,6 +29,7 @@ object CalendarUtils {
 
     fun getWeekOfYear(ldt : LocalDateTime): Int {
         val weekField : WeekFields = WeekFields.of(Locale.getDefault())
+        Timber.i("${weekField.weekOfWeekBasedYear()}")
         return ldt.get(weekField.weekOfWeekBasedYear())
     }
 

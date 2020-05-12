@@ -18,8 +18,13 @@ class WorkDayRepository(private val workDayDao: WorkDayDao) {
 
     suspend fun getWorkday(id: Int) : WorkDay{
         return withContext(Dispatchers.IO){
-            Timber.i("${Thread.currentThread().name} $id")
             workDayDao.getWorkday(id)
+        }
+    }
+
+    suspend fun getMinimalWorkday(year: Int, weekOfYear: Int): List<MinimalWorkDay>{
+        return withContext(Dispatchers.IO){
+            workDayDao.getMinimalWorkday(year, weekOfYear)
         }
     }
 

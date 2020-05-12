@@ -16,7 +16,6 @@ import com.studio.timeclock4.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import timber.log.Timber
 
-
 class HomeFragment : Fragment(R.layout.fragment_home), View.OnClickListener {
 
     private lateinit var chronometerPersist: ChronometerPersist
@@ -83,6 +82,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), View.OnClickListener {
         viewModel.progressBarDay.observe(viewLifecycleOwner, Observer {
             horizontal_progress_bar.progress = it
             Timber.i("$it")
+        })
+        viewModel.progressBarWeek.observe(viewLifecycleOwner, Observer {
+            week_progress_view.setPercentage(kotlin.math.floor(it * 3.6).toInt())
+            week_progress_view.setStepCountText("$it%")
+
         })
         viewModel.remainingText.observe(viewLifecycleOwner, Observer {
             val remainingString =

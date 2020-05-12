@@ -11,7 +11,7 @@ data class WorkDay(
 
     var year: Int,
     var weekOfYear: Int,
-    var dayOfWeek: Int,
+    var dayOfWeek: Int, // <-- can be omitted
     var dayOfMonth: Int,
     var month: Int,
 
