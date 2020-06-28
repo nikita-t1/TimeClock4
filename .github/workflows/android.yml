@@ -1,11 +1,6 @@
 name: Android CI
 
-on:
-  # Trigger the workflow on push or pull request,
-  # but only for the master branch
-  push:
-    branches:
-      - master
+on: [push]
 jobs:
 
   buildTest:
@@ -17,8 +12,15 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - name: Download Dependencies
+        run: bash ./gradlew dependencies
       - name: Build with Gradle
-        run: bash ./gradlew build check
+        run: bash ./gradlew build check assemble --stacktrace
+      - name: Upload Checks
+        uses: actions/upload-artifact@v1
+        with:
+          name: report
+          path: ///home/runner/work/Circlee/Circlee/app/build/reports/lint-results.html
       
   createAPK:
     needs: [buildTest]
