@@ -7,9 +7,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.studio.timeclock4.model.WorkDay
-import com.studio.timeclock4.model.WorkDayDatabase
-import com.studio.timeclock4.model.WorkDayRepository
+import com.studio.timeclock4.database.WorkDayDatabase
+import com.studio.timeclock4.database.entity.WorkDay
+import com.studio.timeclock4.repositories.WorkDayRepository
 import com.studio.timeclock4.utils.CalendarUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -61,7 +61,8 @@ class ListingViewModel(application: Application) : AndroidViewModel(application)
         // the correct WordRepository.
         val workDayDao =
             WorkDayDatabase.getWorkDayDatabase(application, viewModelScope).workDayDao()
-        repository = WorkDayRepository(workDayDao)
+        repository =
+            WorkDayRepository(workDayDao)
         allWorkDays = repository.allWorkDays
         Timber.i("init viewmodel")
         emptyWorkDay = WorkDay(

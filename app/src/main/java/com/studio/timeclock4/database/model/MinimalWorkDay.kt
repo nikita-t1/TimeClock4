@@ -1,4 +1,4 @@
-package com.studio.timeclock4.model
+package com.studio.timeclock4.database.model
 
 data class MinimalWorkDay(
 //    val workDayId: Int,

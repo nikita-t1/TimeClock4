@@ -1,4 +1,4 @@
-package com.studio.timeclock4.model
+package com.studio.timeclock4.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

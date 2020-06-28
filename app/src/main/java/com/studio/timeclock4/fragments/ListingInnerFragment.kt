@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import com.google.android.material.button.MaterialButton
 import com.studio.timeclock4.R
-import com.studio.timeclock4.model.WorkDay
+import com.studio.timeclock4.database.entity.WorkDay
 import com.studio.timeclock4.utils.CalendarUtils
 import com.studio.timeclock4.utils.PreferenceHelper
 import com.studio.timeclock4.utils.TimeCalculations.convertMinutesToDateString
@@ -183,9 +183,22 @@ class ListingInnerFragment(private val position: Int) : Fragment(), View.OnClick
                             listingViewModel.setEditDialog(true)
                             val dialog = EditFragment(
                                 WorkDay(
-                                    0, currentDate.year, CalendarUtils.getWeekOfYear(currentDate), currentDate.dayOfWeek.value,
-                                    currentDate.dayOfMonth, currentDate.monthValue, 0, 0, 0, 0,
-                                    0, 0, true, null, null, null
+                                    0,
+                                    currentDate.year,
+                                    CalendarUtils.getWeekOfYear(currentDate),
+                                    currentDate.dayOfWeek.value,
+                                    currentDate.dayOfMonth,
+                                    currentDate.monthValue,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    true,
+                                    null,
+                                    null,
+                                    null
                                 ), EditFragment.DatabaseAction.INSERT
                             )
                             dialog.show(childFragmentManager, dialog.tag)

@@ -14,7 +14,7 @@ import com.akexorcist.snaptimepicker.SnapTimePickerDialog
 import com.akexorcist.snaptimepicker.TimeValue
 import com.studio.timeclock4.BuildConfig
 import com.studio.timeclock4.R
-import com.studio.timeclock4.model.WorkDay
+import com.studio.timeclock4.database.entity.WorkDay
 import com.studio.timeclock4.utils.ErrorHandler
 import com.studio.timeclock4.utils.ErrorTypes
 import com.studio.timeclock4.viewmodel.ListingViewModel

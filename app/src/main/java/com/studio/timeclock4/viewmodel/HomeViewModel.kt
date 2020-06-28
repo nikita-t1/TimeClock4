@@ -4,10 +4,10 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.studio.timeclock4.BuildConfig
 import com.studio.timeclock4.R
-import com.studio.timeclock4.model.WorkDay
-import com.studio.timeclock4.model.WorkDayDao
-import com.studio.timeclock4.model.WorkDayDatabase
-import com.studio.timeclock4.model.WorkDayRepository
+import com.studio.timeclock4.database.WorkDayDatabase
+import com.studio.timeclock4.database.dao.WorkDayDao
+import com.studio.timeclock4.database.entity.WorkDay
+import com.studio.timeclock4.repositories.WorkDayRepository
 import com.studio.timeclock4.utils.CalendarUtils
 import com.studio.timeclock4.utils.TimeCalculations
 import kotlinx.coroutines.Dispatchers
@@ -117,7 +117,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
     }
 
     init {
-        repository = WorkDayRepository(workDayDao)
+        repository =
+            WorkDayRepository(workDayDao)
 
         Timber.w( "init")
         _currentLayoutStateOrdinal.apply {
@@ -237,7 +238,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
     fun dialogSave(endTime: Long) {
         viewModelScope.launch {
             val ldt = LocalDateTime.now()
-            val workDay = WorkDay(0,
+            val workDay = WorkDay(
+                0,
                 ldt.year,
                 CalendarUtils.getWeekOfYear(ldt),
                 ldt.dayOfWeek.value,
@@ -252,7 +254,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
                 true,
                 null,
                 noteString,
-                null)
+                null
+            )
             if (Pref.read(Pref.DEV_EnableSaving, true) or !BuildConfig.DEBUG){
                 val existingWorkDay = repository.getWorkday(ldt.dayOfMonth, ldt.monthValue, ldt.year)
                 if (existingWorkDay != null){
@@ -275,14 +278,15 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
 
     fun createTemporaryWorkDay(): WorkDay {
         val ldt = LocalDateTime.now()
-        return WorkDay(0,
+        return WorkDay(
+            0,
             ldt.year,
             CalendarUtils.getWeekOfYear(ldt),
             ldt.dayOfWeek.value,
             ldt.dayOfMonth,
             ldt.month.value,
             TimeCalculations.convertDateStringToMinutes(startTimeString.value.toString()).toInt(),
-            ldt.hour*60 + ldt.minute,
+            ldt.hour * 60 + ldt.minute,
             TimeCalculations.convertDateStringToMinutes(pauseTimeString.value.toString()).toInt(),
             0,
             0,
@@ -290,7 +294,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
             true,
             null,
             noteString,
-            null)
+            null
+        )
     }
 
     fun setNewWorkDayValues(startTimeMin: Int, pauseTime: Int, noteString: String) {
