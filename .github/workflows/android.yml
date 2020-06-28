@@ -20,7 +20,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: report
-          path: ///home/runner/work/TimeClock4/TimeClock4/app/build/reports/lint-results.html
+          path: ///home/runner/work/TimeClock4/TimeClock4/app/build/reports
 
   createAPK:
     needs: [buildTest]

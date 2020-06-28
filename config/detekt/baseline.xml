@@ -1,0 +1,108 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>ComplexMethod:HomeViewModel.kt$HomeViewModel$private fun updateLayoutState()</ID>
+    <ID>ComplexMethod:ListingViewModel.kt$ListingViewModel$private fun updateWorkWeek(week: LocalDateTime)</ID>
+    <ID>ComplexMethod:TimeSettingsViewModel.kt$TimeSettingsViewModel$fun verifyText(field: InputField, text: String): Array&lt;Any&gt;</ID>
+    <ID>EmptyClassBlock:MainSettingsViewModel.kt$MainSettingsViewModel${ }</ID>
+    <ID>EmptyClassBlock:OptionsViewModel.kt$OptionsViewModel${ }</ID>
+    <ID>EnumNaming:TimeSettingsViewModel.kt$TimeSettingsViewModel.InputField.flexAccount$flexAccount</ID>
+    <ID>EnumNaming:TimeSettingsViewModel.kt$TimeSettingsViewModel.InputField.pauseTime$pauseTime</ID>
+    <ID>EnumNaming:TimeSettingsViewModel.kt$TimeSettingsViewModel.InputField.vacation$vacation</ID>
+    <ID>EnumNaming:TimeSettingsViewModel.kt$TimeSettingsViewModel.InputField.workingTime$workingTime</ID>
+    <ID>EnumNaming:TimeSettingsViewModel.kt$TimeSettingsViewModel.InputField.workingTimeWeek$workingTimeWeek</ID>
+    <ID>LongMethod:EditFragment.kt$EditFragment$override fun onClick(v: View?)</ID>
+    <ID>LongMethod:ListingInnerFragment.kt$ListingInnerFragment$override fun onClick(v: View?)</ID>
+    <ID>LongMethod:ListingViewModel.kt$ListingViewModel$private fun updateWorkWeek(week: LocalDateTime)</ID>
+    <ID>MagicNumber:AboutFragment.kt$AboutFragment$160f</ID>
+    <ID>MagicNumber:ChronometerPersist.kt$ChronometerPersist$10L</ID>
+    <ID>MagicNumber:ChronometerPersist.kt$ChronometerPersist$5</ID>
+    <ID>MagicNumber:ChronometerPersist.kt$ChronometerPersist$7</ID>
+    <ID>MagicNumber:CircularProgressView.kt$CircularProgressView$360f</ID>
+    <ID>MagicNumber:CircularProgressView.kt$CircularProgressView$90f</ID>
+    <ID>MagicNumber:EditFragment.kt$EditFragment$10</ID>
+    <ID>MagicNumber:EditFragment.kt$EditFragment$14</ID>
+    <ID>MagicNumber:EditFragment.kt$EditFragment$20</ID>
+    <ID>MagicNumber:EditFragment.kt$EditFragment$40</ID>
+    <ID>MagicNumber:EditFragment.kt$EditFragment$5</ID>
+    <ID>MagicNumber:HomeDetailsFragment.kt$HomeDetailsFragment$3.6</ID>
+    <ID>MagicNumber:HomeFragment.kt$HomeFragment$3.6</ID>
+    <ID>MagicNumber:HomeViewModel.kt$HomeViewModel$3.6e+7</ID>
+    <ID>MagicNumber:HomeViewModel.kt$HomeViewModel$3600000L</ID>
+    <ID>MagicNumber:ListingInnerFragment.kt$ListingInnerFragment$28f</ID>
+    <ID>MagicNumber:ListingInnerFragment.kt$ListingInnerFragment$3</ID>
+    <ID>MagicNumber:ListingInnerFragment.kt$ListingInnerFragment$4</ID>
+    <ID>MagicNumber:ListingInnerFragment.kt$ListingInnerFragment$5</ID>
+    <ID>MagicNumber:ListingInnerFragment.kt$ListingInnerFragment$6</ID>
+    <ID>MagicNumber:ListingInnerFragment.kt$ListingInnerFragment$7</ID>
+    <ID>MagicNumber:ListingOuterFragment.kt$ListingOuterFragment$6</ID>
+    <ID>MagicNumber:ListingViewModel.kt$ListingViewModel$3</ID>
+    <ID>MagicNumber:ListingViewModel.kt$ListingViewModel$4</ID>
+    <ID>MagicNumber:ListingViewModel.kt$ListingViewModel$5</ID>
+    <ID>MagicNumber:ListingViewModel.kt$ListingViewModel$6</ID>
+    <ID>MagicNumber:MainActivity.kt$MainActivity$5</ID>
+    <ID>MagicNumber:MainApplication.kt$MainApplication$2019</ID>
+    <ID>MagicNumber:MainApplication.kt$MainApplication$30</ID>
+    <ID>MagicNumber:MainApplication.kt$MainApplication$5</ID>
+    <ID>MagicNumber:TimeSettingsViewModel.kt$TimeSettingsViewModel$10</ID>
+    <ID>MagicNumber:TimeSettingsViewModel.kt$TimeSettingsViewModel$20</ID>
+    <ID>MagicNumber:TimeSettingsViewModel.kt$TimeSettingsViewModel$23</ID>
+    <ID>MagicNumber:TimeSettingsViewModel.kt$TimeSettingsViewModel$250</ID>
+    <ID>MagicNumber:TimeSettingsViewModel.kt$TimeSettingsViewModel$5</ID>
+    <ID>MagicNumber:TimeSettingsViewModel.kt$TimeSettingsViewModel$7</ID>
+    <ID>MagicNumber:TimeSettingsViewModel.kt$TimeSettingsViewModel$8</ID>
+    <ID>MaxLineLength:AboutFragment.kt$AboutFragment$copyrightNotice.text = "${resources.getString(R.string.copyright_notice)} ${resources.getString(R.string.company)}"</ID>
+    <ID>MaxLineLength:AboutFragment.kt$AboutFragment$versionText.text = "${resources.getString(R.string.version)} ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"</ID>
+    <ID>MaxLineLength:AboutFragment.kt$AboutFragment.&lt;no name provided&gt;$Toasty.info(requireContext(), resources.getString(R.string.no_update_found), Toasty.LENGTH_SHORT).show()</ID>
+    <ID>MaxLineLength:AboutFragment.kt$AboutFragment.&lt;no name provided&gt;$Toasty.info(requireContext(), resources.getString(R.string.update_found), Toasty.LENGTH_SHORT).show()</ID>
+    <ID>MaxLineLength:CircularProgressView.kt$CircularProgressView$mCountTextWidth = mCountTextPaint.measureText(if (mCountText == null || mCountText!!.isEmpty()) " " else mCountText)</ID>
+    <ID>MaxLineLength:EditFragment.kt$EditFragment : DialogFragmentOnClickListener</ID>
+    <ID>MaxLineLength:EditFragment.kt$EditFragment$if (databaseAction == DatabaseAction.PREVIEW) workTimeString.text = TC.convertMinutesToNegativeDateString(end - start - pause)</ID>
+    <ID>MaxLineLength:HomeFragment.kt$HomeFragment$val alert = AlertView(timeString, resources.getString(R.string.clock_out_question), BottomSheetStyle.BOTTOM_SHEET)</ID>
+    <ID>MaxLineLength:HomeFragment.kt$HomeFragment$val currentStartTime = PreferenceHelper.read(PreferenceHelper.CURRENT_START_TIME, PreferenceHelper.Default_START_TIME)</ID>
+    <ID>MaxLineLength:HomeViewModel.kt$HomeViewModel$_progressBarWeek.value = kotlin.math.floor(((workTimeNetWeek + elapsedMin.toInt()) / meanWorkTimeSetPoint.toFloat()) * 100).toInt()</ID>
+    <ID>MaxLineLength:ListingInnerFragment.kt$ListingInnerFragment$(currentWeekMondayDate.plusDays(dayToInt(clickedButton.text.toString()).toLong() - 1))</ID>
+    <ID>MaxLineLength:ListingInnerFragment.kt$ListingInnerFragment$date_full_text.text = "${currentDate.dayOfMonth}. ${currentDate.month.toString().capitalise()} ${currentDate.year}"</ID>
+    <ID>MaxLineLength:ListingInnerFragment.kt$ListingInnerFragment$materialButton.setTextColor(listingViewModel.workDayCheck(dayToInt(materialButton.text.toString()).toLong()))</ID>
+    <ID>MaxLineLength:ListingInnerFragment.kt$ListingInnerFragment$val dialog = EditFragment(listingViewModel.weekDayToViewModelElement(DayOfWeek.of(dayToInt(lastClickedButton!!.text.toString()))).value!!, EditFragment.DatabaseAction.UPDATE)</ID>
+    <ID>MaxLineLength:ListingOuterFragment.kt$ListingOuterFragment$val endDate: String = " ${currentWeek.plusDays(6).dayOfMonth} ${currentWeek.plusDays(6).month.toString().toLowerCase().capitalize()}"</ID>
+    <ID>MaxLineLength:ListingOuterFragment.kt$ListingOuterFragment$val startDate: String = "${currentWeek.dayOfMonth} ${currentWeek.month.toString().toLowerCase().capitalize()}"</ID>
+    <ID>MaxLineLength:MainActivity.kt$MainActivity$false -&gt; ss.setSpan(ForegroundColorSpan(PreferenceHelper.read(PreferenceHelper.DEV_TitleColor, 0)), 1, 5, 0)</ID>
+    <ID>MaxLineLength:MainActivity.kt$MainActivity$if (destination.id == R.id.destination_options) findViewById&lt;TextView&gt;(R.id.toolbar_title).text = destination.label.toString()</ID>
+    <ID>MaxLineLength:MainActivity.kt$MainActivity$if (destination.id == R.id.destination_settings || destination.id == R.id.destination_timeSettings || destination.id == R.id.destination_about){ findViewById&lt;TextView&gt;(R.id.toolbar_title).text = destination.label.toString() supportActionBar?.setDisplayHomeAsUpEnabled(true) }</ID>
+    <ID>MaxLineLength:MainActivity.kt$MainActivity$true -&gt; ss.setSpan(ForegroundColorSpan(PreferenceHelper.read(PreferenceHelper.DEV_TitleColor, 0)), 0, 1, 0)</ID>
+    <ID>MaxLineLength:OptionsFragment.kt$OptionsFragment$Navigation.findNavController(view).navigate(R.id.action_destination_options_to_destination_timeSettingsFragment)</ID>
+    <ID>MaxLineLength:TimeSettingsSheetFragment.kt$TimeSettingsSheetFragment : BottomSheetDialogFragment</ID>
+    <ID>MaxLineLength:TimeSettingsViewModel.kt$TimeSettingsViewModel$"${(Pref.read(Pref.FLEX_ACCOUNT, Pref.Default_FLEX_ACCOUNT).toFloat() % 60f /60*100).toInt()} $hourShort"</ID>
+    <ID>MaxLineLength:TimeSettingsViewModel.kt$TimeSettingsViewModel$"${(Pref.read(Pref.WORKING_TIME_WEEK, Pref.Default_WORKING_TIME_WEEK).toFloat() % 60f /60*100).toInt()} $hourShort"</ID>
+    <ID>MaxLineLength:TimeSettingsViewModel.kt$TimeSettingsViewModel$// value = "${(Pref.read(Pref.WORKING_TIME, Pref.Default_WORKING_TIME).toFloat() / 60f).toInt()}.${(Pref.read(Pref.WORKING_TIME, 480L).toFloat() % 60f /60*100).toInt()} $hourShort" value = TimeCalculations.convertMinutesToDateString(Pref.read(Pref.WORKING_TIME, Pref.Default_WORKING_TIME))</ID>
+    <ID>MaxLineLength:TimeSettingsViewModel.kt$TimeSettingsViewModel$Timber.e("(Pref.read(Pref.WORKING_TIME, Pref.Default_WORKING_TIME) ${(Pref.read(Pref.WORKING_TIME, Pref.Default_WORKING_TIME))} ")</ID>
+    <ID>MaxLineLength:TimeSettingsViewModel.kt$TimeSettingsViewModel$updateField(InputField.workingTimeWeek, (Pref.read(Pref.WORKING_TIME, Pref.Default_WORKING_TIME) * workingDaysAmount))</ID>
+    <ID>MaxLineLength:WorkDayDao.kt$WorkDayDao$@Query("SELECT year, month, dayOfMonth, workTimeNet, overtime FROM workday_table WHERE year = :year AND weekOfYear = :weekOfYear")</ID>
+    <ID>MayBeConst:OnSwipeTouchListener.kt$OnSwipeTouchListener.Companion$private val SWIPE_THRESHOLD = 100</ID>
+    <ID>MayBeConst:OnSwipeTouchListener.kt$OnSwipeTouchListener.Companion$private val SWIPE_VELOCITY_THRESHOLD = 100</ID>
+    <ID>SpacingBetweenPackageAndImports:AboutFragment.kt$ </ID>
+    <ID>SpacingBetweenPackageAndImports:CircularProgressView.kt$ </ID>
+    <ID>SpacingBetweenPackageAndImports:EditFragment.kt$ </ID>
+    <ID>SpacingBetweenPackageAndImports:HomeDetailsFragment.kt$ </ID>
+    <ID>SpacingBetweenPackageAndImports:ListingOuterFragment.kt$ </ID>
+    <ID>SpacingBetweenPackageAndImports:MainActivity.kt$ </ID>
+    <ID>SpacingBetweenPackageAndImports:MainSettingsFragment.kt$ </ID>
+    <ID>SpacingBetweenPackageAndImports:OnSwipeTouchListener.kt$ </ID>
+    <ID>SpacingBetweenPackageAndImports:TimeCalculations.kt$ </ID>
+    <ID>TooGenericExceptionCaught:OnSwipeTouchListener.kt$OnSwipeTouchListener.GestureListener$exception: Exception</ID>
+    <ID>UnderscoresInNumericLiterals:HomeViewModel.kt$HomeViewModel$3600000L</ID>
+    <ID>UnusedImports:KotlinTest.kt$import java.lang.Math.floor</ID>
+    <ID>UnusedImports:KotlinTest.kt$import kotlin.time.measureTimedValue</ID>
+    <ID>VarCouldBeVal:TimeCalculations.kt$TimeCalculations$var minutes = if (min &gt;= 0) min else (min * -1)</ID>
+    <ID>VariableNaming:HomeFragment.kt$HomeFragment$val cardViewConstraint_fade = ObjectAnimator.ofFloat(cardViewConstraint, View.ALPHA, alpha)</ID>
+    <ID>VariableNaming:HomeFragment.kt$HomeFragment$val progressBar_fade = ObjectAnimator.ofFloat(horizontal_progress_bar, View.ALPHA, alpha)</ID>
+    <ID>VariableNaming:HomeFragment.kt$HomeFragment$val remainingText_fade = ObjectAnimator.ofFloat(remainingText, View.ALPHA, alpha)</ID>
+    <ID>VariableNaming:ListingInnerFragment.kt$ListingInnerFragment$val extView_fade = ObjectAnimator.ofFloat(ext_day, View.ALPHA, alpha)</ID>
+    <ID>VariableNaming:ListingInnerFragment.kt$ListingInnerFragment$val viewStub_fade = ObjectAnimator.ofFloat(addWorkdayCard, View.ALPHA, alpha)</ID>
+    <ID>WildcardImport:HomeFragment.kt$import com.studio.timeclock4.utils.*</ID>
+    <ID>WildcardImport:HomeViewModel.kt$import androidx.lifecycle.*</ID>
+    <ID>WildcardImport:ListingInnerFragment.kt$import androidx.lifecycle.*</ID>
+  </CurrentIssues>
+</SmellBaseline>

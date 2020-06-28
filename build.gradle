@@ -14,6 +14,26 @@ buildscript {
     }
 }
 
+plugins {
+    id 'io.gitlab.arturbosch.detekt' version '1.10.0'
+}
+
+detekt{
+    input = files(rootProject.rootDir)
+    failFast = false
+    toolVersion = "1.10.0"
+    config = files("config/detekt/detekt.yml")
+    baseline = file("config/detekt/baseline.xml")
+    buildUponDefaultConfig = true
+    reports {
+        html {
+            enabled = true
+            destination = file("app/build/reports/detekt-result.html")
+        }
+    }
+    tasks.detekt.jvmTarget = "1.8"
+}
+
 allprojects {
     repositories {
         google()
