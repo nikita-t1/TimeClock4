@@ -65,17 +65,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
             workTimeNetWeek = 0
             var workDaySetPoint = 0
             val daysInDatabaseWeek = arrayListOf<Int>()
-            val minimalWorkdayList =
-                repository.getMinimalWorkday(ldt.year, CalendarUtils.getWeekOfYear(ldt))
-
-            Timber.i("minimalWorkdayList ${minimalWorkdayList.size}")
-            for (workday in minimalWorkdayList) {
-                workTimeNetWeek += workday.workTimeNet
-                if (workday.dayOfMonth !in daysInDatabaseWeek) { // !in == not in
-                    daysInDatabaseWeek.add(workday.dayOfMonth)
-                    workDaySetPoint += calcWorkTimeSetPoint(workday.workTimeNet, workday.overtime)
-                }
-            }
 
             val missingDays =
                 when {
