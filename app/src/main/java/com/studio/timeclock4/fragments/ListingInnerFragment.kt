@@ -28,14 +28,14 @@ import timber.log.Timber
 
 class ListingInnerFragment(private val position: Int) : Fragment(), View.OnClickListener {
 
-    private val currentWeekMondayDate by lazy { CalendarUtils.startDate.plusWeeks(position.toLong())}
+    private val currentWeekMondayDate by lazy { CalendarUtils.startDate.plusWeeks(position.toLong()) }
     private var lastClickedButton: MaterialButton? = null
     private lateinit var layoutView: View
     private var elevation: Float = 0.0f
     private val listingViewModel: ListingViewModel by lazy {
         ViewModelProvider(requireActivity()).get(ListingViewModel::class.java)
     }
-    private val addWorkdayCard: View by lazy{
+    private val addWorkdayCard: View by lazy {
         layoutView.findViewById<ViewStub>(R.id.viewStub).inflate()
     }
 
@@ -46,7 +46,7 @@ class ListingInnerFragment(private val position: Int) : Fragment(), View.OnClick
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        elevation  = monday_btn.elevation
+        elevation = monday_btn.elevation
         setOnClickListeners()
         createAnimatorSet(0f).start()
     }
@@ -63,8 +63,8 @@ class ListingInnerFragment(private val position: Int) : Fragment(), View.OnClick
     }
 
     private fun simulateClick() {
-        if (CalendarUtils.getWeeksBetween(currentWeekMondayDate, LocalDateTime.now()) == (0L)){
-            when (LocalDateTime.now().dayOfWeek){
+        if (CalendarUtils.getWeeksBetween(currentWeekMondayDate, LocalDateTime.now()) == (0L)) {
+            when (LocalDateTime.now().dayOfWeek) {
                 DayOfWeek.MONDAY -> monday_btn.callOnClick()
                 DayOfWeek.TUESDAY -> tuesday_btn.callOnClick()
                 DayOfWeek.WEDNESDAY -> wednesday_btn.callOnClick()
@@ -80,8 +80,8 @@ class ListingInnerFragment(private val position: Int) : Fragment(), View.OnClick
     override fun onResume() {
         Timber.i("RESUME")
         listingViewModel.setPosition(position)
-        listingViewModel.loading.observeOnce(viewLifecycleOwner, Observer {isLoading ->
-            if (!isLoading){
+        listingViewModel.loading.observeOnce(viewLifecycleOwner, Observer { isLoading ->
+            if (!isLoading) {
                 simulateClick()
                 (0 until ext_week.childCount).forEach {
                     val materialButton = ext_week.getChildAt(it) as MaterialButton
@@ -97,7 +97,7 @@ class ListingInnerFragment(private val position: Int) : Fragment(), View.OnClick
         createAnimatorSet(0f).start()
         lastClickedButton?.apply {
             animate().translationY(0f).start()
-            elevation= this@ListingInnerFragment.elevation
+            elevation = this@ListingInnerFragment.elevation
         }
     }
 
@@ -105,17 +105,16 @@ class ListingInnerFragment(private val position: Int) : Fragment(), View.OnClick
         observe(lifecycleOwner, object : Observer<T> {
             override fun onChanged(t: T?) {
                 observer.onChanged(t)
-                if (!listingViewModel.loading.value!!){
+                if (!listingViewModel.loading.value!!) {
                     removeObserver(this)
                 }
             }
         })
     }
 
-
-    private fun dayToInt(day: String): Int{
+    private fun dayToInt(day: String): Int {
         return when (day) {
-            resources.getString(R.string.monday_short) ->  1
+            resources.getString(R.string.monday_short) -> 1
             resources.getString(R.string.tuesday_short) -> 2
             resources.getString(R.string.wednesday_short) -> 3
             resources.getString(R.string.thursday_short) -> 4
@@ -127,7 +126,7 @@ class ListingInnerFragment(private val position: Int) : Fragment(), View.OnClick
     }
 
     override fun onClick(v: View?) {
-        when (v){
+        when (v) {
             edit_btn -> {
                 Timber.i("Edit \n DAY ${dayToInt(lastClickedButton?.text.toString())}")
                 listingViewModel.setEditDialog(true)
@@ -139,18 +138,18 @@ class ListingInnerFragment(private val position: Int) : Fragment(), View.OnClick
                 Timber.i("CLICKEDDD")
                 val clickedButton = v as MaterialButton
                 val currentDate =
-                    (currentWeekMondayDate.plusDays(dayToInt(clickedButton.text.toString()).toLong() - 1)) //Everything alright -1
+                    (currentWeekMondayDate.plusDays(dayToInt(clickedButton.text.toString()).toLong() - 1)) // Everything alright -1
                 createAnimatorSet(0f).start()
                 lastClickedButton?.apply {
                     animate().translationY(0f).start()
-                    elevation= this@ListingInnerFragment.elevation
+                    elevation = this@ListingInnerFragment.elevation
                 }
 
                 listingViewModel.viewModelScope.launch(Dispatchers.Main) {
 
-                    //Looks nice with the fade ObjectAnimator
+                    // Looks nice with the fade ObjectAnimator
 
-                    if (PreferenceHelper.read(PreferenceHelper.DEV_EnableDayButtonAnimation, false)){
+                    if (PreferenceHelper.read(PreferenceHelper.DEV_EnableDayButtonAnimation, false)) {
                         delay(PreferenceHelper.DEV_DefaultDayButtonAnimationTime)
                     }
 

@@ -27,7 +27,6 @@ import timber.log.Timber
 import kotlin.math.roundToInt
 import com.studio.timeclock4.utils.PreferenceHelper as Pref
 
-
 class AboutFragment : Fragment(R.layout.fragment_about) {
 
     private var appUpdaterUtils: AppUpdaterUtils? = null
@@ -48,20 +47,19 @@ class AboutFragment : Fragment(R.layout.fragment_about) {
         }
         setAppIcon()
 
-        update_btn.setOnClickListener(){
-            if (appUpdaterUtils == null){
+        update_btn.setOnClickListener() {
+            if (appUpdaterUtils == null) {
                 appUpdaterUtils =
                     AppUpdaterUtils(requireContext())
                         .setUpdateFrom(UpdateFrom.JSON)
                         .setUpdateJSON(Pref.DEV_UpdateLink)
                         .withListener(object : UpdateListener {
                             override fun onSuccess(update: Update, isUpdateAvailable: Boolean?) {
-                                if (isUpdateAvailable!!){
+                                if (isUpdateAvailable!!) {
                                     Toasty.info(requireContext(), resources.getString(R.string.update_found), Toasty.LENGTH_SHORT).show()
                                 } else {
                                     Toasty.info(requireContext(), resources.getString(R.string.no_update_found), Toasty.LENGTH_SHORT).show()
                                 }
-
                             }
                             override fun onFailed(error: AppUpdaterError?) {
                                 Timber.e("Something went wrong here")
@@ -104,5 +102,3 @@ class AboutFragment : Fragment(R.layout.fragment_about) {
         return px.roundToInt()
     }
 }
-
-

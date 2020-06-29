@@ -49,18 +49,16 @@ object PreferenceHelper {
     const val DEV_DefaultAmountWeeks = 313
     const val DEV_IconViewDp = 96f
     const val DEV_IconViewV26RoundPx = 0.16f
-    const val DEV_HomeDetailsFragmentMarginBottom = 8f //in dp
+    const val DEV_HomeDetailsFragmentMarginBottom = 8f // in dp
     const val DEV_HomeDetailsFragmentDimAmount = 0.0f
     const val DEV_IconVisibilityDelay = 100
     const val DEV_UpdateLink = "https://raw.githubusercontent.com/nikita-t1/TimeClock4/master/update.json"
-
 
     private const val PREFS_NAME = "params"
 
     fun init(context: Context) {
         prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
-
 
     fun read(key: String, value: String): String {
         return prefs.getString(key, value) ?: ""

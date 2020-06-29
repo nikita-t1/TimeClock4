@@ -42,9 +42,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), View.OnClickListener {
                 showEditDialog(HomeDetailsFragment(sourceY, bottomNavBarHeight))
             }
             attendanceBtn -> {
-                Timber.i( "ATTENDANCE")
+                Timber.i("ATTENDANCE")
             }
-            else -> Timber.e( "Something went wrong in the onClick")
+            else -> Timber.e("Something went wrong in the onClick")
         }
     }
 
@@ -86,12 +86,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), View.OnClickListener {
         viewModel.progressBarWeek.observe(viewLifecycleOwner, Observer {
             week_progress_view.setPercentage(kotlin.math.floor(it * 3.6).toInt())
             week_progress_view.setStepCountText("$it%")
-
         })
         viewModel.remainingText.observe(viewLifecycleOwner, Observer {
             val remainingString =
-                viewModel.progressBarDay.value?.let {progressBarDayValue ->
-                    if (progressBarDayValue >= 100){
+                viewModel.progressBarDay.value?.let { progressBarDayValue ->
+                    if (progressBarDayValue >= 100) {
                         remainingText.setTextColor(resources.getColor(R.color.green, null))
                         return@let "+ $it"
                     } else {
@@ -102,10 +101,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), View.OnClickListener {
             remainingText.text = remainingString
         })
 
-        viewModel.onChronometerClick(1,true)
+        viewModel.onChronometerClick(1, true)
     }
 
-    private fun showEditDialog(dialog : DialogFragment) {
+    private fun showEditDialog(dialog: DialogFragment) {
         dialog.setTargetFragment(this, 0)
         dialog.show(parentFragmentManager, "dialog")
     }
@@ -147,12 +146,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), View.OnClickListener {
 
     fun receiveNewWorkDayValues(startTimeMin: Int, pauseTime: Int, userNote: String) {
         val currentStartTime = PreferenceHelper.read(PreferenceHelper.CURRENT_START_TIME, PreferenceHelper.Default_START_TIME)
-        if (currentStartTime < startTimeMin){
+        if (currentStartTime < startTimeMin) {
             val difference = startTimeMin - currentStartTime
-            chronometerPersist.substractFromChronometerBase(difference*60)
-        } else if (currentStartTime > startTimeMin){
+            chronometerPersist.substractFromChronometerBase(difference * 60)
+        } else if (currentStartTime > startTimeMin) {
             val difference = currentStartTime - startTimeMin
-            chronometerPersist.addToChronometerBase(difference*60)
+            chronometerPersist.addToChronometerBase(difference * 60)
         }
         viewModel.setNewWorkDayValues(startTimeMin, pauseTime, userNote)
     }

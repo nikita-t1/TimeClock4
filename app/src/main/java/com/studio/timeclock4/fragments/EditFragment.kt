@@ -26,10 +26,9 @@ import kotlin.math.log10
 import com.studio.timeclock4.utils.PreferenceHelper as Pref
 import com.studio.timeclock4.utils.TimeCalculations as TC
 
+class EditFragment(private val workDay: WorkDay, private val databaseAction: DatabaseAction) : DialogFragment(), View.OnClickListener {
 
-class EditFragment(private val workDay: WorkDay, private val databaseAction : DatabaseAction) : DialogFragment(), View.OnClickListener {
-
-    enum class DatabaseAction{
+    enum class DatabaseAction {
         UPDATE, INSERT, PREVIEW;
     }
 
@@ -38,7 +37,7 @@ class EditFragment(private val workDay: WorkDay, private val databaseAction : Da
     private var pause: Long = 0
 
     private lateinit var dialogView: View
-    private val workingTimeMin by lazy {Pref.read(Pref.WORKING_TIME, Pref.Default_WORKING_TIME)}
+    private val workingTimeMin by lazy { Pref.read(Pref.WORKING_TIME, Pref.Default_WORKING_TIME) }
     private val listingViewModel: ListingViewModel by lazy {
         ViewModelProvider(requireActivity()).get(ListingViewModel::class.java)
     }
@@ -62,19 +61,19 @@ class EditFragment(private val workDay: WorkDay, private val databaseAction : Da
         super.onViewCreated(view, savedInstanceState)
         setListeners()
 
-        if (databaseAction == DatabaseAction.PREVIEW){
+        if (databaseAction == DatabaseAction.PREVIEW) {
             endCard.isEnabled = false
-            endCard.foreground= ColorDrawable(Color.parseColor("#906F6F6F"))
+            endCard.foreground = ColorDrawable(Color.parseColor("#906F6F6F"))
         }
 
-        if (workDay != null){
+        if (workDay != null) {
             workTimeString.text = TC.convertMinutesToDateString(workDay.workTimeGross.toLong())
             startTimeString.text = TC.convertMinutesToDateString(workDay.timeClockIn.toLong())
             endTimeString.text = TC.convertMinutesToDateString(workDay.timeClockOut.toLong())
             pauseTimeString.text = TC.convertMinutesToDateString(workDay.pauseTime.toLong())
             noteString.setText(workDay.userNote)
             date.text = "${workDay.dayOfMonth}. ${Month.of(workDay.month).capitalize()} ${workDay.year}"
-        }else{
+        } else {
             ErrorHandler.react(ErrorTypes.ERROR05)
         }
     }
@@ -95,8 +94,8 @@ class EditFragment(private val workDay: WorkDay, private val databaseAction : Da
 
         val width: Int = Resources.getSystem().displayMetrics.widthPixels
         val height: Int = Resources.getSystem().displayMetrics.heightPixels
-        params.width = (width - (width/10))
-        params.height = (height - (height/10))
+        params.width = (width - (width / 10))
+        params.height = (height - (height / 10))
         window.attributes = params
 
         start = TC.convertDateStringToMinutes(startTimeString.text.toString())
@@ -108,7 +107,7 @@ class EditFragment(private val workDay: WorkDay, private val databaseAction : Da
 
     override fun onClick(v: View?) {
         Timber.i("CLICKED")
-        when(v){
+        when (v) {
             saveBtn -> {
                 Timber.i("SAVE")
                 val newWorkDay = workDay
@@ -136,33 +135,31 @@ class EditFragment(private val workDay: WorkDay, private val databaseAction : Da
                 dismiss()
             }
 
-            startCard ->{
+            startCard -> {
                 val minutes = TC.convertDateStringToMinutes(startTimeString.text.toString())
-                val dialog = buildDialog(minutes,5,20)
-                dialog.setListener {hour, minute ->
+                val dialog = buildDialog(minutes, 5, 20)
+                dialog.setListener { hour, minute ->
                     dialogView.findViewById<TextView>(R.id.startTimeString)?.text = constructDateString(hour, minute)
                     start = TC.convertDateStringToMinutes(startTimeString.text.toString())
                     calcWorkTime()
-
                 }
                 dialog.show(childFragmentManager, tag)
             }
-            endCard ->{
+            endCard -> {
                 Timber.i("ENDCARD")
                 val minutes = TC.convertDateStringToMinutes(endTimeString.text.toString())
-                val dialog = buildDialog(minutes, 14,40)
-                dialog.setListener {hour, minute ->
+                val dialog = buildDialog(minutes, 14, 40)
+                dialog.setListener { hour, minute ->
                     dialogView.findViewById<TextView>(R.id.endTimeString)?.text = constructDateString(hour, minute)
                     end = TC.convertDateStringToMinutes(endTimeString.text.toString())
                     calcWorkTime()
                 }
                 dialog.show(childFragmentManager, tag)
-
             }
-            pauseCard ->{
+            pauseCard -> {
                 val minutes = TC.convertDateStringToMinutes(pauseTimeString.text.toString())
-                val dialog = buildDialog(minutes, 1,0)
-                dialog.setListener {hour, minute ->
+                val dialog = buildDialog(minutes, 1, 0)
+                dialog.setListener { hour, minute ->
                     if (databaseAction != DatabaseAction.PREVIEW) {
                         dialogView.findViewById<TextView>(R.id.pauseTimeString)?.text =
                             constructDateString(hour, minute)
@@ -180,7 +177,7 @@ class EditFragment(private val workDay: WorkDay, private val databaseAction : Da
         }
     }
 
-    private fun constructDateString(hour: Int, minutes: Int) : String{
+    private fun constructDateString(hour: Int, minutes: Int): String {
         val hourString = if (hour.digits() == 1) "0$hour" else "$hour"
         val minuteString = if (minutes.digits() == 1) "0$minutes" else "$minutes"
         return "$hourString:$minuteString"
@@ -188,24 +185,23 @@ class EditFragment(private val workDay: WorkDay, private val databaseAction : Da
 
     private fun buildDialog(minutes: Long, selectedHour: Int, selectedMin: Int): SnapTimePickerDialog {
         val dialogBuilder = SnapTimePickerDialog.Builder().apply {
-            if (BuildConfig.DEBUG){
-                setPreselectedTime(TimeValue(selectedHour,selectedMin))
-            } else setPreselectedTime(TimeValue((minutes/60).toInt(), (minutes%60).toInt()))
+            if (BuildConfig.DEBUG) {
+                setPreselectedTime(TimeValue(selectedHour, selectedMin))
+            } else setPreselectedTime(TimeValue((minutes / 60).toInt(), (minutes % 60).toInt()))
         }
         return dialogBuilder.build()
     }
 
-    private fun calcWorkTime(){
+    private fun calcWorkTime() {
         workTimeString.text = TC.convertMinutesToDateString(end - start - pause)
     }
 }
 
 private fun Month.capitalize(): String {
     return this.toString().toLowerCase().capitalize()
-
 }
 
-private fun Int.digits() = when(this) {
+private fun Int.digits() = when (this) {
     0 -> 1
     else -> log10(abs(toDouble())).toInt() + 1
 }

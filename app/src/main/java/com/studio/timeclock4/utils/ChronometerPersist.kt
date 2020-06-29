@@ -45,7 +45,7 @@ class ChronometerPersist private constructor() {
             KEY_TIME_PAUSED + mChronometer.id,
             mChronometer.base - SystemClock.elapsedRealtime()
         )
-        //some negative value
+        // some negative value
         mChronometer.base = SystemClock.elapsedRealtime() + mTimeWhenPaused
         mChronometer.stop()
         if (isHourFormat) {
@@ -73,7 +73,7 @@ class ChronometerPersist private constructor() {
         Timber.i("KEY_BASE + mChronometer.id Read: ${PreferenceHelper.read(KEY_BASE + mChronometer.id, 10L)}")
         mTimeBase = PreferenceHelper.read(
             KEY_BASE + mChronometer.id, SystemClock.elapsedRealtime()
-        ) //0
+        ) // 0
         mTimeWhenPaused = PreferenceHelper.read(KEY_TIME_PAUSED + mChronometer.id, 0L)
         mChronometer.base = mTimeBase + mTimeWhenPaused
         mChronometer.start()
@@ -103,13 +103,13 @@ class ChronometerPersist private constructor() {
         Timber.i("KEY_BASE + mChronometer.id Write after: ${PreferenceHelper.read(KEY_BASE + mChronometer.id, 10L)}")
     }
 
-    fun substractFromChronometerBase(sec: Long){
+    fun substractFromChronometerBase(sec: Long) {
         val ohYeah = PreferenceHelper.read(KEY_BASE + mChronometer.id, SystemClock.elapsedRealtime())
         PreferenceHelper.write(KEY_BASE + mChronometer.id, ohYeah + (sec * 1000))
         startStateChronometer()
     }
 
-    fun addToChronometerBase(sec : Long){
+    fun addToChronometerBase(sec: Long) {
         val ohYeah = PreferenceHelper.read(KEY_BASE + mChronometer.id, SystemClock.elapsedRealtime())
         PreferenceHelper.write(KEY_BASE + mChronometer.id, ohYeah - (sec * 1000))
         startStateChronometer()

@@ -46,7 +46,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
     private val _progressBarWeek = MutableLiveData<Int>()
     val progressBarWeek: LiveData<Int> = _progressBarWeek
     private var workTimeNetWeek: Int = 0
-    private var meanWorkTimeSetPoint: Int = 0 //Mittelwert der Sollarbeitszeit
+    private var meanWorkTimeSetPoint: Int = 0 // Mittelwert der Sollarbeitszeit
 
     private var workingTimeWeekMin: Long
     private var startTimeMin: Long
@@ -84,21 +84,21 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
                     else -> 0
                 }
 
-            if (workingDaysWeek > daysInDatabaseWeek.size){
+            if (workingDaysWeek > daysInDatabaseWeek.size) {
                 workDaySetPoint += missingDays * workingTimeMin.toInt()
                 meanWorkTimeSetPoint = workDaySetPoint / (daysInDatabaseWeek.size + missingDays) * workingDaysWeek
             } else {
                 meanWorkTimeSetPoint = workDaySetPoint / daysInDatabaseWeek.size * workingDaysWeek
             }
 
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 _progressBarWeek.value = kotlin.math.floor(
                     ((workTimeNetWeek) / meanWorkTimeSetPoint.toFloat()) * 100).toInt()
             }
         }
     }
 
-    enum class LayoutState{
+    enum class LayoutState {
         Ready, Tracking, Saving;
 
         companion object {
@@ -120,7 +120,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
         repository =
             WorkDayRepository(workDayDao)
 
-        Timber.w( "init")
+        Timber.w("init")
         _currentLayoutStateOrdinal.apply {
             value = LayoutState.values()[Pref.read(
                 Pref.LAYOUT_STATE,
@@ -206,7 +206,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
         }
     }
 
-    fun onChronometerClick(elapsedMillis: Long, isHourFormat: Boolean){
+    fun onChronometerClick(elapsedMillis: Long, isHourFormat: Boolean) {
         val elapsedMin = elapsedMillis / 1000 / 60.0
         if (isHourFormat) {
             when {
@@ -222,8 +222,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
             TimeCalculations.convertMinutesToDateString(((workingTimeMin + pauseTimeMin) - elapsedMin).toLong())
         Timber.i("$workTimeNetWeek + $elapsedMin")
         _progressBarWeek.value = kotlin.math.floor(((workTimeNetWeek + elapsedMin.toInt()) / meanWorkTimeSetPoint.toFloat()) * 100).toInt()
-
-
     }
 
     fun dialogCancel() {
@@ -256,9 +254,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
                 noteString,
                 null
             )
-            if (Pref.read(Pref.DEV_EnableSaving, true) or !BuildConfig.DEBUG){
+            if (Pref.read(Pref.DEV_EnableSaving, true) or !BuildConfig.DEBUG) {
                 val existingWorkDay = repository.getWorkday(ldt.dayOfMonth, ldt.monthValue, ldt.year)
-                if (existingWorkDay != null){
+                if (existingWorkDay != null) {
                     repository.deleteWorkDay(existingWorkDay)
                 }
                 repository.insertWorkDay(workDay)
@@ -305,7 +303,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application), L
         updateLayoutState()
     }
 
-    private fun calcWorkTimeSetPoint(workTimeNet: Int, overtime: Int): Int{
+    private fun calcWorkTimeSetPoint(workTimeNet: Int, overtime: Int): Int {
         return workTimeNet - overtime
     }
 }

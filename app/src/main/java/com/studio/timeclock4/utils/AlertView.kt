@@ -2,11 +2,11 @@ package com.studio.timeclock4.utils
 
 import androidx.fragment.app.FragmentManager
 
-enum class BottomSheetTheme {LIGHT, DARK}
-enum class BottomSheetStyle {BOTTOM_SHEET, DIALOG, IOS}
-enum class BottomSheetActionStyle {POSITIVE, NEGATIVE, DEFAULT}
+enum class BottomSheetTheme { LIGHT, DARK }
+enum class BottomSheetStyle { BOTTOM_SHEET, DIALOG, IOS }
+enum class BottomSheetActionStyle { POSITIVE, NEGATIVE, DEFAULT }
 
-//create simple alerts easily with some customization.
+// create simple alerts easily with some customization.
 class AlertView(private var title: String, private var message: String, private var style: BottomSheetStyle) {
 
     private var theme: BottomSheetTheme = BottomSheetTheme.LIGHT

@@ -18,7 +18,7 @@ class TimeSettingsViewModel(application: Application) : AndroidViewModel(applica
     private val hourShort = app.resources.getString(R.string.hour_short)
     private val days = app.resources.getString(R.string.days)
 
-    enum class InputField{
+    enum class InputField {
         workingTime, workingTimeWeek, pauseTime,
         flexAccount, vacation
     }
@@ -37,27 +37,25 @@ class TimeSettingsViewModel(application: Application) : AndroidViewModel(applica
     private val _vacation = MutableLiveData<String>()
     val vacation: LiveData<String> = _vacation
 
-
-
     init {
         setValues()
     }
 
-    private fun setValues(){
+    private fun setValues() {
         _workingTime.apply {
 //            value = "${(Pref.read(Pref.WORKING_TIME, Pref.Default_WORKING_TIME).toFloat() / 60f).toInt()}.${(Pref.read(Pref.WORKING_TIME, 480L).toFloat() % 60f /60*100).toInt()} $hourShort"
             value = TimeCalculations.convertMinutesToDateString(Pref.read(Pref.WORKING_TIME, Pref.Default_WORKING_TIME))
         }
         _workingTimeWeek.apply {
             value = "${(Pref.read(Pref.WORKING_TIME_WEEK, Pref.Default_WORKING_TIME_WEEK).toFloat() / 60f).toInt()}." +
-                    "${(Pref.read(Pref.WORKING_TIME_WEEK, Pref.Default_WORKING_TIME_WEEK).toFloat() % 60f /60*100).toInt()} $hourShort"
+                    "${(Pref.read(Pref.WORKING_TIME_WEEK, Pref.Default_WORKING_TIME_WEEK).toFloat() % 60f / 60 * 100).toInt()} $hourShort"
         }
-         _pauseTime.apply {
-             value = TimeCalculations.convertMinutesToDateString(Pref.read(Pref.PAUSE_TIME, Pref.Default_PAUSE_TIME))
+        _pauseTime.apply {
+            value = TimeCalculations.convertMinutesToDateString(Pref.read(Pref.PAUSE_TIME, Pref.Default_PAUSE_TIME))
         }
         _flexAccount.apply {
             value = "${(Pref.read(Pref.FLEX_ACCOUNT, Pref.Default_FLEX_ACCOUNT).toFloat() / 60f).toInt()}." +
-                    "${(Pref.read(Pref.FLEX_ACCOUNT, Pref.Default_FLEX_ACCOUNT).toFloat() % 60f /60*100).toInt()} $hourShort"
+                    "${(Pref.read(Pref.FLEX_ACCOUNT, Pref.Default_FLEX_ACCOUNT).toFloat() % 60f / 60 * 100).toInt()} $hourShort"
         }
         _vacation.apply {
             value = "${Pref.read(Pref.VACATION, Pref.Default_VACATION)} $days"
@@ -75,7 +73,7 @@ class TimeSettingsViewModel(application: Application) : AndroidViewModel(applica
             }
         }
         setValues()
-        Timber.e("HOIERRR ${text}")
+        Timber.e("HOIERRR $text")
     }
 
     fun verifyText(field: InputField, text: String): Array<Any> {
@@ -104,12 +102,12 @@ class TimeSettingsViewModel(application: Application) : AndroidViewModel(applica
                 }
             } else {
                 var days = 1
-                if (!text.contains(".") && text.length <=2){
+                if (!text.contains(".") && text.length <= 2) {
                     days = text.toInt()
                 }
                 min = days
             }
-            when(field) {
+            when (field) {
                 InputField.workingTime -> updateField(
                     InputField.workingTimeWeek,
                     min * Pref.read(Pref.WORKING_DAYS_WEEK, Pref.Default_WORKING_DAYS_WEEK).toLong()
@@ -120,25 +118,23 @@ class TimeSettingsViewModel(application: Application) : AndroidViewModel(applica
                 )
             }
             return arrayOf(min, true)
-
-        } else return arrayOf(min, false) //min verify vacation
+        } else return arrayOf(min, false) // min verify vacation
     }
 
     private fun inRange(input: Int, min: Int, max: Int, default: Int): Int {
-        return if (input.coerceAtLeast(min) > min && input.coerceAtMost(max) < max){
+        return if (input.coerceAtLeast(min) > min && input.coerceAtMost(max) < max) {
             input
-        }else {
+        } else {
             Toasty.info(app, "Ausserhalb des gültigen Bereiches", Toasty.LENGTH_SHORT).show()
             default
         }
-
     }
 
     fun updateWorkWeek(dayChip: String, isChecked: Boolean) {
         var workingDaysAmount = Pref.read(Pref.WORKING_DAYS_WEEK, Pref.Default_WORKING_DAYS_WEEK)
         if (workingDaysAmount > 7) Toasty.info(app, "ZUVIELE TAGE", Toasty.LENGTH_SHORT).show()
         Timber.i("$workingDaysAmount")
-        when (isChecked){
+        when (isChecked) {
             true -> Pref.write(Pref.WORKING_DAYS_WEEK, (workingDaysAmount + 1))
             false -> Pref.write(Pref.WORKING_DAYS_WEEK, (workingDaysAmount - 1))
         }

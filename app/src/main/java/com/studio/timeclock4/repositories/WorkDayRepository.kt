@@ -12,21 +12,21 @@ class WorkDayRepository(private val workDayDao: WorkDayDao) {
 
     val allWorkDays: LiveData<List<WorkDay>> = workDayDao.getAllWorkDays()
 
-    suspend fun getWorkday(day : Int, month : Int, year :Int) : WorkDay {
-        return withContext(Dispatchers.IO){
+    suspend fun getWorkday(day: Int, month: Int, year: Int): WorkDay {
+        return withContext(Dispatchers.IO) {
             Timber.i("${Thread.currentThread().name} $day $month $year")
             workDayDao.getWorkday(day, month, year)
         }
     }
 
-    suspend fun getWorkday(id: Int) : WorkDay {
-        return withContext(Dispatchers.IO){
+    suspend fun getWorkday(id: Int): WorkDay {
+        return withContext(Dispatchers.IO) {
             workDayDao.getWorkday(id)
         }
     }
 
-    suspend fun getMinimalWorkday(year: Int, weekOfYear: Int): List<MinimalWorkDay>{
-        return withContext(Dispatchers.IO){
+    suspend fun getMinimalWorkday(year: Int, weekOfYear: Int): List<MinimalWorkDay> {
+        return withContext(Dispatchers.IO) {
             workDayDao.getMinimalWorkday(year, weekOfYear)
         }
     }

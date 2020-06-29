@@ -16,11 +16,10 @@ import com.studio.timeclock4.utils.PreferenceHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
-    private val title by lazy {resources.getText(R.string.app_name_final).toString()}
+    private val title by lazy { resources.getText(R.string.app_name_final).toString() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.e("HELLO SIR")
@@ -31,26 +30,23 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
 
-        //TODO belongs into the Application class
+        // TODO belongs into the Application class
         val appUpdater = AppUpdater(this)
         appUpdater.setUpdateFrom(UpdateFrom.JSON)
         appUpdater.setUpdateJSON(PreferenceHelper.DEV_UpdateLink)
         appUpdater.setDisplay(Display.SNACKBAR)
-        kotlin.runCatching {appUpdater.start()}
-
-
+        kotlin.runCatching { appUpdater.start() }
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         NavigationUI.setupWithNavController(bottom_nav, navController)
 
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR //Dark Icons
-        window.statusBarColor = resources.getColor(R.color.alpha, null)     //Transparent Background
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR // Dark Icons
+        window.statusBarColor = resources.getColor(R.color.alpha, null) // Transparent Background
 
-
-        navController.addOnDestinationChangedListener{ controller, destination, arguments ->
-            if (BuildConfig.DEBUG){
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            if (BuildConfig.DEBUG) {
                 val ss = SpannableString(title)
-                when(PreferenceHelper.read(PreferenceHelper.DEV_ColorTitle_U, false)){
+                when (PreferenceHelper.read(PreferenceHelper.DEV_ColorTitle_U, false)) {
                     true -> ss.setSpan(ForegroundColorSpan(PreferenceHelper.read(PreferenceHelper.DEV_TitleColor, 0)), 0, 1, 0)
                     false -> ss.setSpan(ForegroundColorSpan(PreferenceHelper.read(PreferenceHelper.DEV_TitleColor, 0)), 1, 5, 0)
                 }
@@ -58,16 +54,16 @@ class MainActivity : AppCompatActivity() {
             } else findViewById<TextView>(R.id.toolbar_title).text = title
             supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
-            if(destination.id == R.id.destination_listing) {
+            if (destination.id == R.id.destination_listing) {
                 window.statusBarColor = resources.getColor(R.color.light_pink, null)
                 toolbar.visibility = View.GONE
                 toolbar_title.visibility = View.GONE
             } else {
-                window.statusBarColor = resources.getColor(R.color.alpha, null)     //Transparent Background
+                window.statusBarColor = resources.getColor(R.color.alpha, null) // Transparent Background
                 toolbar.visibility = View.VISIBLE
                 toolbar_title.visibility = View.VISIBLE
             }
-            if (destination.id == R.id.destination_settings || destination.id == R.id.destination_timeSettings || destination.id == R.id.destination_about){
+            if (destination.id == R.id.destination_settings || destination.id == R.id.destination_timeSettings || destination.id == R.id.destination_about) {
                 findViewById<TextView>(R.id.toolbar_title).text = destination.label.toString()
                 supportActionBar?.setDisplayHomeAsUpEnabled(true)
             }
@@ -83,5 +79,4 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         Timber.e("HELLO MADAM")
     }
-
 }

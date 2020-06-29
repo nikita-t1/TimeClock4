@@ -1,6 +1,5 @@
 package com.studio.timeclock4.customviews
 
-
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
@@ -12,10 +11,10 @@ import android.util.AttributeSet
 import android.view.View
 import com.studio.timeclock4.R
 
-//com.zekapp.library:progreswheelview:1.1.5
+// com.zekapp.library:progreswheelview:1.1.5
 class CircularProgressView : View {
 
-    //Sizes (with defaults)
+    // Sizes (with defaults)
     private var mBarWidth = 24f
     private var mCountTextSize = 48f
     private var mDefTextSize = 24f
@@ -23,32 +22,30 @@ class CircularProgressView : View {
     private var layoutWidth = 0
     private var mMarginBtwTexts = 20f
 
-    //Colors (with defaults)
+    // Colors (with defaults)
     private var mProgressColor = Color.GREEN
     private var mRimColor = Color.parseColor("#D1CCD2")
     private var mCountTextColor = Color.BLACK
     private var mDefTextColor = Color.BLACK
 
-    //Padding (with defaults)
+    // Padding (with defaults)
     private var paddingTop = 5f
     private var paddingBottom = 5f
     private var paddingLeft = 5f
     private var paddingRight = 5f
 
-    //Rectangles
+    // Rectangles
     private var mRimBounds = RectF()
     private var mProgressBounds = RectF()
 
-    //Paints
+    // Paints
     private val mCirclePaint = Paint()
     private val mBarPaint = Paint()
     private var mCountTextPaint = TextPaint()
     private val mDefTextPaint = TextPaint()
 
-
     private var mCountText: String? = null
     private var mDefText: String? = null
-
 
     private var mCountTextWidth: Float = 0f
     private var mCountTextHeight: Float = 0f
@@ -80,14 +77,12 @@ class CircularProgressView : View {
         invalidate()
     }
 
-
     private fun setupPaints() {
         mBarPaint.color = mProgressColor
         mBarPaint.isAntiAlias = true
         mBarPaint.style = Paint.Style.STROKE
         mBarPaint.strokeWidth = mBarWidth
         mBarPaint.strokeCap = Paint.Cap.ROUND
-
 
         mCirclePaint.color = mRimColor
         mCirclePaint.isAntiAlias = true
@@ -135,7 +130,7 @@ class CircularProgressView : View {
         mCountTextWidth = mCountTextPaint.measureText(if (mCountText == null || mCountText!!.isEmpty()) " " else mCountText)
 
         // Definition text
-        if (mDefText != null){
+        if (mDefText != null) {
             mDefTextPaint.textSize = mDefTextSize
             val fontDefMetrics = mDefTextPaint.fontMetrics
             mDefTextHeight = fontDefMetrics.bottom
@@ -179,17 +174,16 @@ class CircularProgressView : View {
         canvas.drawArc(mRimBounds, 0f, 360f, false, mCirclePaint)
         canvas.drawArc(mProgressBounds, -90f, mPercentage.toFloat(), false, mBarPaint)
 
-        if (mCountText != null){
+        if (mCountText != null) {
             val horizontalCountTextOffset = mCountTextPaint.measureText(mCountText) / 2
             canvas.drawText(mCountText!!,
                 this.width / 2 - horizontalCountTextOffset,
-                (this.height / 2).toFloat() + if (mDefText == null) mCountTextSize/2 else 0f,
+                (this.height / 2).toFloat() + if (mDefText == null) mCountTextSize / 2 else 0f,
                 mCountTextPaint
             )
         }
 
-
-        if (mDefText != null){
+        if (mDefText != null) {
             val horizontalDefTextOffset = mDefTextPaint.measureText(mDefText) / 2
             canvas.drawText(mDefText!!,
                 this.width / 2 - horizontalDefTextOffset,
@@ -197,7 +191,6 @@ class CircularProgressView : View {
                 mDefTextPaint
             )
         }
-
     }
 
     fun setStepCountText(countText: String) {
@@ -210,7 +203,7 @@ class CircularProgressView : View {
         invalidate()
     }
 
-    fun setProgressColor(color: Int){
+    fun setProgressColor(color: Int) {
         mProgressColor = color
         invalidate()
     }

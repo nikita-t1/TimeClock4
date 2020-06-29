@@ -46,14 +46,12 @@ class ListingViewModel(application: Application) : AndroidViewModel(application)
     val saturDay: LiveData<WorkDay> = _saturDay
     val sunDay: LiveData<WorkDay> = _sunDay
 
-
     // The ViewModel maintains a reference to the repository to get data.
     private val repository: WorkDayRepository
     // LiveData gives us updated words when they change.
     val allWorkDays: LiveData<List<WorkDay>>
     lateinit var currentWorkDays: List<WorkDay>
     var emptyWorkDay: WorkDay
-
 
     init {
         Timber.i("init ${SystemClock.elapsedRealtime()}")
@@ -123,7 +121,7 @@ class ListingViewModel(application: Application) : AndroidViewModel(application)
             _loading.apply {
                 value = true
             }
-            Timber.i("3 ${SystemClock.elapsedRealtime()-v}")
+            Timber.i("3 ${SystemClock.elapsedRealtime() - v}")
             Timber.i("viewModelScope.launch ${Thread.currentThread().name}")
 
             val mon = async {
@@ -132,42 +130,42 @@ class ListingViewModel(application: Application) : AndroidViewModel(application)
                     repository.getWorkday(week.dayOfMonth, week.monthValue, week.year) ?: emptyWorkDay
                 }
             }
-            Timber.i("MO ${SystemClock.elapsedRealtime()-v}")
+            Timber.i("MO ${SystemClock.elapsedRealtime() - v}")
             val tue = async {
                 _tuesDay.apply {
                     value = repository.getWorkday(week.plusDays(1).dayOfMonth, week.plusDays(1).monthValue, week.year)
                         ?: emptyWorkDay
                 }
             }
-            Timber.i("Di ${SystemClock.elapsedRealtime()-v}")
+            Timber.i("Di ${SystemClock.elapsedRealtime() - v}")
             val wed = async {
                 _wednesDay.apply {
                     value = repository.getWorkday(week.plusDays(2).dayOfMonth, week.plusDays(2).monthValue, week.year)
                         ?: emptyWorkDay
                 }
             }
-            Timber.i("MI ${SystemClock.elapsedRealtime()-v}")
+            Timber.i("MI ${SystemClock.elapsedRealtime() - v}")
             val thu = async {
                 _thursDay.apply {
                     value = repository.getWorkday(week.plusDays(3).dayOfMonth, week.plusDays(3).monthValue, week.year)
                         ?: emptyWorkDay
                 }
             }
-            Timber.i("DO ${SystemClock.elapsedRealtime()-v}")
+            Timber.i("DO ${SystemClock.elapsedRealtime() - v}")
             val fri = async {
                 _friDay.apply {
                     value = repository.getWorkday(week.plusDays(4).dayOfMonth, week.plusDays(4).monthValue, week.year)
                         ?: emptyWorkDay
                 }
             }
-            Timber.i("FR ${SystemClock.elapsedRealtime()-v}")
+            Timber.i("FR ${SystemClock.elapsedRealtime() - v}")
             val sat = async {
                 _saturDay.apply {
                     value = repository.getWorkday(week.plusDays(5).dayOfMonth, week.plusDays(5).monthValue, week.year)
                         ?: emptyWorkDay
                 }
             }
-            Timber.i("SA ${SystemClock.elapsedRealtime()-v}")
+            Timber.i("SA ${SystemClock.elapsedRealtime() - v}")
             val sun = async {
                 _sunDay.apply {
                     value =
@@ -175,10 +173,10 @@ class ListingViewModel(application: Application) : AndroidViewModel(application)
                             ?: emptyWorkDay
                 }
             }
-            Timber.i("SO ${SystemClock.elapsedRealtime()-v}")
+            Timber.i("SO ${SystemClock.elapsedRealtime() - v}")
 
-            arrayListOf(mon, tue, wed, thu, fri, sat,sun).awaitAll()
-            Timber.i("ALL ${SystemClock.elapsedRealtime()-v}")
+            arrayListOf(mon, tue, wed, thu, fri, sat, sun).awaitAll()
+            Timber.i("ALL ${SystemClock.elapsedRealtime() - v}")
             _loading.apply {
                 value = false
             }
@@ -199,7 +197,7 @@ class ListingViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun weekDayToViewModelElement(dayOfWeek: DayOfWeek): LiveData<WorkDay>{
+    fun weekDayToViewModelElement(dayOfWeek: DayOfWeek): LiveData<WorkDay> {
         return when (dayOfWeek) {
             DayOfWeek.MONDAY -> monDay
             DayOfWeek.TUESDAY -> tuesDay
@@ -213,7 +211,7 @@ class ListingViewModel(application: Application) : AndroidViewModel(application)
 
     fun workDayCheck(dayInt: Long): Int {
         val localWorkDay = weekDayToViewModelElement(DayOfWeek.of(dayInt.toInt()))
-        return if (localWorkDay.value == emptyWorkDay){
+        return if (localWorkDay.value == emptyWorkDay) {
             Color.RED
         } else Color.GREEN
     }

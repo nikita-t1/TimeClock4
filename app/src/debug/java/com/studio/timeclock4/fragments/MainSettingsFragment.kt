@@ -14,14 +14,12 @@ import kotlinx.android.synthetic.main.fragment_main_settings.*
 import me.jfenn.colorpickerdialog.dialogs.ColorPickerDialog
 import com.studio.timeclock4.utils.PreferenceHelper as Pref
 
-
-class MainSettingsFragment : Fragment(R.layout.fragment_main_settings), View.OnClickListener{
+class MainSettingsFragment : Fragment(R.layout.fragment_main_settings), View.OnClickListener {
 
     private lateinit var fragmentView: View
     private val viewModel: MainSettingsViewModel by lazy {
         ViewModelProvider(this).get(MainSettingsViewModel::class.java)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -80,7 +78,6 @@ class MainSettingsFragment : Fragment(R.layout.fragment_main_settings), View.OnC
             radio_second -> Pref.write(Pref.DEV_ColorTitle_U, false)
             leakCanaryCheckBox -> leakcanary.LeakCanary.config =
                 leakcanary.LeakCanary.config.copy(dumpHeap = leakCanaryCheckBox.isChecked)
-
         }
     }
 }

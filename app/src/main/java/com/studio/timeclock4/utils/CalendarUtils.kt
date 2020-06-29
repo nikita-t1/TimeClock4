@@ -10,11 +10,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object CalendarUtils {
-    private val dateStringFull: DateFormat= SimpleDateFormat("EEEE, dd.MM.yyyy", Locale.getDefault())
-
+    private val dateStringFull: DateFormat = SimpleDateFormat("EEEE, dd.MM.yyyy", Locale.getDefault())
 
     val startDate: LocalDateTime get() {
-        val startDatePref  = PreferenceHelper.read("startDate", "0")
+        val startDatePref = PreferenceHelper.read("startDate", "0")
         return if (startDatePref != "0") {
             dateStringToLdt(startDatePref)
         } else {
@@ -24,16 +23,15 @@ object CalendarUtils {
     }
 
     val endDate: LocalDateTime =
-        LocalDateTime.of(2025, 12, 31, 12,12,12)
+        LocalDateTime.of(2025, 12, 31, 12, 12, 12)
 
-
-    fun getWeekOfYear(ldt : LocalDateTime): Int {
-        val weekField : WeekFields = WeekFields.of(Locale.getDefault())
+    fun getWeekOfYear(ldt: LocalDateTime): Int {
+        val weekField: WeekFields = WeekFields.of(Locale.getDefault())
         Timber.i("${weekField.weekOfWeekBasedYear()}")
         return ldt.get(weekField.weekOfWeekBasedYear())
     }
 
-    fun getWeeksBetween(date1 : LocalDateTime, date2 : LocalDateTime) : Long{
+    fun getWeeksBetween(date1: LocalDateTime, date2: LocalDateTime): Long {
 //        return Weeks.between(date1.toLocalDate(), date2).amount.toLong()
 //        Timber.i("PLUS 1 ${ChronoUnit.WEEKS.between(date1, date2.plusDays(1))}")
 //        Timber.i("PLUS 2 ${ChronoUnit.WEEKS.between(date1, date2.plusDays(2))}")
@@ -47,12 +45,12 @@ object CalendarUtils {
 
     fun getWeeksBetween() = PreferenceHelper.DEV_DefaultAmountWeeks
 
-    fun dateStringToLdt(dateString : String) : LocalDateTime{
+    fun dateStringToLdt(dateString: String): LocalDateTime {
         val formatter: DateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME
         return LocalDateTime.parse(dateString, formatter)
     }
 
-    fun ldtToDateString(ldt : LocalDateTime) : String {
+    fun ldtToDateString(ldt: LocalDateTime): String {
         val formatter = DateTimeFormatter.ISO_DATE_TIME
         return ldt.format(formatter)
     }
@@ -60,6 +58,4 @@ object CalendarUtils {
     fun getFullDateString(): String {
         return dateStringFull.format(Date())
     }
-
-
 }

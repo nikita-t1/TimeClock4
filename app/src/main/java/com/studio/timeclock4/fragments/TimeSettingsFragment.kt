@@ -17,10 +17,10 @@ import com.yarolegovich.mp.MaterialStandardPreference as MSP
 class TimeSettingsFragment : Fragment(R.layout.fragment_time_settings), View.OnClickListener,
     CompoundButton.OnCheckedChangeListener {
 
-    private val hourShort by lazy {  requireContext().resources.getString(R.string.hour_short)}
-    private val days by lazy { requireContext().resources.getString(R.string.days)}
-    val hsl  by lazy {hourShort.length}
-    val dl by lazy {days.length}
+    private val hourShort by lazy { requireContext().resources.getString(R.string.hour_short) }
+    private val days by lazy { requireContext().resources.getString(R.string.days) }
+    val hsl by lazy { hourShort.length }
+    val dl by lazy { days.length }
 
     private val viewModel: TimeSettingsViewModel by lazy {
         ViewModelProvider(requireActivity()).get(TimeSettingsViewModel::class.java)
@@ -41,7 +41,6 @@ class TimeSettingsFragment : Fragment(R.layout.fragment_time_settings), View.OnC
         fridayChip.isChecked = Pref.read(Pref.FRIDAY_CHIP, true)
         saturdayChip.isChecked = Pref.read(Pref.SATURDAY_CHIP, false)
         sundayChip.isChecked = Pref.read(Pref.SUNDAY_CHIP, false)
-
     }
 
     private fun setListeners() {
@@ -58,7 +57,6 @@ class TimeSettingsFragment : Fragment(R.layout.fragment_time_settings), View.OnC
         fridayChip.setOnCheckedChangeListener(this)
         saturdayChip.setOnCheckedChangeListener(this)
         sundayChip.setOnCheckedChangeListener(this)
-
     }
 
     private fun setObservers() {
@@ -82,7 +80,7 @@ class TimeSettingsFragment : Fragment(R.layout.fragment_time_settings), View.OnC
     override fun onClick(v: View?) {
         Timber.w("CLICK")
 
-        when (v){
+        when (v) {
             working_time -> showDialog(InputField.workingTime, (v as MSP), Pref.WORKING_TIME)
             working_time_week -> showDialog(InputField.workingTimeWeek, (v as MSP), Pref.WORKING_TIME_WEEK)
             pause_time -> showDialog(InputField.pauseTime, (v as MSP), Pref.PAUSE_TIME)
@@ -91,7 +89,7 @@ class TimeSettingsFragment : Fragment(R.layout.fragment_time_settings), View.OnC
         }
     }
 
-    private fun showDialog(field: InputField, msp: com.yarolegovich.mp.MaterialStandardPreference, prefRead: String){
+    private fun showDialog(field: InputField, msp: com.yarolegovich.mp.MaterialStandardPreference, prefRead: String) {
         TimeSettingsSheetFragment(field, msp, prefRead).show(childFragmentManager, tag)
     }
 

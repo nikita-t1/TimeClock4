@@ -18,15 +18,14 @@ import com.studio.timeclock4.utils.PreferenceHelper
 import com.studio.timeclock4.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home_details.*
 
-
-class HomeDetailsFragment(private val sourceY: Int, private val bottomNavBarHeight: Int) : DialogFragment()  {
+class HomeDetailsFragment(private val sourceY: Int, private val bottomNavBarHeight: Int) : DialogFragment() {
 
     private val viewModel: HomeViewModel by lazy {
         ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        dialog?.window?.attributes?.windowAnimations  = R.style.HomeDetailsFragmentAnimation
+        dialog?.window?.attributes?.windowAnimations = R.style.HomeDetailsFragmentAnimation
         return inflater.inflate(R.layout.fragment_home_details, container, false)
     }
 
@@ -36,13 +35,13 @@ class HomeDetailsFragment(private val sourceY: Int, private val bottomNavBarHeig
         viewModel.endTimeString.observe(viewLifecycleOwner, Observer { endTime.text = it })
         viewModel.pauseTimeString.observe(viewLifecycleOwner, Observer { pauseTime.text = it })
         viewModel.progressBarDay.observe(viewLifecycleOwner, Observer {
-            circularProgressView.setPercentage((it*3.6).toInt()) //100% == 360° Degree
+            circularProgressView.setPercentage((it * 3.6).toInt()) // 100% == 360° Degree
             circularProgressView.setStepCountText("$it%")
         })
         viewModel.remainingText.observe(viewLifecycleOwner, Observer {
             val remainingString =
-                viewModel.progressBarDay.value?.let {progressBarDayValue ->
-                    if (progressBarDayValue >= 100){
+                viewModel.progressBarDay.value?.let { progressBarDayValue ->
+                    if (progressBarDayValue >= 100) {
                         remainingTextDay.setTextColor(resources.getColor(R.color.green, null))
                         return@let "+ $it"
                     } else {
@@ -83,7 +82,7 @@ class HomeDetailsFragment(private val sourceY: Int, private val bottomNavBarHeig
         frag?.onDetailsDismiss()
     }
 
-    private fun showEditDialog(dialog : DialogFragment) {
+    private fun showEditDialog(dialog: DialogFragment) {
         dialog.setTargetFragment(targetFragment, 0)
         dialog.show(parentFragmentManager, "dialog")
     }

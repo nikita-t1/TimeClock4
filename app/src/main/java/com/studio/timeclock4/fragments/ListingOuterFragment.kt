@@ -23,7 +23,6 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
 import timber.log.Timber
 
-
 class ListingOuterFragment : Fragment() {
 
     private var pagerAdapter: ListingFragmentAdapter? = null
@@ -33,7 +32,7 @@ class ListingOuterFragment : Fragment() {
     private lateinit var viewPager: ViewPager2
     private lateinit var lottieAnimation: LottieAnimationView
 //    private val itemCount1 = CalendarUtils.getWeeksBetween(CalendarUtils.startDate, CalendarUtils.endDate).toInt()
-    //Precalculated
+    // Precalculated
     private val itemCount1 = CalendarUtils.getWeeksBetween()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -72,10 +71,10 @@ class ListingOuterFragment : Fragment() {
             }
         })
 
-        listingViewModel.viewModelScope.launch(Dispatchers.Main){
+        listingViewModel.viewModelScope.launch(Dispatchers.Main) {
             pagerAdapter = ListingFragmentAdapter()
 
-            //Looks nicer when pushing the toolbar up
+            // Looks nicer when pushing the toolbar up
             delay(100)
 
             viewPager.apply {
@@ -89,7 +88,7 @@ class ListingOuterFragment : Fragment() {
                 )
             }
 
-            //TODO
+            // TODO
             listingViewModel.position.observe(viewLifecycleOwner, Observer {
                 val currentWeek = CalendarUtils.startDate.plusWeeks(it.toLong())
 
@@ -105,8 +104,8 @@ class ListingOuterFragment : Fragment() {
 //            week_balance_remaining_text.text = ""
             })
 
-            listingViewModel.loading.observe(viewLifecycleOwner, Observer {isLoading ->
-                if (!isLoading){
+            listingViewModel.loading.observe(viewLifecycleOwner, Observer { isLoading ->
+                if (!isLoading) {
                     viewPager.animate().apply {
                         alpha(1f)
 //                        setDuration(300).interpolator = DecelerateInterpolator()
@@ -121,7 +120,7 @@ class ListingOuterFragment : Fragment() {
         }
     }
 
-    private inner class ListingFragmentAdapter: FragmentStateAdapter(this.activity!!) {
+    private inner class ListingFragmentAdapter : FragmentStateAdapter(this.activity!!) {
 
         override fun createFragment(position: Int): Fragment {
             return ListingInnerFragment(position)
