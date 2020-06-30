@@ -41,14 +41,17 @@ android {
 
     signingConfigs{
         if(rootProject.file("keystore.properties").exists()) {
-            println "'keystore.properties' file found"
+            println("\n${(char)27}[${32};${49}m" + "'keystore.properties' file found")
             release {
                 storeFile file(keystoreProperties['storeFile'])
                 storePassword keystoreProperties['storePassword']
                 keyPassword keystoreProperties['keyPassword']
                 keyAlias = keystoreProperties['keyAlias']
             }
-        } else {println "!! 'keystore.properties' file was not found"}
+        } else {
+            println("\n${(char)27}[${31};${49}"+"m" + "'keystore.properties' file was not found")
+        }
+        print("${(char)27}[${39};${49}"+"m")
     }
 
     buildTypes {
