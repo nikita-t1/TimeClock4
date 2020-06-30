@@ -85,7 +85,7 @@ android {
             }
             def SEP = "_"
             def version = "v" + variant.versionName
-            def buildType = variant.variantData.variantConfiguration.buildType.name
+            def buildType = variant.buildType.name
             def date = new Date()
             def formattedDate = date.format('dd.MM')
 
