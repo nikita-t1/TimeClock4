@@ -19,3 +19,6 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Outputs a full report of all the rules that R8 applies when building the project.
+-printconfiguration ./build/reports/full-r8-config.txt

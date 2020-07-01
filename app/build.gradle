@@ -62,7 +62,6 @@ android {
             shrinkResources true    //Deletes unused Resources
             buildConfigField "String", "TYPE", '"RELEASE"'
             buildConfigField "String", "IMA", '"I AM A BAMBOO"'
-            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             if(rootProject.file("keystore.properties").exists()) {
                 signingConfig signingConfigs.release
@@ -74,7 +73,6 @@ android {
             versionNameSuffix "-debug"
             resValue "string", "app_name", "TimeClock4_dev"
             resValue "string", "type", '"DEBUG"'
-            useProguard false
             buildConfigField "String", "TYPE", '"DEBUG"'
             buildConfigField "String", "IMA", '"I AM A SAMURAI"'
             debuggable true
