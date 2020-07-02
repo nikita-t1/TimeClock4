@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.studio.timeclock4.database.dao.WorkDayDao
-import com.studio.timeclock4.database.entity.WorkDay
+import com.studio.timeclock4.database.model.WorkDay
 import kotlinx.coroutines.CoroutineScope
 
 @Database(entities = [WorkDay::class], version = 1)

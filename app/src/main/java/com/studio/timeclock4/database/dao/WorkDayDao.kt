@@ -2,7 +2,7 @@ package com.studio.timeclock4.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.studio.timeclock4.database.entity.WorkDay
+import com.studio.timeclock4.database.model.WorkDay
 
 @Dao
 interface WorkDayDao {

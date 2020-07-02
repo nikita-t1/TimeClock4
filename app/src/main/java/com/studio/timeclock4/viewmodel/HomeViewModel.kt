@@ -6,7 +6,7 @@ import com.studio.timeclock4.BuildConfig
 import com.studio.timeclock4.R
 import com.studio.timeclock4.database.WorkDayDatabase
 import com.studio.timeclock4.database.dao.WorkDayDao
-import com.studio.timeclock4.database.entity.WorkDay
+import com.studio.timeclock4.database.model.WorkDay
 import com.studio.timeclock4.repositories.WorkDayRepository
 import com.studio.timeclock4.utils.CalendarUtils
 import com.studio.timeclock4.utils.TimeCalculations

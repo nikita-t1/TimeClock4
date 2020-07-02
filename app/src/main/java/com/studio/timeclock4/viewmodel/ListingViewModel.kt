@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.studio.timeclock4.database.WorkDayDatabase
-import com.studio.timeclock4.database.entity.WorkDay
+import com.studio.timeclock4.database.model.WorkDay
 import com.studio.timeclock4.repositories.WorkDayRepository
 import com.studio.timeclock4.utils.CalendarUtils
 import kotlinx.coroutines.Dispatchers

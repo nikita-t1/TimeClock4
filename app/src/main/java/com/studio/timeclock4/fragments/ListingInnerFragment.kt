@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import com.google.android.material.button.MaterialButton
 import com.studio.timeclock4.R
-import com.studio.timeclock4.database.entity.WorkDay
+import com.studio.timeclock4.database.model.WorkDay
 import com.studio.timeclock4.utils.CalendarUtils
 import com.studio.timeclock4.utils.PreferenceHelper
 import com.studio.timeclock4.utils.TimeCalculations.convertMinutesToDateString

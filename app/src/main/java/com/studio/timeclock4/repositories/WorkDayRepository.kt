@@ -2,7 +2,7 @@ package com.studio.timeclock4.repositories
 
 import androidx.lifecycle.LiveData
 import com.studio.timeclock4.database.dao.WorkDayDao
-import com.studio.timeclock4.database.entity.WorkDay
+import com.studio.timeclock4.database.model.WorkDay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
