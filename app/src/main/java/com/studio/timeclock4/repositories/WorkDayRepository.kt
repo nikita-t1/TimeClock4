@@ -1,42 +1,50 @@
 package com.studio.timeclock4.repositories
 
-import androidx.lifecycle.LiveData
 import com.studio.timeclock4.database.dao.WorkDayDao
+import com.studio.timeclock4.database.entity.WorkDayEntity
 import com.studio.timeclock4.database.model.WorkDay
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import timber.log.Timber
+import org.threeten.bp.LocalDate
 
+//This class is not intended for direct usage
 class WorkDayRepository(private val workDayDao: WorkDayDao) {
 
-    val allWorkDays: LiveData<List<WorkDay>> = workDayDao.getAllWorkDays()
+    val allWorkDays: Flow<List<WorkDay>> = workDayDao.getWorkDaysObservable()
 
-    suspend fun getWorkday(day: Int, month: Int, year: Int): WorkDay {
+    suspend fun getWorkday(date: LocalDate): WorkDay? {
         return withContext(Dispatchers.IO) {
-            Timber.i("${Thread.currentThread().name} $day $month $year")
-            workDayDao.getWorkday(day, month, year)
+            workDayDao.getWorkDayByDate(date)
         }
     }
 
-    suspend fun getWorkday(id: Int): WorkDay {
+    suspend fun getWorkDaysBetween(startDate: LocalDate, endDate: LocalDate): List<WorkDay?> {
         return withContext(Dispatchers.IO) {
-            workDayDao.getWorkday(id)
+            workDayDao.getWorkDaysBetween(startDate, endDate)
         }
     }
 
-    suspend fun insertWorkDay(workDay: WorkDay) {
+    suspend fun getWorkDaysBetweenObservable(startDate: LocalDate, endDate: LocalDate)
+            : Flow<List<WorkDay?>> {
+        return withContext(Dispatchers.IO) {
+            workDayDao.getWorkDaysObservableBetween(startDate, endDate)
+        }
+    }
+
+    fun insertWorkDay(workDay: WorkDayEntity) {
         workDayDao.insertWorkDay(workDay)
     }
 
-    suspend fun updateWorkDay(workDay: WorkDay) {
+    fun updateWorkDay(workDay: WorkDayEntity) {
         workDayDao.updateWorkDay(workDay)
     }
 
-    suspend fun deleteWorkDay(workDay: WorkDay) {
+    fun deleteWorkDay(workDay: WorkDayEntity) {
         workDayDao.deleteWorkDay(workDay)
     }
 
-    suspend fun deleteAllWorkDays() {
+    fun deleteAllWorkDays() {
         workDayDao.deleteAllWorkDays()
     }
 }
