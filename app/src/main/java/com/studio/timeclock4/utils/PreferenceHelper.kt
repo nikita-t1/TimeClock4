@@ -3,6 +3,7 @@ package com.studio.timeclock4.utils
 import android.content.Context
 import android.content.SharedPreferences
 
+@Deprecated("Replace with SharedPreferencesRepository")
 object PreferenceHelper {
 
     private lateinit var prefs: SharedPreferences
