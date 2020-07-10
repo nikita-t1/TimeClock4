@@ -51,13 +51,6 @@ class HomeDetailsFragment(private val sourceY: Int, private val bottomNavBarHeig
                 }
             remainingTextDay.text = remainingString
         })
-        edit_btn.setOnClickListener {
-            val dialog = EditFragment(
-                viewModel.createTemporaryWorkDay(),
-                EditFragment.DatabaseAction.PREVIEW
-            )
-            showEditDialog(dialog)
-        }
     }
 
     override fun onResume() {

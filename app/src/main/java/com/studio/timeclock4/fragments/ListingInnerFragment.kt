@@ -127,12 +127,7 @@ class ListingInnerFragment(private val position: Int) : Fragment(), View.OnClick
 
     override fun onClick(v: View?) {
         when (v) {
-            edit_btn -> {
-                Timber.i("Edit \n DAY ${dayToInt(lastClickedButton?.text.toString())}")
-                listingViewModel.setEditDialog(true)
-                val dialog = EditFragment(listingViewModel.weekDayToViewModelElement(DayOfWeek.of(dayToInt(lastClickedButton!!.text.toString()))).value!!, EditFragment.DatabaseAction.UPDATE)
-                dialog.show(childFragmentManager, dialog.tag)
-            }
+            edit_btn -> TODO()
 
             else -> {
                 Timber.i("CLICKEDDD")
@@ -178,30 +173,6 @@ class ListingInnerFragment(private val position: Int) : Fragment(), View.OnClick
                             child.isEnabled = false
                         }
                         addWorkdayCard.visibility = View.VISIBLE
-                        addDay_btn.setOnClickListener() {
-                            listingViewModel.setEditDialog(true)
-                            val dialog = EditFragment(
-                                WorkDay(
-                                    0,
-                                    currentDate.year,
-                                    CalendarUtils.getWeekOfYear(currentDate),
-                                    currentDate.dayOfWeek.value,
-                                    currentDate.dayOfMonth,
-                                    currentDate.monthValue,
-                                    0,
-                                    0,
-                                    0,
-                                    0,
-                                    0,
-                                    0,
-                                    true,
-                                    null,
-                                    null,
-                                    null
-                                ), EditFragment.DatabaseAction.INSERT
-                            )
-                            dialog.show(childFragmentManager, dialog.tag)
-                        }
                     } else {
                         ext_day.children.forEach { child ->
                             child.isEnabled = true
