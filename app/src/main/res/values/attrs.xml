@@ -13,4 +13,9 @@
         <attr name="marginBtwText"  format="dimension"/>
         <attr name="percentage"    format="integer"/>
     </declare-styleable>
+
+    <declare-styleable name="DayButton">
+        <attr name="dayOfMonth"       format="reference|integer"/>
+        <attr name="dotColor"   format="reference|color"/>
+    </declare-styleable>
 </resources>
