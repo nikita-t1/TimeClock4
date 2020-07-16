@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/partial_week_bar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.studio.timeclock4.fragments.ListingOuterFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/week_bar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/week_of_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingTop="4dp"
+            tools:text="Week 24"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/dates_of_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="03.03. - 09.03.2019"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/week_of_year"
+            app:layout_constraintTop_toBottomOf="@+id/week_of_year" />
+
+        <TextView
+            android:id="@+id/week_balance_current"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:paddingTop="4dp"
+            android:text="27 H. 35 Min."
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/week_balance_remaining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-5 H. 50 Min."
+            android:textColor="@color/pink"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/week_balance_current"
+            app:layout_constraintTop_toBottomOf="@+id/week_balance_current" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/button_bar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingHorizontal="6dp"
+        app:layout_constraintTop_toBottomOf="@id/week_bar"
+        tools:ignore="MissingConstraints" >
+
+        <com.studio.timeclock4.customviews.DayButton
+            android:id="@+id/button_first_day"
+            style="@style/DayButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_second_day"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.studio.timeclock4.customviews.DayButton
+            android:id="@+id/button_second_day"
+            style="@style/DayButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_third_day"
+            app:layout_constraintStart_toEndOf="@+id/button_first_day"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.studio.timeclock4.customviews.DayButton
+            android:id="@+id/button_third_day"
+            style="@style/DayButton"
+            app:layout_constraintEnd_toStartOf="@+id/button_fourth_day"
+            app:layout_constraintStart_toEndOf="@+id/button_second_day" />
+
+        <com.studio.timeclock4.customviews.DayButton
+            android:id="@+id/button_fourth_day"
+            style="@style/DayButton"
+            app:layout_constraintEnd_toStartOf="@+id/button_fifth_day"
+            app:layout_constraintStart_toEndOf="@+id/button_third_day" />
+
+        <com.studio.timeclock4.customviews.DayButton
+            android:id="@+id/button_fifth_day"
+            style="@style/DayButton"
+            app:layout_constraintEnd_toStartOf="@+id/button_sixth_day"
+            app:layout_constraintStart_toEndOf="@+id/button_fourth_day" />
+
+        <com.studio.timeclock4.customviews.DayButton
+            android:id="@+id/button_sixth_day"
+            style="@style/DayButton"
+            app:layout_constraintEnd_toStartOf="@+id/button_seventh_day"
+            app:layout_constraintStart_toEndOf="@+id/button_fifth_day" />
+
+        <com.studio.timeclock4.customviews.DayButton
+            android:id="@+id/button_seventh_day"
+            style="@style/DayButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/button_sixth_day" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
