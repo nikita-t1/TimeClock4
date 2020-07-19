@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="12dp"
+    android:backgroundTint="@color/white"
+    android:layout_marginVertical="4dp"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="16dp"
+        android:paddingVertical="12dp">
+
+        <TextView
+            android:id="@+id/tv_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="6dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/start_time"
+            app:layout_constraintBottom_toTopOf="@+id/tv_end_time"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/tv_time_clock_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="6dp"
+            android:layout_marginEnd="16dp"
+            android:text="17 Uhr 12 min."
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_end_time"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_time_clock_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="6dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_start_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="7 Uhr 25 min." />
+
+        <TextView
+            android:id="@+id/tv_end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="6dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/end_time"
+            app:layout_constraintBottom_toTopOf="@id/cardView2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_start_time" />
+
+        <androidx.cardview.widget.CardView
+            android:backgroundTint="@color/light_grey"
+            app:cardUseCompatPadding="true"
+            android:id="@+id/cardView2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:orientation="horizontal"
+            android:layout_marginEnd="12dp"
+            app:elevation="8dp"
+            app:cardCornerRadius="12dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_end_time"
+            app:layout_goneMarginBottom="6dp">
+
+            <TextView
+                android:id="@+id/note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center"
+                android:paddingVertical="12dp"
+                android:paddingStart="8dp"
+                tools:text="Note..." />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:layout_marginEnd="4dp"
+                android:scaleX=".5"
+                android:scaleY=".5"
+                app:tint="#808080"
+                android:src="@drawable/arrow_expand_all" />
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".8" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/button"
+            android:backgroundTint="@color/light_grey"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="12dp"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView2"
+            app:layout_constraintDimensionRatio="H, 1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/cardView2">
+
+
+            <ImageView
+                app:tint="#808080"
+                android:id="@+id/button_inside"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_circle_edit_outline" />
+
+        </androidx.cardview.widget.CardView>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
