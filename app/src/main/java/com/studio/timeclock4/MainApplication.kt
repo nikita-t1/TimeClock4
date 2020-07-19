@@ -8,6 +8,7 @@ import com.orhanobut.logger.FormatStrategy
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.Logger.addLogAdapter
 import com.orhanobut.logger.PrettyFormatStrategy
+import com.studio.timeclock4.database.dao.SharedPreferencesDao
 import com.studio.timeclock4.utils.CalendarUtils
 import com.studio.timeclock4.utils.ErrorHandler
 import com.studio.timeclock4.utils.ErrorTypes
@@ -25,6 +26,7 @@ open class MainApplication : Application() {
         super.onCreate()
         AndroidThreeTen.init(this)
         PreferenceHelper.init(this)
+        SharedPreferencesDao.init(this)
         ErrorHandler.init(this)
         Once.initialise(this)
 
