@@ -13,9 +13,9 @@ import com.studio.timeclock4.R
 import com.studio.timeclock4.utils.*
 import com.studio.timeclock4.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
-import org.threeten.bp.Duration
-import org.threeten.bp.OffsetDateTime
-import org.threeten.bp.temporal.ChronoUnit
+import java.time.Duration
+import java.time.OffsetDateTime
+import java.time.temporal.ChronoUnit
 import timber.log.Timber
 
 class HomeFragment : Fragment(R.layout.fragment_home), View.OnClickListener {
@@ -187,4 +187,3 @@ class HomeFragment : Fragment(R.layout.fragment_home), View.OnClickListener {
         createAnimatorSet(1f).start()
     }
 }
-

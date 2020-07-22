@@ -3,7 +3,7 @@ package com.studio.timeclock4.database.dao
 import androidx.room.*
 import com.studio.timeclock4.database.entity.WorkTimeEntity
 import kotlinx.coroutines.flow.Flow
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 
 @Dao
 interface WorkTimeDao {

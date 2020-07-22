@@ -4,20 +4,20 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import es.dmoral.toasty.Toasty
-import org.threeten.bp.Duration
-import org.threeten.bp.LocalTime
-import org.threeten.bp.format.DateTimeFormatter
-import org.threeten.bp.temporal.ChronoUnit
+import java.time.Duration
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import kotlin.math.floor
 
-fun Duration.format(pattern: DateTimeFormatter): String{
+fun Duration.format(pattern: DateTimeFormatter): String {
     val seconds = this.seconds
     val localTime = LocalTime.ofSecondOfDay(seconds)
     return localTime.format(pattern)
 }
 
-fun Long.format(pattern: DateTimeFormatter, unit: ChronoUnit): String{
-    val seconds = when (unit){
+fun Long.format(pattern: DateTimeFormatter, unit: ChronoUnit): String {
+    val seconds = when (unit) {
         ChronoUnit.NANOS -> this / NUMBER_NANOSECONDS_IN_SECONDS
         ChronoUnit.MICROS -> this / NUMBER_MICROSECONDS_IN_SECONDS
         ChronoUnit.MILLIS -> this / NUMBER_MILLISECONDS_IN_SECOND

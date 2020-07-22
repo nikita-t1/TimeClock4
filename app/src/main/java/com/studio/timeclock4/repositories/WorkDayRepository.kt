@@ -6,9 +6,9 @@ import com.studio.timeclock4.database.model.WorkDay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 
-//This class is not intended for direct usage
+// This class is not intended for direct usage
 class WorkDayRepository(private val workDayDao: WorkDayDao) {
 
     val allWorkDays: Flow<List<WorkDay>> = workDayDao.getWorkDaysObservable()
@@ -25,8 +25,8 @@ class WorkDayRepository(private val workDayDao: WorkDayDao) {
         }
     }
 
-    suspend fun getWorkDaysBetweenObservable(startDate: LocalDate, endDate: LocalDate)
-            : Flow<List<WorkDay?>> {
+    suspend fun getWorkDaysBetweenObservable(startDate: LocalDate, endDate: LocalDate):
+            Flow<List<WorkDay?>> {
         return withContext(Dispatchers.IO) {
             workDayDao.getWorkDaysObservableBetween(startDate, endDate)
         }

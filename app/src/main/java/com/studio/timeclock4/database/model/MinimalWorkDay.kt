@@ -1,8 +1,8 @@
 package com.studio.timeclock4.database.model
 
 import androidx.room.Ignore
-import org.threeten.bp.Duration
-import org.threeten.bp.LocalDate
+import java.time.Duration
+import java.time.LocalDate
 
 data class MinimalWorkDay(
 

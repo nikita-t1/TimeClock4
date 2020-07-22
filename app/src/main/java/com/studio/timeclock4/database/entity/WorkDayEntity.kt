@@ -4,8 +4,8 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.studio.timeclock4.database.entity.WorkDayEntity.Companion.TABLE_NAME
-import org.threeten.bp.Duration
-import org.threeten.bp.LocalDate
+import java.time.Duration
+import java.time.LocalDate
 
 @Entity(tableName = TABLE_NAME)
 data class WorkDayEntity(

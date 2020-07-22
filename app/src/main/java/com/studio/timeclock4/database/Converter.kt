@@ -1,10 +1,10 @@
 package com.studio.timeclock4.database
 
 import androidx.room.TypeConverter
-import org.threeten.bp.Duration
-import org.threeten.bp.LocalDate
-import org.threeten.bp.OffsetDateTime
-import org.threeten.bp.format.DateTimeFormatter
+import java.time.Duration
+import java.time.LocalDate
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 
 class Converter {
 

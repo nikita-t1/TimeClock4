@@ -6,7 +6,7 @@ import androidx.room.Transaction
 import com.studio.timeclock4.database.entity.WorkDayEntity
 import com.studio.timeclock4.database.model.MinimalWorkDay
 import kotlinx.coroutines.flow.Flow
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 
 @Dao
 interface MinimalWorkDayDao {
@@ -36,6 +36,7 @@ interface MinimalWorkDayDao {
         datetime(date) BETWEEN datetime(:startDate) AND datetime(:endDate)"""
     )
     fun getMinimalWorkDaysObservableBetween(
-        startDate: LocalDate, endDate: LocalDate
+        startDate: LocalDate,
+        endDate: LocalDate
     ): Flow<List<MinimalWorkDay?>>
 }

@@ -2,8 +2,8 @@ package com.studio.timeclock4.repositories
 
 import com.studio.timeclock4.database.Converter
 import com.studio.timeclock4.database.dao.SharedPreferencesDao
-import org.threeten.bp.Duration
-import org.threeten.bp.OffsetDateTime
+import java.time.Duration
+import java.time.OffsetDateTime
 
 class CurrentSessionRepository(
     private val sharedPrefDao: SharedPreferencesDao,
@@ -56,7 +56,7 @@ class CurrentSessionRepository(
         val DEFAULT_END_TIME =
             OffsetDateTime.now().withHour(0).withMinute(0).toString()
 
-        //CROSSOVER with SharedPreferencesRepository
+        // CROSSOVER with SharedPreferencesRepository
         const val PAUSE_TIME = "PAUSE_TIME"
         const val DEFAULT_PAUSE_TIME = "PT1H"
         const val CURRENT_PAUSE_TIME = "PAUSE_TIME"

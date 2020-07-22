@@ -6,8 +6,8 @@ import com.studio.timeclock4.database.entity.WorkTimeEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import org.threeten.bp.Duration
-import org.threeten.bp.LocalDate
+import java.time.Duration
+import java.time.LocalDate
 
 class WorkTimeRepository(
     private val workTimeDao: WorkTimeDao,
@@ -58,7 +58,6 @@ class WorkTimeRepository(
         }
     }
 
-
     suspend fun updateWorkTime(workTime: WorkTimeEntity) {
 //        workTimeDao.updateWorkTime(workTime)
         deleteWorkTime(workTime)
@@ -78,7 +77,7 @@ class WorkTimeRepository(
                     else -> {
                         workDayEntity.pauseTime = Duration.ZERO
                         workDayEntity.workTimeNet -= workTime.workTimeNet
-                        //workDayEntity.workTimeNet = sharedPrefRepo.baseTime
+                        // workDayEntity.workTimeNet = sharedPrefRepo.baseTime
                         workDayRepository.updateWorkDay(workDayEntity)
                     }
                 }

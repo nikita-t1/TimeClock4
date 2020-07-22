@@ -6,9 +6,9 @@ import com.studio.timeclock4.database.entity.WorkDayEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import org.threeten.bp.Duration
-import org.threeten.bp.LocalDate
-import org.threeten.bp.Year
+import java.time.Duration
+import java.time.LocalDate
+import java.time.Year
 
 class AbsenceRepository(
     private val absenceDao: AbsenceDao,

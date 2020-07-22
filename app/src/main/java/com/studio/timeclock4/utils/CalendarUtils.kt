@@ -1,9 +1,9 @@
 package com.studio.timeclock4.utils
 
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.format.DateTimeFormatter
-import org.threeten.bp.temporal.ChronoUnit
-import org.threeten.bp.temporal.WeekFields
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
+import java.time.temporal.WeekFields
 import timber.log.Timber
 import java.text.DateFormat
 import java.text.SimpleDateFormat

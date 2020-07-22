@@ -5,7 +5,7 @@ import com.studio.timeclock4.database.model.MinimalWorkDay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 
 class MinimalWorkDayRepository(private val minimalWorkDayDao: MinimalWorkDayDao) {
 
@@ -27,8 +27,8 @@ class MinimalWorkDayRepository(private val minimalWorkDayDao: MinimalWorkDayDao)
         }
     }
 
-    suspend fun getWorkDaysBetweenObservable(startDate: LocalDate, endDate: LocalDate)
-            : Flow<List<MinimalWorkDay?>> {
+    suspend fun getWorkDaysBetweenObservable(startDate: LocalDate, endDate: LocalDate):
+            Flow<List<MinimalWorkDay?>> {
         return withContext(Dispatchers.IO) {
             minimalWorkDayDao.getMinimalWorkDaysObservableBetween(startDate, endDate)
         }

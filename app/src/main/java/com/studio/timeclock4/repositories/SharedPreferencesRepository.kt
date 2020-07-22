@@ -2,8 +2,9 @@ package com.studio.timeclock4.repositories
 
 import com.studio.timeclock4.database.Converter
 import com.studio.timeclock4.database.dao.SharedPreferencesDao
-import org.threeten.bp.DayOfWeek
-import org.threeten.bp.Duration
+import java.time.DayOfWeek
+import java.time.Duration
+import java.time.OffsetDateTime
 
 class SharedPreferencesRepository(
     private val sharedPrefDao: SharedPreferencesDao,
