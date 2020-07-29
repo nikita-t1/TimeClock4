@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/destination_listing"
-        android:name="com.studio.timeclock4.fragments.ListingOuterFragment"
+        android:name="com.studio.timeclock4.fragments.ListingAdapterFragment"
         android:label="fragment_listing"
         tools:layout="@layout/fragment_listing"/>
     <fragment
