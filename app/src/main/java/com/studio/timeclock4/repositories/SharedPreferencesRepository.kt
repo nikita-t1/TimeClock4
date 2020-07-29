@@ -83,6 +83,10 @@ class SharedPreferencesRepository(
         get() = sharedPrefDao.read(IS_SUNDAY_SELECTED, DEFAULT_IS_WEEKEND_SELECTED)
         set(value) = sharedPrefDao.write(IS_SUNDAY_SELECTED, value)
 
+    var installDate: OffsetDateTime
+        get() = converter.stringToOffsetDateTime(sharedPrefDao.read(INSTALL_DATE, DEFAULT_INSTALL_DATE))
+        set(value) = sharedPrefDao.write(INSTALL_DATE, converter.offsetDateTimeToString(value))
+
     companion object {
         const val FLEX_TIME_ACCOUNT = "FLEX_TIME_ACCOUNT"
         const val DEFAULT_FLEX_TIME_ACCOUNT = "PT0S"
@@ -102,5 +106,8 @@ class SharedPreferencesRepository(
         const val IS_SUNDAY_SELECTED = "IS_SUNDAY_SELECTED"
         const val DEFAULT_IS_DAY_SELECTED = true
         const val DEFAULT_IS_WEEKEND_SELECTED = false
+
+        const val INSTALL_DATE = "INSTALL_DATE"
+        const val DEFAULT_INSTALL_DATE = ""
     }
 }

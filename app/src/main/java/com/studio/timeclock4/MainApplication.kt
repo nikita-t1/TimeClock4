@@ -2,21 +2,22 @@ package com.studio.timeclock4
 
 import android.app.Application
 import android.graphics.Color
-import com.jakewharton.threetenabp.AndroidThreeTen
+import android.widget.Toast
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.FormatStrategy
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.Logger.addLogAdapter
 import com.orhanobut.logger.PrettyFormatStrategy
+import com.studio.timeclock4.database.Converter
 import com.studio.timeclock4.database.dao.SharedPreferencesDao
-import com.studio.timeclock4.utils.CalendarUtils
+import com.studio.timeclock4.repositories.SharedPreferencesRepository
 import com.studio.timeclock4.utils.ErrorHandler
 import com.studio.timeclock4.utils.ErrorTypes
 import com.studio.timeclock4.utils.PreferenceHelper
 import jonathanfinerty.once.Once
 import jp.wasabeef.takt.Seat
 import jp.wasabeef.takt.Takt
-import org.threeten.bp.LocalDateTime
+import java.time.OffsetDateTime
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
@@ -24,11 +25,11 @@ open class MainApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        AndroidThreeTen.init(this)
         PreferenceHelper.init(this)
         SharedPreferencesDao.init(this)
         ErrorHandler.init(this)
         Once.initialise(this)
+        val repository = SharedPreferencesRepository(SharedPreferencesDao, Converter())
 
         if (BuildConfig.DEBUG) {
 
@@ -65,9 +66,8 @@ open class MainApplication : Application() {
 
         // Runs only on first launch after install
         if (!Once.beenDone(Once.THIS_APP_INSTALL, "setStartDate")) {
-            PreferenceHelper.write("startDate", CalendarUtils.ldtToDateString(
-                LocalDateTime.of(2019, 12, 30, 1, 1, 1)
-            ))
+            repository.installDate = OffsetDateTime.now()
+            Toast.makeText(this, "${repository.installDate}", Toast.LENGTH_LONG).show()
             Once.markDone("setStartDate")
         }
     }
