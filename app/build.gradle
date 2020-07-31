@@ -176,6 +176,9 @@ dependencies {
     //ViewPager 2
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
+    // The FastAdapter is here to simplify creating adapters for RecyclerViews
+    implementation "com.mikepenz:fastadapter:5.2.0"
+
     //LeakCanary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary"
 
