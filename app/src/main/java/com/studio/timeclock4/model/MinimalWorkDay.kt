@@ -18,4 +18,7 @@ data class MinimalWorkDay(
 
     @Ignore
     val overtime: Duration = workTimeGross.minus(baseTime)
+
+    @Ignore
+    val isBaseTimeReached: Boolean = workTimeNet >= baseTime
 }
