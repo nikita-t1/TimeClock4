@@ -14,7 +14,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/day_of_week_long"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
@@ -22,12 +22,12 @@
             android:layout_marginStart="16dp"
             android:textSize="18sp"
             android:text="Montag"
-            app:layout_constraintBottom_toTopOf="@+id/textView10"
+            app:layout_constraintBottom_toTopOf="@+id/date_full_text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/date_full_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
@@ -36,28 +36,28 @@
             android:text="03 märz 2030"
             app:layout_constraintBottom_toTopOf="@+id/guidelineCenter"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+            app:layout_constraintTop_toBottomOf="@+id/day_of_week_long" />
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/day_balance_current"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="6dp"
             android:layout_marginEnd="16dp"
             android:text="7h. 45 min"
             android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textView11"
+            app:layout_constraintBaseline_toBaselineOf="@+id/day_of_week_long"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             tools:textColor="@color/green"
-            android:id="@+id/textView12"
+            android:id="@+id/day_balance_remaining"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="6dp"
             android:layout_marginEnd="16dp"
             android:text="+0 min"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textView10"
+            app:layout_constraintBaseline_toBaselineOf="@+id/date_full_text"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -79,20 +79,20 @@
             app:layout_constraintTop_toTopOf="@+id/guidelineCenter" />
 
         <TextView
-            android:id="@+id/textView15"
+            android:id="@+id/base_time_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
             android:layout_marginTop="12dp"
             android:layout_marginStart="16dp"
             android:text="Sollzeit"
-            app:layout_constraintBottom_toTopOf="@+id/textView14"
+            app:layout_constraintBottom_toTopOf="@+id/pause_time_text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view"
             app:layout_constraintVertical_chainStyle="spread" />
 
         <TextView
-            android:id="@+id/textView14"
+            android:id="@+id/pause_time_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
@@ -101,26 +101,26 @@
             android:text="Pausenzeit"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView15" />
+            app:layout_constraintTop_toBottomOf="@+id/base_time_text" />
 
         <TextView
-            android:id="@+id/textView17"
+            android:id="@+id/day_base_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="6dp"
             android:layout_marginEnd="16dp"
             android:text="7,6"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textView15"
+            app:layout_constraintBaseline_toBaselineOf="@+id/base_time_text"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
-            android:id="@+id/textView16"
+            android:id="@+id/day_pause_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="6dp"
             android:layout_marginEnd="16dp"
             android:text="45min"
-            app:layout_constraintBaseline_toBaselineOf="@+id/textView14"
+            app:layout_constraintBaseline_toBaselineOf="@+id/pause_time_text"
             app:layout_constraintEnd_toEndOf="parent" />
 
 
