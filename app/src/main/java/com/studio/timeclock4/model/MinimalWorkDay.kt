@@ -1,4 +1,4 @@
-package com.studio.timeclock4.database.model
+package com.studio.timeclock4.model
 
 import androidx.room.Ignore
 import java.time.Duration

@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import com.studio.timeclock4.database.entity.WorkDayEntity
-import com.studio.timeclock4.database.model.MinimalWorkDay
+import com.studio.timeclock4.model.MinimalWorkDay
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 

@@ -2,7 +2,7 @@ package com.studio.timeclock4.repositories
 
 import com.studio.timeclock4.database.dao.WorkDayDao
 import com.studio.timeclock4.database.entity.WorkDayEntity
-import com.studio.timeclock4.database.model.WorkDay
+import com.studio.timeclock4.model.WorkDay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
